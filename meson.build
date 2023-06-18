@@ -21,7 +21,7 @@ add_project_arguments (
 
 add_project_arguments (
     ['--vapidir', join_paths (meson.current_source_dir (), 'vapi')],
-    ['--vapidir', join_paths (meson.current_source_dir (), 'subprojects', 'ens-aw-core',  'vapi')],
+    ['--vapidir', join_paths (meson.current_source_dir (), 'subprojects', 'ens-tui-shell',  'vapi')],
     language: 'vala'
 )
 
@@ -42,14 +42,15 @@ dependencies = [
     dependency ('glib-2.0'),
     dependency ('gobject-2.0'),
     dependency ('ens-aw-core-0', fallback: ['ens-aw-core', 'ens_aw_core_dep']),
-    meson.get_compiler ('c').find_library ('m', required : true),
+    dependency ('ens-tui-shell-0', fallback: ['ens-tui-shell', 'ens_tui_shell_dep']),
+    meson.get_compiler ('c').find_library ('m', required : true)
 ]
 
 datadir = get_option ('datadir')
 subdir ('src')
 
 # Define shared library
-shared_library (
+static_library (
     meson.project_name (),
     asresources,
     sources,
