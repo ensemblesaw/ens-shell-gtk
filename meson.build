@@ -49,8 +49,8 @@ dependencies = [
 datadir = get_option ('datadir')
 subdir ('src')
 
-# Define shared library
-static_library (
+# Define library
+libens_gui_shell = static_library (
     meson.project_name (),
     asresources,
     sources,
@@ -59,5 +59,12 @@ static_library (
 )
 
 subdir ('po')
+
+ens_gui_shell_dep = declare_dependency (
+    dependencies: dependencies,
+    include_directories: include_directories('.'),
+    link_with: libens_gui_shell
+)
+
 
 meson.add_install_script ('meson/post_install.py')

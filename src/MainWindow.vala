@@ -137,15 +137,16 @@ namespace Ensembles.Shell {
             registry_panel = new Layouts.RegistryPanel ();
             keyboard = new Layouts.KeyboardPanel ();
 
-            desktop_layout = new Layouts.DesktopLayout (assignables_board,
-                                                        info_display,
-                                                        synth_control_panel,
-                                                        voice_nav_panel,
-                                                        mixer_board,
-                                                        sampler_pads_panel,
-                                                        style_control_panel,
-                                                        registry_panel,
-                                                        keyboard);
+            desktop_layout = new Layouts.DesktopLayout (i_aw_core)
+            .add_assignables_board (assignables_board)
+            .add_info_display (info_display)
+            .add_synth_control_panel (synth_control_panel)
+            .add_voice_nav_panel (voice_nav_panel)
+            .add_mixer_board (mixer_board)
+            .add_sampler_pads_panel (sampler_pads_panel)
+            .add_registry_panel (registry_panel)
+            .add_keyboard (keyboard)
+            .build ();
             squeezer.add (desktop_layout);
             desktop_layout.reparent ();
 

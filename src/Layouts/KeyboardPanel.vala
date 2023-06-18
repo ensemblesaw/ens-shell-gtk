@@ -3,19 +3,23 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+using Ensembles.ArrangerWorkstation;
 using Ensembles.Shell.Widgets;
 
 namespace Ensembles.Shell.Layouts {
     public class KeyboardPanel : Gtk.Grid {
+        private IAWCore i_aw_core;
         private Gtk.Overlay keyboard_info_bar;
         private Keyboard keyboard;
 
-        public KeyboardPanel () {
+        public KeyboardPanel (IAWCore i_aw_core) {
             Object (
                 hexpand: true,
                 vexpand: true,
                 height_request: 128
             );
+
+            this.i_aw_core = i_aw_core;
         }
 
         construct {
@@ -74,7 +78,7 @@ namespace Ensembles.Shell.Layouts {
 
         private void build_events () {
             keyboard.key_event.connect ((event) => {
-                Application.event_bus.synth_send_event (event);
+                i_aw_core.get_synth_engine ().send_midi_event (event);
             });
             Application.event_bus.synth_received_note.connect ((note, on) => {
                 keyboard.set_key_illumination (note, on);

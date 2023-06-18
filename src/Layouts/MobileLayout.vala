@@ -88,6 +88,9 @@ namespace Ensembles.Shell.Layouts {
             return this;
         }
 
+        /**
+         * Builds the layout.
+         */
         public MobileLayout build () {
             build_ui ();
             build_events ();
@@ -155,7 +158,7 @@ namespace Ensembles.Shell.Layouts {
             start_button.add_css_class (Granite.STYLE_CLASS_DESTRUCTIVE_ACTION);
             start_button.remove_css_class ("image-button");
             start_button.clicked.connect (() => {
-                //  i_aw_core.get_style_engine ().toggle_play ();
+                i_aw_core.get_style_engine ().toggle_play ();
             });
 
             start_button_box.append (start_button);

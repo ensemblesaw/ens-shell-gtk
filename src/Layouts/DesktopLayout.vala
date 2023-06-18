@@ -5,6 +5,8 @@
 
 namespace Ensembles.Shell.Layouts {
     public class DesktopLayout : Gtk.Grid {
+        private unowned ArrangerWorkstation.IAWCore i_aw_core;
+
         private weak Layouts.AssignablesBoard assignables_board;
         private weak Layouts.InfoDisplay info_display;
         private weak Layouts.SynthControlPanel synth_control_panel;
@@ -26,30 +28,70 @@ namespace Ensembles.Shell.Layouts {
             build_ui ();
         }
 
-        public DesktopLayout (Layouts.AssignablesBoard? assignables_board,
-            Layouts.InfoDisplay? info_display,
-            Layouts.SynthControlPanel? synth_control_panel,
-            Layouts.VoiceNavPanel? voice_nav_panel,
-            Layouts.MixerBoard? mixer_board,
-            Layouts.SamplerPadsPanel? sampler_pads_panel,
-            Layouts.StyleControlPanel? style_control_panel,
-            Layouts.RegistryPanel? registry_panel,
-            Layouts.KeyboardPanel? keyboard) {
+        public DesktopLayout (
+            ArrangerWorkstation.IAWCore i_aw_core
+        ) {
             Object (
                 width_request: 812,
                 height_request: 600,
                 hexpand: true,
                 vexpand: true
             );
+
+            this.i_aw_core = i_aw_core;
+        }
+
+        public DesktopLayout add_assignables_board (AssignablesBoard? assignables_board) {
             this.assignables_board = assignables_board;
-            this.info_display = info_display;
+            return this;
+        }
+
+        public DesktopLayout add_synth_control_panel (SynthControlPanel? synth_control_panel) {
             this.synth_control_panel = synth_control_panel;
+            return this;
+        }
+
+        public DesktopLayout add_info_display (InfoDisplay? info_display) {
+            this.info_display = info_display;
+            return this;
+        }
+
+        public DesktopLayout add_voice_nav_panel (VoiceNavPanel? voice_nav_panel) {
             this.voice_nav_panel = voice_nav_panel;
+            return this;
+        }
+
+        public DesktopLayout add_mixer_board (MixerBoard? mixer_board) {
             this.mixer_board = mixer_board;
+            return this;
+        }
+
+        public DesktopLayout add_sampler_pads_panel (SamplerPadsPanel? sampler_pads_panel) {
             this.sampler_pads_panel = sampler_pads_panel;
+            return this;
+        }
+
+        public DesktopLayout add_style_control_panel (StyleControlPanel? style_control_panel) {
             this.style_control_panel = style_control_panel;
+            return this;
+        }
+
+        public DesktopLayout add_registry_panel (RegistryPanel? registry_panel) {
             this.registry_panel = registry_panel;
-            this.keyboard = keyboard;
+            return this;
+        }
+
+        public DesktopLayout add_keyboard (KeyboardPanel? keyboard_panel) {
+            this.keyboard = keyboard_panel;
+            return this;
+        }
+
+        /**
+         * Builds the layout.
+         */
+        public DesktopLayout build () {
+            build_ui ();
+            return this;
         }
 
         private void build_ui () {
@@ -91,7 +133,7 @@ namespace Ensembles.Shell.Layouts {
             start_button.add_css_class (Granite.STYLE_CLASS_DESTRUCTIVE_ACTION);
             start_button.remove_css_class ("image-button");
             start_button.clicked.connect (() => {
-                Application.event_bus.style_play_toggle ();
+                i_aw_core.get_style_engine ().toggle_play ();
             });
 
             start_button_box.append (start_button);

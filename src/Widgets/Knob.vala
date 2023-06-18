@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+using Ensembles.ArrangerWorkstation;
 namespace Ensembles.Shell.Widgets {
     /**
      * A `Knob` is a rotary control used to select a numeric value

@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+using Ensembles.Models;
+
 namespace Ensembles.Shell.Widgets {
     public class Keyboard : Gtk.Widget, Gtk.Accessible {
         public uint8 n_octaves { get; protected set; }
@@ -16,8 +18,8 @@ namespace Ensembles.Shell.Widgets {
         private int width;
         private int height;
 
-        public uint8 motion_x_control = MIDI.Control.EXPLICIT_PITCH;
-        public uint8 motion_y_control = MIDI.Control.CUT_OFF;
+        public uint8 motion_x_control = MIDIEvent.Control.EXPLICIT_PITCH;
+        public uint8 motion_y_control = MIDIEvent.Control.CUT_OFF;
         public bool motion_control_enabled = false;
 
         private int control_x = 64;
@@ -41,7 +43,7 @@ namespace Ensembles.Shell.Widgets {
 
         public int8 octave_offset { get; set; }
 
-        public signal void key_event (Fluid.MIDIEvent midi_event);
+        public signal void key_event (MIDIEvent midi_event);
 
         public Keyboard (uint8 n_octaves) {
             Object (
@@ -105,22 +107,21 @@ namespace Ensembles.Shell.Widgets {
         }
 
         private void handle_key_press (uint8 key_index) {
-            var event = new Fluid.MIDIEvent ();
-            event.set_channel (17); // Channel 17 handles user key events
-            event.set_type (MIDI.EventType.NOTE_ON);
-            event.set_key (key_index + 12 * octave_offset);
-            event.set_velocity (100);
-
+            var event = new MIDIEvent ()
+            .on_channel (17) // Channel 17 handles user key events
+            .of_type (MIDIEvent.EventType.NOTE_ON)
+            .with_key (key_index + 12 * octave_offset)
+            .of_velocity (100);
             key_event (event);
 
             key_pressed[key_index] = true;
         }
 
         private void handle_key_release (uint8 key_index) {
-            var event = new Fluid.MIDIEvent ();
-            event.set_channel (17); // Channel 17 handles user key events
-            event.set_type (MIDI.EventType.NOTE_OFF);
-            event.set_key (key_index + 12 * octave_offset);
+            var event = new MIDIEvent ()
+            .on_channel (17) // Channel 17 handles user key events
+            .of_type (MIDIEvent.EventType.NOTE_OFF)
+            .with_key (key_index + 12 * octave_offset);
 
             key_event (event);
 
@@ -134,11 +135,11 @@ namespace Ensembles.Shell.Widgets {
                 }
 
                 if (!any_pressed) {
-                    var event_x = new Fluid.MIDIEvent ();
-                    event_x.set_channel (17);
-                    event_x.set_type (MIDI.EventType.CONTROL_CHANGE);
-                    event_x.set_control (motion_x_control);
-                    event_x.set_value (64);
+                    var event_x = new MIDIEvent ()
+                    .on_channel (17)
+                    .of_type (MIDIEvent.EventType.CONTROL_CHANGE)
+                    .controlling (motion_x_control)
+                    .with_value (64);
                     key_event (event_x);
                 }
             }
@@ -158,24 +159,21 @@ namespace Ensembles.Shell.Widgets {
                     avg_y += motion_y[i];
                 }
 
-                var event_x = new Fluid.MIDIEvent ();
-                event_x.set_channel (17); // Channel 17 handles user key events
-                event_x.set_type (MIDI.EventType.CONTROL_CHANGE);
-                event_x.set_control (motion_x_control);
                 control_x = (64 + (int) (127 * avg_x / n));
-                event_x.set_value (control_x);
                 if (control_x > 127) {
                     control_x = 127;
                 } else if (control_x < 0) {
                     control_x = 0;
                 }
 
+                var event_x = new MIDIEvent ()
+                .on_channel (17) // Channel 17 handles user key events
+                .of_type (MIDIEvent.EventType.CONTROL_CHANGE)
+                .controlling (motion_x_control)
+                .with_value ((uint8) control_x);
+
                 key_event (event_x);
 
-                var event_y = new Fluid.MIDIEvent ();
-                event_y.set_channel (17); // Channel 17 handles user key events
-                event_y.set_type (MIDI.EventType.CONTROL_CHANGE);
-                event_y.set_control (motion_y_control);
                 control_y = previous_control_y + (int) (127 * avg_y / n);
                 if (control_y > 127) {
                     control_y = 127;
@@ -183,7 +181,11 @@ namespace Ensembles.Shell.Widgets {
                     control_y = 0;
                 }
 
-                event_y.set_value (control_y);
+                var event_y = new MIDIEvent ()
+                .on_channel (17)
+                .of_type (MIDIEvent.EventType.CONTROL_CHANGE)
+                .controlling (motion_y_control)
+                .with_value ((uint8) control_y);
 
                 key_event (event_y);
             }
