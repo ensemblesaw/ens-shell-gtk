@@ -2,7 +2,6 @@ build
 _build
 builddir
 subhadeepjasu
-.vscode
 .flatpak-builder
 *.flatpak
 *.tar.gz
