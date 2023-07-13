@@ -42,7 +42,7 @@ namespace Ensembles.GtkShell.Plugins.AudioPlugins.Widgets {
             append (control_label);
 
             if (widget_size == Gtk.IconSize.LARGE) {
-                var knob = new Shell.Widgets.Knob () {
+                var knob = new GtkShell.Widgets.Knob () {
                     width_request = 150,
                     height_request = 150,
                     margin_start = 16,
