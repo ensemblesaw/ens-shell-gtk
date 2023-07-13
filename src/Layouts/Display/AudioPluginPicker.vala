@@ -4,9 +4,9 @@
  */
 
 using Ensembles.Core.Plugins.AudioPlugins;
-using Ensembles.Shell.Widgets.Display;
+using Ensembles.GtkShell.Widgets.Display;
 
-namespace Ensembles.Shell.Layouts.Display {
+namespace Ensembles.GtkShell.Layouts.Display {
     public class AudioPluginPicker : WheelScrollableWidget {
         public AudioPlugin.Category category {
             get;

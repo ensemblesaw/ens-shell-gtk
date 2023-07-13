@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-namespace Ensembles.Shell.Widgets {
+namespace Ensembles.GtkShell.Widgets {
     public class Octave : Gtk.Widget, Gtk.Accessible {
         public uint8 index { get; protected set; }
         public unowned Keyboard keyboard { get; protected set; }

@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-using Ensembles.Shell.Widgets.Display;
+using Ensembles.GtkShell.Widgets.Display;
 
-namespace Ensembles.Shell.Layouts.Display {
+namespace Ensembles.GtkShell.Layouts.Display {
     /**
      * Display Window is a window that may contain other widgets
      * that are to be displayed inside the info display of Ensembles

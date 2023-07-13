@@ -3,10 +3,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-using Ensembles.Shell.Layouts.Display;
+using Ensembles.GtkShell.Layouts.Display;
 
-namespace Ensembles.Shell.Layouts {
-    public class InfoDisplay : Gtk.Box {
+namespace Ensembles.GtkShell.Layouts {
+    public class InfoDisplay : Gtk.Box, Layout {
+        public unowned ArrangerWorkstation.IAWCore aw_core { private get; construct; }
+        public unowned Settings settings { private get; construct; }
+
         private Gtk.Overlay main_overlay;
         private Gtk.Box splash_screen;
         private Gtk.Label splash_screen_label;
@@ -109,7 +112,7 @@ namespace Ensembles.Shell.Layouts {
         }
 
         private void build_events () {
-            Application.event_bus.arranger_ready.connect (() => {
+            aw_core.ready.connect (() => {
                 splash_screen.add_css_class ("fade-black");
 
                 Timeout.add (1000, () => {
@@ -124,7 +127,7 @@ namespace Ensembles.Shell.Layouts {
                     });
 
                     Timeout.add (400, () => {
-                        dsp_screen = new DSPScreen (Application.arranger_workstation.get_main_dsp_rack ());
+                        dsp_screen = new DSPScreen (aw_core.get_main_dsp_rack ());
                         dsp_screen.close.connect (navigate_to_home);
                         main_stack.add_named (dsp_screen, "dsp");
                         return false;
@@ -138,21 +141,21 @@ namespace Ensembles.Shell.Layouts {
                 main_stack.set_visible_child_name (screen_name);
             });
 
-            Application.event_bus.send_initial_status.connect (update_status);
+            aw_core.send_loading_status.connect (update_status);
 
             style_screen.close.connect (navigate_to_home);
             voice_l_screen.close.connect (navigate_to_home);
             voice_r1_screen.close.connect (navigate_to_home);
             voice_r2_screen.close.connect (navigate_to_home);
 
-            Application.event_bus.show_plugin_ui.connect (show_plugin_screen);
+            //  aw_core.show_plugin_ui.connect (show_plugin_screen);
         }
 
         public void navigate_to_home () {
             main_stack.set_visible_child_name ("home");
         }
 
-        public void show_plugin_screen (Core.Plugins.AudioPlugins.AudioPlugin plugin) {
+        public void show_plugin_screen (ArrangerWorkstation.Plugins.AudioPlugins.AudioPlugin plugin) {
             if (plugin_screen != null) {
                 main_stack.remove (plugin_screen);
                 plugin_screen = null;

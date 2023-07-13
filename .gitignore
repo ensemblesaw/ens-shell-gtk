@@ -12,4 +12,5 @@ null.d
 .~lock*
 xtleak.kcg.*
 subprojects/ens-aw-core/
-subprojects/ens-tui-shell/
+subprojects/ens-shell-cli/
+subprojects/libvinject/

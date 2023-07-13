@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-using Ensembles.Shell.Widgets.Display;
-using Ensembles.Core.Plugins.AudioPlugins;
+using Ensembles.GtkShell.Widgets.Display;
+using Ensembles.ArrangerWorkstation.Plugins.AudioPlugins;
 
-namespace Ensembles.Shell.Layouts.Display {
+namespace Ensembles.GtkShell.Layouts.Display {
     /**
      * Shows the plugin UI.
      */
@@ -51,7 +51,7 @@ namespace Ensembles.Shell.Layouts.Display {
             };
             gain_knob.add_css_class ("small");
 
-            gain_knob.value = Utils.Math.convert_gain_to_db (plugin.mix_gain);
+            gain_knob.value = ArrangerWorkstation.Utils.Math.convert_gain_to_db (plugin.mix_gain);
             gain_knob.add_mark (-12);
             gain_knob.add_mark (0);
             add_to_header (gain_knob);
@@ -69,11 +69,11 @@ namespace Ensembles.Shell.Layouts.Display {
                 hexpand = true
             };
             append (scrollable);
-
-            var plugin_ui = plugin.ui;
-            if (plugin_ui != null) {
-                scrollable.set_child (plugin_ui);
-            }
+            // @TODO: Please fix
+            //  var plugin_ui = plugin.ui;
+            //  if (plugin_ui != null) {
+            //      scrollable.set_child (plugin_ui);
+            //  }
         }
 
         private void build_events () {
@@ -82,7 +82,7 @@ namespace Ensembles.Shell.Layouts.Display {
             });
 
             gain_knob.value_changed.connect ((db) => {
-                plugin.mix_gain = (float) Utils.Math.convert_db_to_gain (db);
+                plugin.mix_gain = (float) ArrangerWorkstation.Utils.Math.convert_db_to_gain (db);
             });
         }
     }

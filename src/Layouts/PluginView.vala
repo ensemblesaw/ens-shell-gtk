@@ -3,8 +3,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-namespace Ensembles.Shell.Layouts {
-    public class PluginView : Gtk.Box {
+namespace Ensembles.GtkShell.Layouts {
+    public class PluginView : Gtk.Box, Layout {
+        public unowned ArrangerWorkstation.IAWCore aw_core { private get; construct; }
+        public unowned Settings settings { private get; construct; }
+
         public weak Display.DisplayWindow plugin_ui { get; set; }
 
         public void reparent () {

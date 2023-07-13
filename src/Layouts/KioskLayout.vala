@@ -3,23 +3,23 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
- namespace Ensembles.Shell.Layouts {
-    public class KioskLayout : Gtk.Grid {
-        private unowned InfoDisplay info_display;
-        private unowned MixerBoard mixer_board;
+ namespace Ensembles.GtkShell.Layouts {
+    public class KioskLayout : Gtk.Grid, Layout {
+        public unowned ArrangerWorkstation.IAWCore aw_core { private get; construct; }
+        public unowned Settings settings { private get; construct; }
+
+        public unowned InfoDisplay info_display { private get; construct; }
+        public unowned MixerBoard mixer_board { private get; construct; }
 
         construct {
             add_css_class ("panel");
         }
 
-        public KioskLayout (InfoDisplay info_display, MixerBoard mixer_board) {
+        public KioskLayout () {
             Object (
                 hexpand: true,
                 vexpand: true
             );
-
-            this.info_display = info_display;
-            this.mixer_board = mixer_board;
 
             build_ui ();
         }

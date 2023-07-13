@@ -3,12 +3,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-using Ensembles.Shell.Widgets.Display;
+using Ensembles.GtkShell.Widgets.Display;
 using Ensembles.Models;
 using Ensembles.Core.Plugins.AudioPlugins;
 using Ensembles.Core.Racks;
 
-namespace Ensembles.Shell.Layouts.Display {
+namespace Ensembles.GtkShell.Layouts.Display {
     /**
      * Shows a list of voices from SoundFont and Voice plugins
      */

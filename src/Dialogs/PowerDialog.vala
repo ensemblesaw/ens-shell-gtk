@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-namespace Ensembles.Shell.Dialog {
+namespace Ensembles.GtkShell.Dialog {
     public class PowerDialog : Gtk.Window {
         private Gtk.Image power_icon;
         private Gtk.Label header;

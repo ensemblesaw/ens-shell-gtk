@@ -5,8 +5,11 @@
 
 using Ensembles.Models;
 
-namespace Ensembles.Shell.Layouts {
-    public class StyleControlPanel : Gtk.Box {
+namespace Ensembles.GtkShell.Layouts {
+    public class StyleControlPanel : Gtk.Box, Layout {
+        public unowned ArrangerWorkstation.IAWCore aw_core { private get; construct; }
+        public unowned Settings settings { private get; construct; }
+
         private Gtk.Button intro_1_button;
         private Gtk.Button intro_2_button;
         private Gtk.Button intro_3_button;

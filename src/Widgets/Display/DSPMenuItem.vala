@@ -5,7 +5,7 @@
 
  using Ensembles.Core.Plugins.AudioPlugins;
 
-namespace Ensembles.Shell.Widgets.Display {
+namespace Ensembles.GtkShell.Widgets.Display {
     public class DSPMenuItem : Gtk.ListBoxRow {
         public unowned AudioPlugin plugin { get; set; }
 

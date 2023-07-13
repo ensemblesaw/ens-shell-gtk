@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
- namespace Ensembles.Shell.Widgets.Display {
+ namespace Ensembles.GtkShell.Widgets.Display {
     /**
      * Widget that responds to the Ensembles Scroll Wheel widget
      */

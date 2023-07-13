@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-namespace Ensembles.Shell.Widgets {
+namespace Ensembles.GtkShell.Widgets {
     public class Key : Gtk.Box {
         public uint8 index { get; protected set; }
         public bool is_black { get; protected set; }

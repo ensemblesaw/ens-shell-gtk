@@ -4,7 +4,7 @@
  */
 
 using Ensembles.ArrangerWorkstation;
-namespace Ensembles.Shell.Widgets {
+namespace Ensembles.GtkShell.Widgets {
     /**
      * A `Knob` is a rotary control used to select a numeric value
      */

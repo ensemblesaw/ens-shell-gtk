@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-using Ensembles.Shell.Widgets.Display;
+using Ensembles.GtkShell.Widgets.Display;
 using Ensembles.Models;
 
-namespace Ensembles.Shell.Layouts.Display {
+namespace Ensembles.GtkShell.Layouts.Display {
     /**
      * Shows a list of styles.
      */

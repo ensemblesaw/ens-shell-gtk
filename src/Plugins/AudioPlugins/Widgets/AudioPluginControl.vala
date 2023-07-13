@@ -5,7 +5,7 @@
 
 using Ensembles.ArrangerWorkstation.Plugins.AudioPlugins;
 
-namespace Ensembles.Shell.Plugins.AudioPlugins.Widgets {
+namespace Ensembles.GtkShell.Plugins.AudioPlugins.Widgets {
     public class AudioPluginControl : Gtk.Box {
         private Gtk.IconSize widget_size;
         private float* variable;

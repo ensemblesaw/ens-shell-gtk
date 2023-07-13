@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-namespace Ensembles.Shell.Layouts.Display {
+namespace Ensembles.GtkShell.Layouts.Display {
     public class HomeScreen : Gtk.Box {
         private Gtk.Button power_button;
         private Gtk.Button style_button;

@@ -3,19 +3,20 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-namespace Ensembles.Shell.Layouts {
-    public class MobileLayout : Gtk.Grid {
-        private unowned ArrangerWorkstation.IAWCore i_aw_core;
+namespace Ensembles.GtkShell.Layouts {
+    public class MobileLayout : Gtk.Grid, Layout {
+        public unowned ArrangerWorkstation.IAWCore aw_core { private get; construct; }
+        public unowned Settings settings { private get; construct; }
 
-        private weak AssignablesBoard assignables_board;
-        private weak InfoDisplay info_display;
-        private weak SynthControlPanel synth_control_panel;
-        private weak VoiceNavPanel voice_nav_panel;
-        private weak MixerBoard mixer_board;
-        private weak SamplerPadsPanel sampler_pads_panel;
-        private weak StyleControlPanel style_control_panel;
-        private weak RegistryPanel registry_panel;
-        private weak KeyboardPanel keyboard;
+        public unowned AssignablesBoard assignables_board { private get; construct; }
+        public unowned InfoDisplay info_display { private get; construct; }
+        public unowned SynthControlPanel synth_control_panel { private get; construct; }
+        public unowned VoiceNavPanel voice_nav_panel { private get; construct; }
+        public unowned MixerBoard mixer_board { private get; construct; }
+        public unowned SamplerPadsPanel sampler_pads_panel { private get; construct; }
+        public unowned StyleControlPanel style_control_panel { private get; construct; }
+        public unowned RegistryPanel registry_panel { private get; construct; }
+        public unowned KeyboardPanel keyboard { private get; construct; }
 
         private Gtk.Grid infoview;
         private Gtk.Grid keyboardview;
@@ -32,69 +33,11 @@ namespace Ensembles.Shell.Layouts {
 
         public signal void on_menu_show_change (bool shown);
 
-        public MobileLayout (
-            ArrangerWorkstation.IAWCore i_aw_core
-        ) {
+        public MobileLayout () {
             Object (
                 width_request: 812,
                 height_request: 375
             );
-
-            this.i_aw_core = i_aw_core;
-        }
-
-        public MobileLayout add_assignables_board (AssignablesBoard? assignables_board) {
-            this.assignables_board = assignables_board;
-            return this;
-        }
-
-        public MobileLayout add_synth_control_panel (SynthControlPanel? synth_control_panel) {
-            this.synth_control_panel = synth_control_panel;
-            return this;
-        }
-
-        public MobileLayout add_info_display (InfoDisplay? info_display) {
-            this.info_display = info_display;
-            return this;
-        }
-
-        public MobileLayout add_voice_nav_panel (VoiceNavPanel? voice_nav_panel) {
-            this.voice_nav_panel = voice_nav_panel;
-            return this;
-        }
-
-        public MobileLayout add_mixer_board (MixerBoard? mixer_board) {
-            this.mixer_board = mixer_board;
-            return this;
-        }
-
-        public MobileLayout add_sampler_pads_panel (SamplerPadsPanel? sampler_pads_panel) {
-            this.sampler_pads_panel = sampler_pads_panel;
-            return this;
-        }
-
-        public MobileLayout add_style_control_panel (StyleControlPanel? style_control_panel) {
-            this.style_control_panel = style_control_panel;
-            return this;
-        }
-
-        public MobileLayout add_registry_panel (RegistryPanel? registry_panel) {
-            this.registry_panel = registry_panel;
-            return this;
-        }
-
-        public MobileLayout add_keyboard (KeyboardPanel? keyboard_panel) {
-            this.keyboard = keyboard_panel;
-            return this;
-        }
-
-        /**
-         * Builds the layout.
-         */
-        public MobileLayout build () {
-            build_ui ();
-            build_events ();
-            return this;
         }
 
         private void build_ui () {
@@ -158,7 +101,7 @@ namespace Ensembles.Shell.Layouts {
             start_button.add_css_class (Granite.STYLE_CLASS_DESTRUCTIVE_ACTION);
             start_button.remove_css_class ("image-button");
             start_button.clicked.connect (() => {
-                i_aw_core.get_style_engine ().toggle_play ();
+                aw_core.get_style_engine ().toggle_play ();
             });
 
             start_button_box.append (start_button);

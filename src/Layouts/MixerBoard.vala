@@ -3,8 +3,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-namespace Ensembles.Shell.Layouts {
-    public class MixerBoard : Gtk.Grid {
+namespace Ensembles.GtkShell.Layouts {
+    public class MixerBoard : Gtk.Grid, Layout {
+        public unowned ArrangerWorkstation.IAWCore aw_core { private get; construct; }
+        public unowned Settings settings { private get; construct; }
+
         construct {
             add_css_class ("panel");
         }

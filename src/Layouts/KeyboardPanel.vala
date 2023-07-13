@@ -4,22 +4,22 @@
  */
 
 using Ensembles.ArrangerWorkstation;
-using Ensembles.Shell.Widgets;
+using Ensembles.GtkShell.Widgets;
 
-namespace Ensembles.Shell.Layouts {
-    public class KeyboardPanel : Gtk.Grid {
-        private IAWCore i_aw_core;
+namespace Ensembles.GtkShell.Layouts {
+    public class KeyboardPanel : Gtk.Grid, Layout {
+        public unowned ArrangerWorkstation.IAWCore aw_core { private get; construct; }
+        public unowned Settings settings { private get; construct; }
+
         private Gtk.Overlay keyboard_info_bar;
         private Keyboard keyboard;
 
-        public KeyboardPanel (IAWCore i_aw_core) {
+        public KeyboardPanel () {
             Object (
                 hexpand: true,
                 vexpand: true,
                 height_request: 128
             );
-
-            this.i_aw_core = i_aw_core;
         }
 
         construct {
@@ -78,10 +78,14 @@ namespace Ensembles.Shell.Layouts {
 
         private void build_events () {
             keyboard.key_event.connect ((event) => {
-                i_aw_core.get_synth_engine ().send_midi_event (event);
+                aw_core.get_synth_engine ().send_midi_event (event);
             });
-            Application.event_bus.synth_received_note.connect ((note, on) => {
-                keyboard.set_key_illumination (note, on);
+            aw_core.get_synth_engine ().on_midi_event.connect ((event) => {
+                if (event.event_type == Models.MIDIEvent.EventType.NOTE_ON) {
+                    keyboard.set_key_illumination (event.key, true);
+                } else if (event.event_type == Models.MIDIEvent.EventType.NOTE_OFF) {
+                    keyboard.set_key_illumination (event.key, false);
+                }
             });
         }
     }

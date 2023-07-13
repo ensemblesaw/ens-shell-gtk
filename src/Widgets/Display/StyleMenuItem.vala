@@ -5,7 +5,7 @@
 
 using Ensembles.Models;
 
-namespace Ensembles.Shell.Widgets.Display {
+namespace Ensembles.GtkShell.Widgets.Display {
     public class StyleMenuItem : Gtk.ListBoxRow {
         public Style style { get; set; }
         public bool show_category { get; set; }

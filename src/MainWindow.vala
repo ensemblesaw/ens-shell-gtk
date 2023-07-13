@@ -3,9 +3,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+using Ensembles.Services;
 using Ensembles.ArrangerWorkstation;
+using Ensembles.GtkShell.Layouts;
 
-namespace Ensembles.Shell {
+namespace Ensembles.GtkShell {
     public class MainWindow : Gtk.ApplicationWindow {
         private static MainWindow _instance;
         public static MainWindow instance {
@@ -18,7 +20,9 @@ namespace Ensembles.Shell {
             }
         }
 
-        internal unowned IAWCore i_aw_core;
+        // Dependencies
+        public unowned IAWCore aw_core { private get; construct; }
+        public unowned Settings settings { private get; construct; }
 
         public bool using_kiosk_layout { get; private set; }
 
@@ -33,24 +37,23 @@ namespace Ensembles.Shell {
         private Gtk.ToggleButton flap_button;
         private bool flap_revealed = true;
 
-        // Various major layouts
-        private Layouts.DesktopLayout desktop_layout;
-        private Layouts.MobileLayout mobile_layout;
-        private Layouts.KioskLayout kiosk_layout;
+        //  // Various major layouts
+        //  private Layouts.DesktopLayout desktop_layout;
+        //  private Layouts.MobileLayout mobile_layout;
+        //  private Layouts.KioskLayout kiosk_layout;
 
-        // Sub-layouts
-        private Layouts.AssignablesBoard assignables_board;
-        private Layouts.InfoDisplay info_display;
-        private Layouts.SynthControlPanel synth_control_panel;
-        private Layouts.VoiceNavPanel voice_nav_panel;
-        private Layouts.MixerBoard mixer_board;
-        private Layouts.SamplerPadsPanel sampler_pads_panel;
-        private Layouts.StyleControlPanel style_control_panel;
-        private Layouts.RegistryPanel registry_panel;
-        private Layouts.KeyboardPanel keyboard;
+        //  // Sub-layouts
+        //  private Layouts.InfoDisplay info_display;
+        //  private Layouts.SynthControlPanel synth_control_panel;
+        //  private Layouts.VoiceNavPanel voice_nav_panel;
+        //  private Layouts.MixerBoard mixer_board;
+        //  private Layouts.SamplerPadsPanel sampler_pads_panel;
+        //  private Layouts.StyleControlPanel style_control_panel;
+        //  private Layouts.RegistryPanel registry_panel;
+        //  private Layouts.KeyboardPanel keyboard;
 
-        // Headerbar
-        private Widgets.BeatVisualization beat_visualization;
+        //  // Headerbar
+        //  private Layouts.BeatVisualization beat_visualization;
 
         private MainWindow () {
         }
@@ -58,11 +61,6 @@ namespace Ensembles.Shell {
         // Builder functions
         public MainWindow for_application (Gtk.Application application) {
             this.application = application;
-            return this;
-        }
-
-        public MainWindow with_arranger_workstation (IAWCore i_aw_core) {
-            this.i_aw_core = i_aw_core;
             return this;
         }
 
@@ -82,21 +80,40 @@ namespace Ensembles.Shell {
         }
 
         construct {
-            build_ui ();
-            build_events ();
+            try {
+                build_ui ();
+                build_events ();
+            } catch (Vinject.VinjectErrors e) {
+                handle_di_error (e);
+            }
         }
 
-        private void build_ui () {
+        private void build_ui () throws Vinject.VinjectErrors {
             if (using_kiosk_layout) {
                 decorated = false;
                 fullscreened = true;
 
-                info_display = new Layouts.InfoDisplay ();
-                info_display.fill_screen = true;
-                mixer_board = new Layouts.MixerBoard ();
+                di_container.register_singleton<InfoDisplay, Layout> (
+                    st_info_display,
+                    aw_core: st_aw_core,
+                    settings: st_settings
+                );
+                di_container.obtain (st_info_display).fill_screen = true;
 
-                kiosk_layout = new Layouts.KioskLayout (info_display, mixer_board);
-                set_child (kiosk_layout);
+                di_container.register_singleton<MixerBoard, Layout> (
+                    st_mixer_board,
+                    aw_core: st_aw_core,
+                    settings: st_settings
+                );
+
+                di_container.register_singleton<KioskLayout, Layout> (
+                    st_kiosk_layout,
+                    aw_core: st_aw_core,
+                    settings: st_settings,
+                    info_display: st_info_display,
+                    mixer_board: st_mixer_board
+                );
+                set_child (di_container.obtain (st_kiosk_layout));
                 return;
             }
 
@@ -113,12 +130,20 @@ namespace Ensembles.Shell {
             flap_button.set_icon_name ("view-continuous-symbolic");
             flap_button.remove_css_class ("image-button");
             flap_button.clicked.connect (() => {
-                flap_revealed = mobile_layout.show_menu (flap_revealed);
+                try {
+                    flap_revealed = di_container.obtain (st_mobile_layout).show_menu (flap_revealed);
+                } catch (Vinject.VinjectErrors e) {
+                    handle_di_error (e);
+                }
             });
             headerbar.pack_start (flap_button);
 
-            beat_visualization = new Widgets.BeatVisualization ();
-            headerbar.pack_start (beat_visualization);
+            di_container.register_singleton<BeatVisualization, Layout> (
+                st_beat_visualization,
+                aw_core: st_aw_core,
+                settings: st_settings
+            );
+            headerbar.pack_start (di_container.obtain (st_beat_visualization));
 
             squeezer = new Adw.Squeezer () {
                 orientation = Gtk.Orientation.VERTICAL,
@@ -127,41 +152,83 @@ namespace Ensembles.Shell {
             };
             set_child (squeezer);
 
-            assignables_board = new Layouts.AssignablesBoard ();
-            info_display = new Layouts.InfoDisplay ();
-            synth_control_panel = new Layouts.SynthControlPanel ();
-            voice_nav_panel = new Layouts.VoiceNavPanel ();
-            mixer_board = new Layouts.MixerBoard ();
-            sampler_pads_panel = new Layouts.SamplerPadsPanel ();
-            style_control_panel = new Layouts.StyleControlPanel ();
-            registry_panel = new Layouts.RegistryPanel ();
-            keyboard = new Layouts.KeyboardPanel ();
+            di_container.register_singleton<AssignablesBoard, Layout> (
+                st_assignables_board,
+                aw_core: st_aw_core,
+                settings: st_settings
+            );
+            di_container.register_singleton<InfoDisplay, Layout> (
+                st_info_display,
+                aw_core: st_aw_core,
+                settings: st_settings
+            );
+            di_container.register_singleton<SynthControlPanel, Layout> (
+                st_synth_control_panel,
+                aw_core: st_aw_core,
+                settings: st_settings
+            );
+            di_container.register_singleton<VoiceNavPanel, Layout> (
+                st_voice_nav_panel,
+                aw_core: st_aw_core,
+                settings: st_settings
+            );
+            di_container.register_singleton<MixerBoard, Layout> (
+                st_mixer_board,
+                aw_core: st_aw_core,
+                settings: st_settings
+            );
+            di_container.register_singleton<SamplerPadsPanel, Layout> (
+                st_sampler_pads_panel,
+                aw_core: st_aw_core,
+                settings: st_settings
+            );
+            di_container.register_singleton<StyleControlPanel, Layout> (
+                st_style_control_panel,
+                aw_core: st_aw_core,
+                settings: st_settings
+            );
+            di_container.register_singleton<RegistryPanel, Layout> (
+                st_registry_panel,
+                aw_core: st_aw_core,
+                settings: st_settings
+            );
+            di_container.register_singleton<KeyboardPanel, Layout> (
+                st_keyboard_panel,
+                aw_core: st_aw_core,
+                settings: st_settings
+            );
 
-            desktop_layout = new Layouts.DesktopLayout (i_aw_core)
-            .add_assignables_board (assignables_board)
-            .add_info_display (info_display)
-            .add_synth_control_panel (synth_control_panel)
-            .add_voice_nav_panel (voice_nav_panel)
-            .add_mixer_board (mixer_board)
-            .add_sampler_pads_panel (sampler_pads_panel)
-            .add_registry_panel (registry_panel)
-            .add_keyboard (keyboard)
-            .build ();
-            squeezer.add (desktop_layout);
-            desktop_layout.reparent ();
+            di_container.register_singleton<DesktopLayout, Layout> (
+                st_desktop_layout,
+                aw_core: st_aw_core,
+                assignables_board: st_assignables_board,
+                info_display: st_info_display,
+                synth_control_panel: st_synth_control_panel,
+                voice_nav_panel: st_voice_nav_panel,
+                mixer_board: st_mixer_board,
+                sampler_pads_panel: st_sampler_pads_panel,
+                style_control_panel: st_sampler_pads_panel,
+                registry_panel: st_registry_panel,
+                keyboard: st_keyboard_panel
+            );
 
+            squeezer.add (di_container.obtain (st_desktop_layout));
+            di_container.obtain (st_desktop_layout).reparent ();
 
-            mobile_layout = new Layouts.MobileLayout (i_aw_core)
-            .add_assignables_board (assignables_board)
-            .add_info_display (info_display)
-            .add_synth_control_panel (synth_control_panel)
-            .add_voice_nav_panel (voice_nav_panel)
-            .add_mixer_board (mixer_board)
-            .add_sampler_pads_panel (sampler_pads_panel)
-            .add_registry_panel (registry_panel)
-            .add_keyboard (keyboard)
-            .build ();
-            squeezer.add (mobile_layout);
+            di_container.register_singleton<MobileLayout, Layout> (
+                st_mobile_layout,
+                aw_core: st_aw_core,
+                assignables_board: st_assignables_board,
+                info_display: st_info_display,
+                synth_control_panel: st_synth_control_panel,
+                voice_nav_panel: st_voice_nav_panel,
+                mixer_board: st_mixer_board,
+                sampler_pads_panel: st_sampler_pads_panel,
+                style_control_panel: st_sampler_pads_panel,
+                registry_panel: st_registry_panel,
+                keyboard: st_keyboard_panel
+            );
+            squeezer.add (di_container.obtain (st_mobile_layout));
         }
 
         public void show_ui () {
@@ -169,7 +236,7 @@ namespace Ensembles.Shell {
             show ();
         }
 
-        private void build_events () {
+        private void build_events () throws Vinject.VinjectErrors {
             event_controller_key = new Gtk.EventControllerKey ();
             ((Gtk.Widget)this).add_controller (event_controller_key);
 
@@ -179,25 +246,15 @@ namespace Ensembles.Shell {
                 return false;
             });
 
-            i_aw_core.ready.connect (() => {
+            aw_core.ready.connect (() => {
                 Console.log ("Arranger Workstation Initialized!", Console.LogLevel.SUCCESS);
             });
 
             notify["default-height"].connect (() => {
-                if (!using_kiosk_layout) {
-                    flap_button.visible = squeezer.get_visible_child () == mobile_layout;
+                try {
+                    var mobile_layout = di_container.obtain (st_mobile_layout);
+                    var desktop_layout = di_container.obtain (st_desktop_layout);
 
-                    if (squeezer.get_visible_child () == desktop_layout) {
-                        desktop_layout.reparent ();
-                    } else {
-                        mobile_layout.reparent ();
-                    }
-                }
-            });
-
-            notify["maximized"].connect (() => {
-                fullscreen ();
-                Timeout.add (100, () => {
                     if (!using_kiosk_layout) {
                         flap_button.visible = squeezer.get_visible_child () == mobile_layout;
 
@@ -207,11 +264,35 @@ namespace Ensembles.Shell {
                             mobile_layout.reparent ();
                         }
                     }
-                    return false;
-                });
+                } catch (Vinject.VinjectErrors e) {
+                    handle_di_error (e);
+                }
             });
 
-            mobile_layout.on_menu_show_change.connect ((shown) => {
+            notify["maximized"].connect (() => {
+                fullscreen ();
+                try {
+                    var mobile_layout = di_container.obtain (st_mobile_layout);
+                    var desktop_layout = di_container.obtain (st_desktop_layout);
+
+                    Timeout.add (100, () => {
+                        if (!using_kiosk_layout) {
+                            flap_button.visible = squeezer.get_visible_child () == mobile_layout;
+
+                            if (squeezer.get_visible_child () == desktop_layout) {
+                                desktop_layout.reparent ();
+                            } else {
+                                mobile_layout.reparent ();
+                            }
+                        }
+                        return false;
+                    });
+                } catch (Vinject.VinjectErrors e) {
+                    handle_di_error (e);
+                }
+            });
+
+            di_container.obtain (st_mobile_layout).on_menu_show_change.connect ((shown) => {
                 flap_revealed = !shown;
                 flap_button.active = shown;
             });
@@ -221,8 +302,14 @@ namespace Ensembles.Shell {
                     var display = Gdk.Display.get_default ();
                     var monitor = display.get_monitor_at_surface (get_surface ());
                     set_default_size (monitor.geometry.width, monitor.geometry.height);
-                    kiosk_layout.width_request = monitor.geometry.width;
-                    kiosk_layout.height_request = monitor.geometry.height;
+
+                    try {
+                        var kiosk_layout = di_container.obtain (st_kiosk_layout);
+                        kiosk_layout.width_request = monitor.geometry.width;
+                        kiosk_layout.height_request = monitor.geometry.height;
+                    } catch (Vinject.VinjectErrors e) {
+                        handle_di_error (e);
+                    }
                 }
             });
         }

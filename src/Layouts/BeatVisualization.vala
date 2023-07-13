@@ -3,8 +3,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-namespace Ensembles.Shell.Widgets {
-    public class BeatVisualization : Gtk.Box {
+namespace Ensembles.GtkShell.Layouts {
+    public class BeatVisualization : Gtk.Box, Layout {
+        public unowned ArrangerWorkstation.IAWCore aw_core { private get; construct; }
+        public unowned Settings settings { private get; construct; }
+
         Gtk.Fixed beat_counter_visual;
         private uint beat_count = 0;
         private uint8 tempo = 120;
@@ -13,6 +16,7 @@ namespace Ensembles.Shell.Widgets {
 
         construct {
             build_ui ();
+            build_events ();
         }
 
         private void build_ui () {
@@ -24,19 +28,17 @@ namespace Ensembles.Shell.Widgets {
 
             beat_counter_visual.add_css_class ("beat-counter-0");
             append (beat_counter_visual);
-
-            Application.event_bus.beat.connect ((measure, time_sig_n, time_sig_d) => {
-                beats_per_bar = time_sig_n;
-                beat_duration = time_sig_d;
-                beat (measure);
-            });
-
-            Application.event_bus.beat_reset.connect (() => {
-                beat_count = 0;
-            });
         }
 
-        private void beat (bool measure) {
+        private void build_events () {
+            aw_core.get_style_engine ().beat.connect (beat);
+            aw_core.get_style_engine ().beat_reset.connect (reset);
+        }
+
+        public void beat (bool measure, uint8 beats_per_bar, uint8 beat_duration) {
+            this.beats_per_bar = beats_per_bar;
+            this.beat_duration = beat_duration;
+
             if (measure) {
                 beat_count = 1;
             }
@@ -52,6 +54,10 @@ namespace Ensembles.Shell.Widgets {
             }
 
             beat_count++;
+        }
+
+        public void reset () {
+            beat_count = 0;
         }
 
         private void set_beat_graphic (uint val) {

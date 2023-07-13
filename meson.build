@@ -40,9 +40,11 @@ dependencies = [
     dependency ('libadwaita-1'),
     dependency ('gtk4'),
     dependency ('glib-2.0'),
+    dependency ('gee-0.8'),
     dependency ('gobject-2.0'),
+    dependency ('libvinject-0.0.0', fallback: ['libvinject', 'vinject_dep']),
     dependency ('ens-aw-core-0', fallback: ['ens-aw-core', 'ens_aw_core_dep']),
-    dependency ('ens-tui-shell-0', fallback: ['ens-tui-shell', 'ens_tui_shell_dep']),
+    dependency ('ens-shell-cli-0', fallback: ['ens-shell-cli', 'ens_shell_cli_dep']),
     meson.get_compiler ('c').find_library ('m', required : true)
 ]
 

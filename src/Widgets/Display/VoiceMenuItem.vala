@@ -6,7 +6,7 @@
 using Ensembles.Models;
 using Ensembles.Core.Plugins.AudioPlugins;
 
-namespace Ensembles.Shell.Widgets.Display {
+namespace Ensembles.GtkShell.Widgets.Display {
     public class VoiceMenuItem : Gtk.ListBoxRow {
         public uint16 index { get; protected set; }
 

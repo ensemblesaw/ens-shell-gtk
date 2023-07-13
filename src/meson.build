@@ -1,12 +1,19 @@
 sources = files (
     # Shell
+    'Shell.vala',
+    'Services.vala',
+    'Settings.vala',
+
+
     'MainWindow.vala',
 
+    'Layouts/Layout.vala',
     'Layouts/DesktopLayout.vala',
     'Layouts/MobileLayout.vala',
     'Layouts/KioskLayout.vala',
     'Layouts/InfoDisplay.vala',
     'Layouts/KeyboardPanel.vala',
+    'Layouts/BeatVisualization.vala',
     'Layouts/MixerBoard.vala',
     'Layouts/AssignablesBoard.vala',
     'Layouts/RegistryPanel.vala',
@@ -23,7 +30,6 @@ sources = files (
     'Layouts/Display/AudioPluginPicker.vala',
     'Layouts/Display/PluginScreen.vala',
 
-    'Widgets/BeatVisualization.vala',
     'Widgets/Knob.vala',
     'Widgets/Key.vala',
     'Widgets/Octave.vala',

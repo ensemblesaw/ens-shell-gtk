@@ -3,20 +3,21 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-namespace Ensembles.Shell.Layouts {
-    public class DesktopLayout : Gtk.Grid {
-        private unowned ArrangerWorkstation.IAWCore i_aw_core;
+namespace Ensembles.GtkShell.Layouts {
+    public class DesktopLayout : Gtk.Grid, Layout {
+        public unowned ArrangerWorkstation.IAWCore aw_core { private get; construct; }
+        public unowned Settings settings { private get; construct; }
 
-        private weak Layouts.AssignablesBoard assignables_board;
-        private weak Layouts.InfoDisplay info_display;
-        private weak Layouts.SynthControlPanel synth_control_panel;
-        private weak Layouts.VoiceNavPanel voice_nav_panel;
-        private weak Layouts.MixerBoard mixer_board;
-        private weak Layouts.SamplerPadsPanel sampler_pads_panel;
-        private weak Layouts.StyleControlPanel style_control_panel;
-        private weak Layouts.RegistryPanel registry_panel;
-        private weak Layouts.KeyboardPanel keyboard;
-        private Gtk.Button start_button;
+        public unowned AssignablesBoard assignables_board { private get; construct; }
+        public unowned InfoDisplay info_display { private get; construct; }
+        public unowned SynthControlPanel synth_control_panel { private get; construct; }
+        public unowned VoiceNavPanel voice_nav_panel { private get; construct; }
+        public unowned MixerBoard mixer_board { private get; construct; }
+        public unowned SamplerPadsPanel sampler_pads_panel { private get; construct; }
+        public unowned StyleControlPanel style_control_panel { private get; construct; }
+        public unowned RegistryPanel registry_panel { private get; construct; }
+        public unowned KeyboardPanel keyboard { private get; construct; }
+        public Gtk.Button start_button;
 
         private Gtk.CenterBox top_row;
         private Gtk.CenterBox middle_row;
@@ -28,9 +29,7 @@ namespace Ensembles.Shell.Layouts {
             build_ui ();
         }
 
-        public DesktopLayout (
-            ArrangerWorkstation.IAWCore i_aw_core
-        ) {
+        public DesktopLayout () {
             Object (
                 width_request: 812,
                 height_request: 600,
@@ -38,60 +37,7 @@ namespace Ensembles.Shell.Layouts {
                 vexpand: true
             );
 
-            this.i_aw_core = i_aw_core;
-        }
-
-        public DesktopLayout add_assignables_board (AssignablesBoard? assignables_board) {
-            this.assignables_board = assignables_board;
-            return this;
-        }
-
-        public DesktopLayout add_synth_control_panel (SynthControlPanel? synth_control_panel) {
-            this.synth_control_panel = synth_control_panel;
-            return this;
-        }
-
-        public DesktopLayout add_info_display (InfoDisplay? info_display) {
-            this.info_display = info_display;
-            return this;
-        }
-
-        public DesktopLayout add_voice_nav_panel (VoiceNavPanel? voice_nav_panel) {
-            this.voice_nav_panel = voice_nav_panel;
-            return this;
-        }
-
-        public DesktopLayout add_mixer_board (MixerBoard? mixer_board) {
-            this.mixer_board = mixer_board;
-            return this;
-        }
-
-        public DesktopLayout add_sampler_pads_panel (SamplerPadsPanel? sampler_pads_panel) {
-            this.sampler_pads_panel = sampler_pads_panel;
-            return this;
-        }
-
-        public DesktopLayout add_style_control_panel (StyleControlPanel? style_control_panel) {
-            this.style_control_panel = style_control_panel;
-            return this;
-        }
-
-        public DesktopLayout add_registry_panel (RegistryPanel? registry_panel) {
-            this.registry_panel = registry_panel;
-            return this;
-        }
-
-        public DesktopLayout add_keyboard (KeyboardPanel? keyboard_panel) {
-            this.keyboard = keyboard_panel;
-            return this;
-        }
-
-        /**
-         * Builds the layout.
-         */
-        public DesktopLayout build () {
             build_ui ();
-            return this;
         }
 
         private void build_ui () {
@@ -133,7 +79,7 @@ namespace Ensembles.Shell.Layouts {
             start_button.add_css_class (Granite.STYLE_CLASS_DESTRUCTIVE_ACTION);
             start_button.remove_css_class ("image-button");
             start_button.clicked.connect (() => {
-                i_aw_core.get_style_engine ().toggle_play ();
+                aw_core.get_style_engine ().toggle_play ();
             });
 
             start_button_box.append (start_button);

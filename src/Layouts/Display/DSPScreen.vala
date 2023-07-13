@@ -3,12 +3,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-using Ensembles.Shell.Widgets.Display;
+using Ensembles.GtkShell.Widgets.Display;
 using Ensembles.Models;
-using Ensembles.Core.Plugins.AudioPlugins;
-using Ensembles.Core.Racks;
+using Ensembles.ArrangerWorkstation.Plugins.AudioPlugins;
+using Ensembles.ArrangerWorkstation.Racks;
 
-namespace Ensembles.Shell.Layouts.Display {
+namespace Ensembles.GtkShell.Layouts.Display {
     public class DSPScreen : DisplayWindow {
         private Gtk.Button plugin_picker_button;
         private Gtk.Switch dsp_switch;
@@ -50,7 +50,7 @@ namespace Ensembles.Shell.Layouts.Display {
             main_flap.add_css_class ("plugin-flap");
             append (main_flap);
 
-            plugin_picker = new AudioPluginPicker (Core.Plugins.AudioPlugins.AudioPlugin.Category.DSP);
+            plugin_picker = new AudioPluginPicker (AudioPlugin.Category.DSP);
             main_flap.set_flap (plugin_picker);
 
             var scrollable = new Gtk.ScrolledWindow () {

@@ -5,7 +5,7 @@
 
 using Ensembles.Models;
 
-namespace Ensembles.Shell.Widgets {
+namespace Ensembles.GtkShell.Widgets {
     public class Keyboard : Gtk.Widget, Gtk.Accessible {
         public uint8 n_octaves { get; protected set; }
         private Octave[] octaves;
