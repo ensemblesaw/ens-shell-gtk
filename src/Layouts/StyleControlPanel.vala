@@ -148,60 +148,60 @@ namespace Ensembles.GtkShell.Layouts {
 
         private void build_events () {
             intro_1_button.clicked.connect (() => {
-                Application.event_bus.style_set_part (StylePartType.INTRO_1);
+                aw_core.get_style_engine ().queue_next_part (StylePartType.INTRO_1);
             });
 
             intro_2_button.clicked.connect (() => {
-                Application.event_bus.style_set_part (StylePartType.INTRO_2);
+                aw_core.get_style_engine ().queue_next_part (StylePartType.INTRO_2);
             });
 
             intro_3_button.clicked.connect (() => {
-                Application.event_bus.style_set_part (StylePartType.INTRO_3);
+                aw_core.get_style_engine ().queue_next_part (StylePartType.INTRO_3);
             });
 
             variation_a_button.clicked.connect (() => {
-                Application.event_bus.style_set_part (StylePartType.VARIATION_A);
+                aw_core.get_style_engine ().queue_next_part (StylePartType.VARIATION_A);
             });
 
             variation_b_button.clicked.connect (() => {
-                Application.event_bus.style_set_part (StylePartType.VARIATION_B);
+                aw_core.get_style_engine ().queue_next_part (StylePartType.VARIATION_B);
             });
 
             variation_c_button.clicked.connect (() => {
-                Application.event_bus.style_set_part (StylePartType.VARIATION_C);
+                aw_core.get_style_engine ().queue_next_part (StylePartType.VARIATION_C);
             });
 
             variation_d_button.clicked.connect (() => {
-                Application.event_bus.style_set_part (StylePartType.VARIATION_D);
+                aw_core.get_style_engine ().queue_next_part (StylePartType.VARIATION_D);
             });
 
             ending_1_button.clicked.connect (() => {
-                Application.event_bus.style_set_part (StylePartType.ENDING_1);
+                aw_core.get_style_engine ().queue_next_part (StylePartType.ENDING_1);
             });
 
             ending_2_button.clicked.connect (() => {
-                Application.event_bus.style_set_part (StylePartType.ENDING_2);
+                aw_core.get_style_engine ().queue_next_part (StylePartType.ENDING_2);
             });
 
             ending_3_button.clicked.connect (() => {
-                Application.event_bus.style_set_part (StylePartType.ENDING_3);
+                aw_core.get_style_engine ().queue_next_part (StylePartType.ENDING_3);
             });
 
-            Application.event_bus.style_current_part_changed.connect ((part) => {
+            aw_core.get_style_engine ().on_current_part_change.connect ((part) => {
                 current_part = part;
                 highlight_part ();
             });
 
-            Application.event_bus.style_next_part_changed.connect ((part) => {
+            aw_core.get_style_engine ().on_next_part_change.connect ((part) => {
                 next_part = part;
                 highlight_part ();
             });
 
             sync_start_button.clicked.connect (() => {
-                Application.event_bus.style_sync ();
+                aw_core.get_style_engine ().sync ();
             });
 
-            Application.event_bus.style_sync_changed.connect ((active) => {
+            aw_core.get_style_engine ().on_sync_change.connect ((active) => {
                 if (active) {
                     sync_start_button.add_css_class ("pulse");
                 } else {
@@ -210,10 +210,10 @@ namespace Ensembles.GtkShell.Layouts {
             });
 
             break_button.clicked.connect (() => {
-                Application.event_bus.style_break ();
+                aw_core.get_style_engine ().break_play ();
             });
 
-            Application.event_bus.style_break_changed.connect ((active) => {
+            aw_core.get_style_engine ().on_break_change.connect ((active) => {
                 if (active) {
                     break_button.add_css_class ("pulse");
                 } else {

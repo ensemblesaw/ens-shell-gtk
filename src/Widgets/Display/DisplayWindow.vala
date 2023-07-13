@@ -18,6 +18,8 @@ namespace Ensembles.GtkShell.Layouts.Display {
         private Gtk.Label subtitle_label;
         private Gtk.Box header_container;
 
+        public bool kiosk_mode { get; set; }
+
         private string _title;
         public string title {
             get {
@@ -104,7 +106,7 @@ namespace Ensembles.GtkShell.Layouts.Display {
             subtitle_label.add_css_class ("subtitle");
             window_title_box.append (subtitle_label);
 
-            if (Application.kiosk_mode) {
+            if (kiosk_mode) {
                 header_bar.append (window_title_box);
             } else {
                 var window_handle = new Gtk.WindowHandle () {

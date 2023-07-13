@@ -6,6 +6,7 @@ namespace Ensembles.Services {
 
     public ServiceToken<string> st_app_id;
     public ServiceToken<string> st_version;
+    public ServiceToken<string> st_display_ver;
     public ServiceToken<Settings> st_settings;
 
     // UI tokens
@@ -28,9 +29,10 @@ namespace Ensembles.Services {
     public ServiceToken<Layouts.KeyboardPanel> st_keyboard_panel;
     public ServiceToken<Layouts.BeatVisualization> st_beat_visualization;
 
-    public void configure_settings_service (string app_id, string version) throws VinjectErrors {
+    public void configure_settings_service (string app_id, string version, string display_version) throws VinjectErrors {
         Services.st_app_id = new ServiceToken<string> ();
         Services.st_version = new ServiceToken<string> ();
+        Services.st_display_ver = new ServiceToken<string> ();
         st_settings = new ServiceToken<Settings> ();
 
         st_main_window = new ServiceToken<MainWindow> ();
@@ -52,6 +54,7 @@ namespace Ensembles.Services {
 
         di_container.register_constant (Services.st_app_id, app_id);
         di_container.register_constant (Services.st_version, version);
+        di_container.register_constant (Services.st_display_ver, display_version);
         di_container.register_transient<Ensembles.Settings, Settings> (
             st_settings, schema_id: app_id
         );

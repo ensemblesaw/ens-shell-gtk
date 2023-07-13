@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-using Ensembles.Core.Plugins.AudioPlugins;
+using Ensembles.ArrangerWorkstation.Plugins.AudioPlugins;
 using Ensembles.GtkShell.Widgets.Display;
 
 namespace Ensembles.GtkShell.Layouts.Display {

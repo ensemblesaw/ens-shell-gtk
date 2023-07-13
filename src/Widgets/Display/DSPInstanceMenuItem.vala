@@ -4,7 +4,7 @@
 */
 
 using Ensembles.Models;
-using Ensembles.Core.Plugins.AudioPlugins;
+using Ensembles.ArrangerWorkstation.Plugins.AudioPlugins;
 
 namespace Ensembles.GtkShell.Widgets.Display {
     public class DSPInstanceMenuItem : Gtk.ListBoxRow {
@@ -49,13 +49,13 @@ namespace Ensembles.GtkShell.Widgets.Display {
             plugin_name_label.add_css_class ("menu-item-name");
             menu_item_box.append (plugin_name_label);
 
-            gain_knob = new Shell.Widgets.Knob.with_range (-12, 0, 1) {
+            gain_knob = new Widgets.Knob.with_range (-12, 0, 1) {
                 width_request = 40,
                 height_request = 40,
                 tooltip_text = _("Dry / Wet Mix")
             };
             gain_knob.add_css_class ("small");
-            gain_knob.value = Utils.Math.convert_gain_to_db (plugin.mix_gain);
+            gain_knob.value = ArrangerWorkstation.Utils.Math.convert_gain_to_db (plugin.mix_gain);
             gain_knob.add_mark (-12);
             gain_knob.add_mark (0);
             menu_item_box.append (gain_knob);
@@ -68,14 +68,15 @@ namespace Ensembles.GtkShell.Widgets.Display {
             button_box.add_css_class (Granite.STYLE_CLASS_LINKED);
             menu_item_box.append (button_box);
 
-            if (plugin.ui != null) {
-                show_ui_button = new Gtk.Button.from_icon_name (
-                    "preferences-other-symbolic"
-                ) {
-                    tooltip_text = _("Show Plugin UI")
-                };
-                button_box.append (show_ui_button);
-            }
+            // @TODO: Please Fix
+            //  if (plugin.ui != null) {
+            //      show_ui_button = new Gtk.Button.from_icon_name (
+            //          "preferences-other-symbolic"
+            //      ) {
+            //          tooltip_text = _("Show Plugin UI")
+            //      };
+            //      button_box.append (show_ui_button);
+            //  }
 
             delete_instance_button = new Gtk.Button.from_icon_name (
                 "edit-delete-symbolic"
@@ -87,18 +88,19 @@ namespace Ensembles.GtkShell.Widgets.Display {
 
         private void build_events () {
             gain_knob.value_changed.connect ((db) => {
-                plugin.mix_gain = (float) Utils.Math.convert_db_to_gain (db);
+                plugin.mix_gain = (float) ArrangerWorkstation.Utils.Math.convert_db_to_gain (db);
             });
 
             active_switch.notify["active"].connect (() => {
                 plugin.active = active_switch.active;
             });
 
-            if (plugin.ui != null) {
-                show_ui_button.clicked.connect (() => {
-                    Application.event_bus.show_plugin_ui (plugin);
-                });
-            }
+            // @TODO: Please Fix
+            //  if (plugin.ui != null) {
+            //      show_ui_button.clicked.connect (() => {
+            //          Application.event_bus.show_plugin_ui (plugin);
+            //      });
+            //  }
 
             delete_instance_button.clicked.connect (() => {
                 rack_shell.delete_plugin_item (this);
@@ -109,7 +111,7 @@ namespace Ensembles.GtkShell.Widgets.Display {
             });
 
             plugin.notify["mix-gain"].connect (() => {
-                gain_knob.value = Utils.Math.convert_gain_to_db (plugin.mix_gain);
+                gain_knob.value = ArrangerWorkstation.Utils.Math.convert_gain_to_db (plugin.mix_gain);
             });
         }
 

@@ -2,8 +2,8 @@
  * Copyright 2020-2023 Subhadeep Jasu <subhadeep107@proton.me>
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
-
- using Ensembles.Core.Plugins.AudioPlugins;
+using Ensembles.ArrangerWorkstation;
+using Ensembles.ArrangerWorkstation.Plugins.AudioPlugins;
 
 namespace Ensembles.GtkShell.Widgets.Display {
     public class DSPMenuItem : Gtk.ListBoxRow {
@@ -11,7 +11,7 @@ namespace Ensembles.GtkShell.Widgets.Display {
 
         private Gtk.Button insert_button;
 
-        public DSPMenuItem (AudioPlugin plugin, Core.Racks.DSPRack dsp_rack) {
+        public DSPMenuItem (AudioPlugin plugin, Racks.DSPRack dsp_rack) {
             Object (
                 plugin: plugin,
                 height_request: 68

@@ -64,5 +64,59 @@ namespace Ensembles.GtkShell {
                 handle_di_error (e);
             }
         }
+
+        protected override int command_line (ApplicationCommandLine cmd) {
+            string[] args_cmd = cmd.get_arguments ();
+            unowned string[] args = args_cmd;
+
+            GLib.OptionEntry [] options = new OptionEntry [5];
+            options [0] = { "", 0, 0, OptionArg.STRING_ARRAY, ref cl_arg_file, null, "URI" };
+            options [1] = { "raw", 0, 0, OptionArg.NONE, ref cl_raw_midi_input, _("Enable Raw MIDI Input"), null };
+            options [2] = { "kiosk", 0, 0, OptionArg.NONE, ref cl_kiosk_mode, _("Only show the info display"), null };
+            options [3] = { "verbose", 0, 0, OptionArg.NONE, ref cl_verbose, _("Print debug messages to terminal"), null };
+            options [4] = { null };
+
+            var opt_context = new OptionContext ("actions");
+            opt_context.add_main_entries (options, null);
+            try {
+                opt_context.parse (ref args);
+            } catch (Error err) {
+                warning (err.message);
+                return -1;
+            }
+
+            Console.verbose = cl_verbose;
+
+            if (cl_verbose || cl_raw_midi_input || cl_kiosk_mode) {
+                try {
+                    Console.greet (
+                        di_container.obtain (st_version),
+                        di_container.obtain (st_display_ver)
+                    );
+                } catch (Vinject.VinjectErrors e) {
+                    handle_di_error (e);
+                }
+            }
+
+            if (cl_raw_midi_input) {
+                Console.log ("Raw MIDI Input Enabled! You can now enable midi input and connect your DAW\n");
+            }
+
+            if (cl_kiosk_mode) {
+                Console.log ("Starting Ensembles in Kiosk Mode\n");
+            }
+
+            if (cl_arg_file != null && cl_arg_file[0] != null) {
+                if (GLib.FileUtils.test (cl_arg_file[0], GLib.FileTest.EXISTS) &&
+                    cl_arg_file[0].down ().has_suffix (".mid")) {
+                    File file = File.new_for_path (cl_arg_file[0]);
+                    open ({ file }, "");
+                    return 0;
+                }
+            }
+
+            activate ();
+            return 0;
+        }
     }
 }
