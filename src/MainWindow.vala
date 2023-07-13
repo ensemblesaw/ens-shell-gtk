@@ -93,20 +93,20 @@ namespace Ensembles.GtkShell {
                 decorated = false;
                 fullscreened = true;
 
-                di_container.register_singleton<InfoDisplay, Layout> (
+                di_container.register_singleton<InfoDisplay, ControlSurface> (
                     st_info_display,
                     aw_core: st_aw_core,
                     settings: st_settings
                 );
                 di_container.obtain (st_info_display).fill_screen = true;
 
-                di_container.register_singleton<MixerBoard, Layout> (
+                di_container.register_singleton<MixerBoard, ControlSurface> (
                     st_mixer_board,
                     aw_core: st_aw_core,
                     settings: st_settings
                 );
 
-                di_container.register_singleton<KioskLayout, Layout> (
+                di_container.register_singleton<KioskLayout, ControlSurface> (
                     st_kiosk_layout,
                     aw_core: st_aw_core,
                     settings: st_settings,
@@ -138,7 +138,7 @@ namespace Ensembles.GtkShell {
             });
             headerbar.pack_start (flap_button);
 
-            di_container.register_singleton<BeatVisualization, Layout> (
+            di_container.register_singleton<BeatVisualization, ControlSurface> (
                 st_beat_visualization,
                 aw_core: st_aw_core,
                 settings: st_settings
@@ -152,53 +152,53 @@ namespace Ensembles.GtkShell {
             };
             set_child (squeezer);
 
-            di_container.register_singleton<AssignablesBoard, Layout> (
+            di_container.register_singleton<AssignablesBoard, ControlSurface> (
                 st_assignables_board,
                 aw_core: st_aw_core,
                 settings: st_settings
             );
-            di_container.register_singleton<InfoDisplay, Layout> (
+            di_container.register_singleton<InfoDisplay, ControlSurface> (
                 st_info_display,
                 aw_core: st_aw_core,
                 settings: st_settings
             );
-            di_container.register_singleton<SynthControlPanel, Layout> (
+            di_container.register_singleton<SynthControlPanel, ControlSurface> (
                 st_synth_control_panel,
                 aw_core: st_aw_core,
                 settings: st_settings
             );
-            di_container.register_singleton<VoiceNavPanel, Layout> (
+            di_container.register_singleton<VoiceNavPanel, ControlSurface> (
                 st_voice_nav_panel,
                 aw_core: st_aw_core,
                 settings: st_settings
             );
-            di_container.register_singleton<MixerBoard, Layout> (
+            di_container.register_singleton<MixerBoard, ControlSurface> (
                 st_mixer_board,
                 aw_core: st_aw_core,
                 settings: st_settings
             );
-            di_container.register_singleton<SamplerPadsPanel, Layout> (
+            di_container.register_singleton<SamplerPadsPanel, ControlSurface> (
                 st_sampler_pads_panel,
                 aw_core: st_aw_core,
                 settings: st_settings
             );
-            di_container.register_singleton<StyleControlPanel, Layout> (
+            di_container.register_singleton<StyleControlPanel, ControlSurface> (
                 st_style_control_panel,
                 aw_core: st_aw_core,
                 settings: st_settings
             );
-            di_container.register_singleton<RegistryPanel, Layout> (
+            di_container.register_singleton<RegistryPanel, ControlSurface> (
                 st_registry_panel,
                 aw_core: st_aw_core,
                 settings: st_settings
             );
-            di_container.register_singleton<KeyboardPanel, Layout> (
+            di_container.register_singleton<KeyboardPanel, ControlSurface> (
                 st_keyboard_panel,
                 aw_core: st_aw_core,
                 settings: st_settings
             );
 
-            di_container.register_singleton<DesktopLayout, Layout> (
+            di_container.register_singleton<DesktopLayout, ControlSurface> (
                 st_desktop_layout,
                 aw_core: st_aw_core,
                 assignables_board: st_assignables_board,
@@ -215,7 +215,7 @@ namespace Ensembles.GtkShell {
             squeezer.add (di_container.obtain (st_desktop_layout));
             di_container.obtain (st_desktop_layout).reparent ();
 
-            di_container.register_singleton<MobileLayout, Layout> (
+            di_container.register_singleton<MobileLayout, ControlSurface> (
                 st_mobile_layout,
                 aw_core: st_aw_core,
                 assignables_board: st_assignables_board,

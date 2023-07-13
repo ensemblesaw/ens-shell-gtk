@@ -1,4 +1,4 @@
-sources = files (
+classes = files (
     # Shell
     'Shell.vala',
     'Services.vala',
@@ -7,7 +7,6 @@ sources = files (
 
     'MainWindow.vala',
 
-    'Layouts/Layout.vala',
     'Layouts/DesktopLayout.vala',
     'Layouts/MobileLayout.vala',
     'Layouts/KioskLayout.vala',
@@ -49,3 +48,9 @@ sources = files (
 
     'Dialogs/PowerDialog.vala',
 )
+
+interfaces = files (
+    'Interfaces/ControlSurface.vala'
+)
+
+sources = [interfaces, classes]

@@ -4,7 +4,7 @@
  */
 
 namespace Ensembles.GtkShell.Layouts {
-    public class AssignablesBoard : Gtk.Grid, Layout {
+    public class AssignablesBoard : Gtk.Grid, ControlSurface {
         public unowned ArrangerWorkstation.IAWCore aw_core { private get; construct; }
         public unowned Settings settings { private get; construct; }
 

@@ -6,7 +6,7 @@
 using Ensembles.Models;
 
 namespace Ensembles.GtkShell.Layouts {
-    public class StyleControlPanel : Gtk.Box, Layout {
+    public class StyleControlPanel : Gtk.Box, ControlSurface {
         public unowned ArrangerWorkstation.IAWCore aw_core { private get; construct; }
         public unowned Settings settings { private get; construct; }
 

@@ -26,7 +26,7 @@ namespace Ensembles.GtkShell.Layouts.Display {
 
             build_ui ();
             build_events ();
-            populate (Application.arranger_workstation.get_audio_plugins ());
+            populate (aw_core.get_audio_plugins ());
         }
 
         public void build_ui () {

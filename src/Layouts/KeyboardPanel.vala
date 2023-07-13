@@ -7,7 +7,7 @@ using Ensembles.ArrangerWorkstation;
 using Ensembles.GtkShell.Widgets;
 
 namespace Ensembles.GtkShell.Layouts {
-    public class KeyboardPanel : Gtk.Grid, Layout {
+    public class KeyboardPanel : Gtk.Grid, ControlSurface {
         public unowned ArrangerWorkstation.IAWCore aw_core { private get; construct; }
         public unowned Settings settings { private get; construct; }
 
