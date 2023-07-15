@@ -29,7 +29,7 @@ namespace Ensembles.Services {
     public ServiceToken<Layouts.KeyboardPanel> st_keyboard_panel;
     public ServiceToken<Layouts.BeatVisualization> st_beat_visualization;
 
-    public void configure_settings_service (string app_id, string version, string display_version) throws VinjectErrors {
+    public void configure_gtkshell_service (string app_id, string version, string display_version) throws VinjectErrors {
         Services.st_app_id = new ServiceToken<string> ();
         Services.st_version = new ServiceToken<string> ();
         Services.st_display_ver = new ServiceToken<string> ();
@@ -56,7 +56,7 @@ namespace Ensembles.Services {
         di_container.register_constant (Services.st_version, version);
         di_container.register_constant (Services.st_display_ver, display_version);
         di_container.register_transient<Ensembles.Settings, Settings> (
-            st_settings, schema_id: app_id
+            st_settings, schema_id: st_app_id
         );
     }
 
@@ -70,7 +70,5 @@ namespace Ensembles.Services {
         return "";
     }
 
-    public void handle_di_error (VinjectErrors e) {
-        Console.log ("FATAL: Dependency injection failed! " + e.message, Console.LogLevel.ERROR);
-    }
+    extern static void handle_di_error (VinjectErrors e);
 }
