@@ -1,3 +1,11 @@
 [submodule "ens-aw-core"]
 path = ./subprojects/ens-aw-core
 url = https://github.com/ensemblesaw/ens-aw-core
+
+[submodule "ens-shell-cli"]
+path = ./subprojects/ens-shell-cli
+url = https://github.com/ensemblesaw/ens-shell-cli
+
+[submodule "libvinject"]
+path = ./subprojects/libvinject
+url = https://github.com/ensemblesaw/libvinject
