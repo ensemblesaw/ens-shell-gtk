@@ -1,6 +1,6 @@
 # Project name, programming language and version
 project (
-    'com.github.ensemblesaw.gui-shell',
+    'ens-shell-gtk',
     'c', 'vala',
     version: '0.1.0',
     meson_version: '>=0.57.0'
@@ -53,7 +53,7 @@ datadir = get_option ('datadir')
 subdir ('src')
 
 # Define library
-libens_gui_shell = static_library (
+libens_shell_gtk = static_library (
     meson.project_name (),
     asresources,
     sources,
@@ -63,10 +63,10 @@ libens_gui_shell = static_library (
 
 subdir ('po')
 
-ens_gui_shell_dep = declare_dependency (
+ens_shell_gtk_dep = declare_dependency (
     dependencies: dependencies,
     include_directories: include_directories('.'),
-    link_with: libens_gui_shell
+    link_with: libens_shell_gtk
 )
 
 
