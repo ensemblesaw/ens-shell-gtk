@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
-  <gresource prefix="/com/github/ensemblesaw/gui-shell/theme">
+  <gresource prefix="/com/github/ensemblesaw/ens-shell-gtk/theme">
     <file alias="Application.css">Themes/Application.css</file>
     <file alias="Display.css">Themes/Display/Display.css</file>
   </gresource>
 
-  <gresource prefix="/com/github/ensemblesaw/gui-shell/images">
+  <gresource prefix="/com/github/ensemblesaw/ens-shell-gtk/images">
     <file alias="beat_counter_map" compressed="true" preprocess="xml-stripblanks">Images/beat_counter.svg</file>
   </gresource>
 
-  <gresource prefix="/com/github/ensemblesaw/gui-shell/images/display">
+  <gresource prefix="/com/github/ensemblesaw/ens-shell-gtk/images/display">
     <file alias="splash_screen" compressed="true">Images/Display/splash_screen.png</file>
     <file alias="home_background_default" compressed="false">Images/Display/catalin-sandru-7SxSkCvVM1U-unsplash.jpg</file>
     <file alias="home_background_default_blurred" compressed="true">Images/Display/catalin-sandru-7SxSkCvVM1U-unsplash-blurred.jpg</file>

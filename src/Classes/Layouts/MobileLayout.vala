@@ -38,6 +38,9 @@ namespace Ensembles.GtkShell.Layouts {
                 width_request: 812,
                 height_request: 375
             );
+
+            build_ui ();
+            build_events ();
         }
 
         private void build_ui () {
