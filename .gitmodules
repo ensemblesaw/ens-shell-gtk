@@ -1,0 +1,3 @@
+[submodule "ens-aw-core"]
+path = ./subprojects/ens-aw-core
+url = https://github.com/ensemblesaw/ens-aw-core
