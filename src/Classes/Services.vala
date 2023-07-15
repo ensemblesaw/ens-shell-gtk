@@ -66,6 +66,8 @@ namespace Ensembles.Services {
         } catch (Vinject.VinjectErrors e) {
             Console.log ("FATAL: Dependency injection failed!", Console.LogLevel.ERROR);
         }
+
+        return "";
     }
 
     public void handle_di_error (VinjectErrors e) {

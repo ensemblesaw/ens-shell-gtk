@@ -14,7 +14,10 @@ namespace Ensembles.GtkShell.Layouts.Display {
         }
         private Gtk.ListBox main_list_box;
 
-        public AudioPluginPicker (AudioPlugin.Category category) {
+        public signal void plugin_picked (AudioPlugin plugin);
+
+        public AudioPluginPicker (
+            AudioPlugin.Category category) {
             Object (
                 width_request: 500,
                 hexpand: false,
@@ -26,10 +29,9 @@ namespace Ensembles.GtkShell.Layouts.Display {
 
             build_ui ();
             build_events ();
-            populate (aw_core.get_audio_plugins ());
         }
 
-        public void build_ui () {
+        private void build_ui () {
             var plugin_picker_header = new Gtk.Label (_("A U D I O   P L U G I N S")) {
                 halign = Gtk.Align.END,
                 opacity = 0.5,
@@ -59,14 +61,18 @@ namespace Ensembles.GtkShell.Layouts.Display {
         public void populate (List<AudioPlugin> plugins) {
             for (uint16 i = 0; i < plugins.length (); i++) {
                 if (plugins.nth_data (i).category == category) {
-                    var menu_item = new DSPMenuItem (plugins.nth_data (i),
-                    Application.arranger_workstation.get_main_dsp_rack ());
+                    var menu_item = new DSPMenuItem (plugins.nth_data (i));
+                    menu_item.on_activate.connect (pick_plugin);
                     main_list_box.insert (menu_item, -1);
                 }
             }
 
             min_value = 0;
             max_value = (int) plugins.length () - 1;
+        }
+
+        private void pick_plugin (AudioPlugin plugin) {
+            plugin_picked (plugin);
         }
     }
 }

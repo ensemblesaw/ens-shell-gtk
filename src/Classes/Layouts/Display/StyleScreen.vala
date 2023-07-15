@@ -13,6 +13,8 @@ namespace Ensembles.GtkShell.Layouts.Display {
     public class StyleScreen : DisplayWindow {
         private Gtk.ListBox main_list_box;
 
+        public signal void style_changed (Models.Style style);
+
         public StyleScreen () {
             base (_("Style"), _("Pick a Rhythm to accompany you"));
         }
@@ -44,16 +46,16 @@ namespace Ensembles.GtkShell.Layouts.Display {
             main_list_box.row_activated.connect ((item) => {
                 var style_item = (StyleMenuItem) item;
 
-                Application.event_bus.style_change (style_item.style);
+                style_changed (style_item.style);
             });
 
-            Application.event_bus.arranger_ready.connect (() => {
+            Services.di_container.obtain (Services.st_aw_core).ready.connect (() => {
                 Timeout.add (1000, () => {
                     Idle.add (() => {
-                        populate (Application.arranger_workstation.get_styles ());
+                        populate (Services.di_container.obtain (Services.st_aw_core).get_styles ());
                         var row_to_select = main_list_box.get_row_at_index (0);
                         main_list_box.select_row (row_to_select);
-                        Application.event_bus.style_change (((StyleMenuItem) row_to_select).style);
+                        style_changed (((StyleMenuItem) row_to_select).style);
                         return false;
                     });
                     return false;

@@ -86,6 +86,8 @@ namespace Ensembles.GtkShell.Layouts {
                 } else if (event.event_type == Models.MIDIEvent.EventType.NOTE_OFF) {
                     keyboard.set_key_illumination (event.key, false);
                 }
+
+                return Fluid.OK;
             });
         }
     }

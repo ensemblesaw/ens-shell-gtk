@@ -11,7 +11,9 @@ namespace Ensembles.GtkShell.Widgets.Display {
 
         private Gtk.Button insert_button;
 
-        public DSPMenuItem (AudioPlugin plugin, Racks.DSPRack dsp_rack) {
+        public signal void on_activate (AudioPlugin plugin);
+
+        public DSPMenuItem (AudioPlugin plugin) {
             Object (
                 plugin: plugin,
                 height_request: 68
@@ -20,12 +22,7 @@ namespace Ensembles.GtkShell.Widgets.Display {
             build_ui ();
 
             insert_button.clicked.connect (() => {
-                try {
-                    dsp_rack.append (plugin.duplicate ());
-                } catch (PluginError e) {
-                    Console.log ("Failed to add plugin %s with error %s".printf (plugin.name, e.message),
-                    Console.LogLevel.WARNING);
-                }
+                on_activate (plugin);
             });
         }
 

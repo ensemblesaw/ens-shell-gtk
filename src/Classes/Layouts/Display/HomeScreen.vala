@@ -5,6 +5,7 @@
 
 namespace Ensembles.GtkShell.Layouts.Display {
     public class HomeScreen : Gtk.Box {
+        public bool kiosk_mode { get; protected set; }
         private Gtk.Button power_button;
         private Gtk.Button style_button;
         private Gtk.Button voice_l_button;
@@ -32,10 +33,11 @@ namespace Ensembles.GtkShell.Layouts.Display {
 
         public signal void change_screen (string screen_name);
 
-        public HomeScreen () {
+        public HomeScreen (bool kiosk_mode) {
             Object (
                 orientation: Gtk.Orientation.VERTICAL,
-                spacing: 0
+                spacing: 0,
+                kiosk_mode: kiosk_mode
             );
         }
 
@@ -62,13 +64,17 @@ namespace Ensembles.GtkShell.Layouts.Display {
             top_link_panel.add_css_class ("homescreen-link-panel-top");
             links_section.append (top_link_panel);
 
-            if (Application.kiosk_mode) {
-                power_button = new Gtk.Button.from_icon_name ("system-shutdown-symbolic") {
-                    height_request = 48,
-                    width_request = 32
-                };
-                power_button.add_css_class ("homescreen-link-panel-top-button");
-                top_link_panel.append (power_button);
+            try {
+                if (Services.di_container.obtain (Services.st_main_window).using_kiosk_layout) {
+                    power_button = new Gtk.Button.from_icon_name ("system-shutdown-symbolic") {
+                        height_request = 48,
+                        width_request = 32
+                    };
+                    power_button.add_css_class ("homescreen-link-panel-top-button");
+                    top_link_panel.append (power_button);
+                }
+            } catch (Vinject.VinjectErrors e) {
+                Services.handle_di_error (e);
             }
 
             style_button = new Gtk.Button ();
@@ -310,32 +316,37 @@ namespace Ensembles.GtkShell.Layouts.Display {
                 change_screen ("dsp");
             });
 
-            if (Application.kiosk_mode) {
+            if (kiosk_mode) {
                 power_button.clicked.connect (() => {
-                    var power_dialog = new Dialog.PowerDialog (Application.main_window);
-                    power_dialog.present ();
-                    power_dialog.show ();
+                    try {
+                        var power_dialog = new Dialog.PowerDialog (
+                            Services.di_container.obtain (Services.st_main_window)
+                        );
+                        power_dialog.present ();
+                        power_dialog.show ();
+                    } catch (Vinject.VinjectErrors e) {
+                        Services.handle_di_error (e);
+                    }
                 });
             }
+        }
 
-            Application.event_bus.style_change.connect ((style) => {
-                print ("%s\n", style.name);
-                selected_style_label.set_text (style.name);
-            });
+        public void set_style_label (string name) {
+            selected_style_label.set_text (name);
+        }
 
-            Application.event_bus.voice_chosen.connect ((position, name) => {
-                switch (position) {
-                    case VoiceHandPosition.LEFT:
-                    selected_voice_l_label.set_text (name);
-                    break;
-                    case VoiceHandPosition.RIGHT:
-                    selected_voice_r1_label.set_text (name);
-                    break;
-                    case VoiceHandPosition.RIGHT_LAYERED:
-                    selected_voice_r2_label.set_text (name);
-                    break;
-                }
-            });
+        public void set_voice_label (VoiceHandPosition hand_position, string name) {
+            switch (hand_position) {
+                case VoiceHandPosition.LEFT:
+                selected_voice_l_label.set_text (name);
+                break;
+                case VoiceHandPosition.RIGHT:
+                selected_voice_r1_label.set_text (name);
+                break;
+                case VoiceHandPosition.RIGHT_LAYERED:
+                selected_voice_r2_label.set_text (name);
+                break;
+            }
         }
     }
 }

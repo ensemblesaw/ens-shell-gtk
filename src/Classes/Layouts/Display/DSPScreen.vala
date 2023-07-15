@@ -5,11 +5,13 @@
 
 using Ensembles.GtkShell.Widgets.Display;
 using Ensembles.Models;
+using Ensembles.ArrangerWorkstation;
 using Ensembles.ArrangerWorkstation.Plugins.AudioPlugins;
 using Ensembles.ArrangerWorkstation.Racks;
 
 namespace Ensembles.GtkShell.Layouts.Display {
     public class DSPScreen : DisplayWindow {
+
         private Gtk.Button plugin_picker_button;
         private Gtk.Switch dsp_switch;
         private Adw.Flap main_flap;
@@ -17,11 +19,13 @@ namespace Ensembles.GtkShell.Layouts.Display {
         private AudioPluginPicker plugin_picker;
 
         private unowned DSPRack rack;
+        private unowned IAWCore aw_core;
 
-        public DSPScreen (DSPRack rack) {
+        public DSPScreen (DSPRack rack, IAWCore aw_core) {
             base (_("Main DSP Rack"), _("Add Effects to the Rack to apply them globally"));
 
             this.rack = rack;
+            this.aw_core = aw_core;
         }
 
         construct {
@@ -51,6 +55,7 @@ namespace Ensembles.GtkShell.Layouts.Display {
             append (main_flap);
 
             plugin_picker = new AudioPluginPicker (AudioPlugin.Category.DSP);
+            plugin_picker.populate (aw_core.get_audio_plugins ());
             main_flap.set_flap (plugin_picker);
 
             var scrollable = new Gtk.ScrolledWindow () {
@@ -80,6 +85,15 @@ namespace Ensembles.GtkShell.Layouts.Display {
                 main_flap.reveal_flap = !main_flap.reveal_flap;
             });
 
+            plugin_picker.plugin_picked.connect ((plugin) => {
+                try {
+                    rack.append (plugin.duplicate ());
+                } catch (PluginError e) {
+                    Console.log ("Failed to add plugin %s with error %s".printf (plugin.name, e.message),
+                    Console.LogLevel.WARNING);
+                }
+            });
+
             main_flap.notify.connect ((param) => {
                 if (param.name == "reveal-flap") {
                     Idle.add (() => {
@@ -94,12 +108,16 @@ namespace Ensembles.GtkShell.Layouts.Display {
                 }
             });
 
-            Application.event_bus.rack_reconnected.connect ((rack, change_index) => {
-                if (rack.rack_type == AudioPlugin.Category.DSP) {
-                    populate (rack.get_plugins (), change_index);
-                }
+            //  aw_core.rack_reconnected.connect ((rack, change_index) => {
+            //      if (rack.rack_type == AudioPlugin.Category.DSP) {
+            //          populate (rack.get_plugins (), change_index);
+            //      }
 
-                main_flap.reveal_flap = false;
+            //      main_flap.reveal_flap = false;
+            //  });
+
+            rack.on_plugin_connect.connect ((change_index) => {
+                populate (rack.get_plugins (), change_index);
             });
         }
 

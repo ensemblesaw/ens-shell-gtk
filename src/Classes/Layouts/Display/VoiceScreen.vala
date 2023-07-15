@@ -5,8 +5,8 @@
 
 using Ensembles.GtkShell.Widgets.Display;
 using Ensembles.Models;
-using Ensembles.Core.Plugins.AudioPlugins;
-using Ensembles.Core.Racks;
+using Ensembles.ArrangerWorkstation.Plugins.AudioPlugins;
+using Ensembles.ArrangerWorkstation.Racks;
 
 namespace Ensembles.GtkShell.Layouts.Display {
     /**
@@ -18,6 +18,8 @@ namespace Ensembles.GtkShell.Layouts.Display {
 
         private uint16 last_voice_index = 0;
         private uint16 plugin_start_index = 0;
+
+        public signal void on_voice_chosen (bool is_plugin, string name, uint8 bank, uint8 preset, int index);
 
         public VoiceScreen (VoiceHandPosition hand_position) {
             var title_by_position = "";
@@ -67,21 +69,25 @@ namespace Ensembles.GtkShell.Layouts.Display {
             main_list_box.row_selected.connect ((item) => {
                 var voice_item = (VoiceMenuItem) item;
                 if (voice_item.is_plugin) {
-                    Application.event_bus.voice_chosen (hand_position, voice_item.plugin.name, 0, 0);
-                    Application.arranger_workstation.get_voice_rack (hand_position).active = true;
-                    Application.arranger_workstation.get_voice_rack (hand_position)
-                    .set_plugin_active (item.get_index () - plugin_start_index, true);
+                    on_voice_chosen (true,
+                        voice_item.plugin.name,
+                        0, 0,
+                        item.get_index () - plugin_start_index
+                    );
                 } else {
-                    Application.arranger_workstation.get_voice_rack (hand_position).active = false;
-                    Application.event_bus.voice_chosen (
-                        hand_position, voice_item.voice.name, voice_item.voice.bank, voice_item.voice.preset
+                    on_voice_chosen (
+                        false,
+                        voice_item.voice.name,
+                        voice_item.voice.bank,
+                        voice_item.voice.preset,
+                        item.get_index ()
                     );
                 }
             });
-            Application.event_bus.arranger_ready.connect (() => {
-                populate (Application.arranger_workstation.get_voices ());
-                populate_plugins (Application.arranger_workstation.get_voice_rack (hand_position).get_plugins ());
-            });
+            //  Application.event_bus.arranger_ready.connect (() => {
+            //      populate (Application.arranger_workstation.get_voices ());
+            //      populate_plugins (Application.arranger_workstation.get_voice_rack (hand_position).get_plugins ());
+            //  });
         }
 
         public void populate (Voice[] voices) {

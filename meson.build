@@ -21,7 +21,8 @@ add_project_arguments (
 
 add_project_arguments (
     ['--vapidir', join_paths (meson.current_source_dir (), 'vapi')],
-    ['--vapidir', join_paths (meson.current_source_dir (), 'subprojects', 'ens-tui-shell',  'vapi')],
+    ['--vapidir', join_paths (meson.current_source_dir (), 'subprojects', 'ens-shell-cli',  'vapi')],
+    ['--vapidir', join_paths (meson.current_source_dir (), 'subprojects', 'ens-aw-core',  'vapi')],
     language: 'vala'
 )
 

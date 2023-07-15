@@ -32,6 +32,8 @@ namespace Ensembles.GtkShell.Layouts {
             }
         }
 
+        public bool kiosk_mode { get; protected set; }
+
         // Screens
         private HomeScreen home_screen;
         private StyleScreen style_screen;
@@ -46,12 +48,13 @@ namespace Ensembles.GtkShell.Layouts {
             build_events ();
         }
 
-        public InfoDisplay () {
+        public InfoDisplay (bool kiosk_mode) {
             Object (
                 hexpand: true,
                 vexpand: true,
                 width_request: 480,
-                height_request: 360
+                height_request: 360,
+                kiosk_mode: kiosk_mode
             );
         }
 
@@ -95,7 +98,7 @@ namespace Ensembles.GtkShell.Layouts {
             main_stack.add_css_class ("fade-black");
             main_overlay.set_child (main_stack);
 
-            home_screen = new HomeScreen ();
+            home_screen = new HomeScreen (kiosk_mode);
             main_stack.add_named (home_screen, "home");
 
             style_screen = new StyleScreen ();
@@ -127,7 +130,7 @@ namespace Ensembles.GtkShell.Layouts {
                     });
 
                     Timeout.add (400, () => {
-                        dsp_screen = new DSPScreen (aw_core.get_main_dsp_rack ());
+                        dsp_screen = new DSPScreen (aw_core.get_main_dsp_rack (), aw_core);
                         dsp_screen.close.connect (navigate_to_home);
                         main_stack.add_named (dsp_screen, "dsp");
                         return false;
@@ -142,6 +145,20 @@ namespace Ensembles.GtkShell.Layouts {
             });
 
             aw_core.send_loading_status.connect (update_status);
+
+            style_screen.style_changed.connect ((style) => {
+                home_screen.set_style_label (style.name);
+            });
+
+            voice_l_screen.on_voice_chosen.connect ((is_plugin, name, bank, preset, index) => {
+                if (is_plugin) {
+                    aw_core.get_voice_rack (VoiceHandPosition.LEFT).active = true;
+                    aw_core.get_voice_rack (VoiceHandPosition.LEFT)
+                    .set_plugin_active (index, true);
+                } else {
+                    aw_core.get_voice_rack (VoiceHandPosition.LEFT).active = false;
+                }
+            });
 
             style_screen.close.connect (navigate_to_home);
             voice_l_screen.close.connect (navigate_to_home);
