@@ -87,17 +87,6 @@ namespace Ensembles.GtkShell {
 
             Console.verbose = cl_verbose;
 
-            if (cl_verbose || cl_raw_midi_input || cl_kiosk_mode) {
-                try {
-                    Console.greet (
-                        di_container.obtain (st_version),
-                        di_container.obtain (st_display_ver)
-                    );
-                } catch (Vinject.VinjectErrors e) {
-                    handle_di_error (e);
-                }
-            }
-
             if (cl_raw_midi_input) {
                 Console.log ("Raw MIDI Input Enabled! You can now enable midi input and connect your DAW\n");
             }
