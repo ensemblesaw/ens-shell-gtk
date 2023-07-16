@@ -64,17 +64,13 @@ namespace Ensembles.GtkShell.Layouts.Display {
             top_link_panel.add_css_class ("homescreen-link-panel-top");
             links_section.append (top_link_panel);
 
-            try {
-                if (Services.di_container.obtain (Services.st_main_window).using_kiosk_layout) {
-                    power_button = new Gtk.Button.from_icon_name ("system-shutdown-symbolic") {
-                        height_request = 48,
-                        width_request = 32
-                    };
-                    power_button.add_css_class ("homescreen-link-panel-top-button");
-                    top_link_panel.append (power_button);
-                }
-            } catch (Vinject.VinjectErrors e) {
-                Services.handle_di_error (e);
+            if (kiosk_mode) {
+                power_button = new Gtk.Button.from_icon_name ("system-shutdown-symbolic") {
+                    height_request = 48,
+                    width_request = 32
+                };
+                power_button.add_css_class ("homescreen-link-panel-top-button");
+                top_link_panel.append (power_button);
             }
 
             style_button = new Gtk.Button ();

@@ -37,49 +37,10 @@ namespace Ensembles.GtkShell {
         private Gtk.ToggleButton flap_button;
         private bool flap_revealed = true;
 
-        //  // Various major layouts
-        //  private Layouts.DesktopLayout desktop_layout;
-        //  private Layouts.MobileLayout mobile_layout;
-        //  private Layouts.KioskLayout kiosk_layout;
-
-        //  // Sub-layouts
-        //  private Layouts.InfoDisplay info_display;
-        //  private Layouts.SynthControlPanel synth_control_panel;
-        //  private Layouts.VoiceNavPanel voice_nav_panel;
-        //  private Layouts.MixerBoard mixer_board;
-        //  private Layouts.SamplerPadsPanel sampler_pads_panel;
-        //  private Layouts.StyleControlPanel style_control_panel;
-        //  private Layouts.RegistryPanel registry_panel;
-        //  private Layouts.KeyboardPanel keyboard;
-
-        //  // Headerbar
-        //  private Layouts.BeatVisualization beat_visualization;
-
         private MainWindow () {
         }
 
-        // Builder functions
-        public MainWindow for_application (Gtk.Application application) {
-            this.application = application;
-            return this;
-        }
-
-        public MainWindow with_name (string name) {
-            title = name;
-            return this;
-        }
-
-        public MainWindow with_icon (string icon) {
-            icon_name = icon;
-            return this;
-        }
-
-        public MainWindow use_kiosk_layout (bool active) {
-            using_kiosk_layout = active;
-            return this;
-        }
-
-        construct {
+        public void build () {
             try {
                 build_ui ();
                 build_events ();
@@ -117,6 +78,7 @@ namespace Ensembles.GtkShell {
                 return;
             }
 
+            Console.log ("Hello");
             // Make headerbar
             headerbar = new Gtk.HeaderBar () {
                 show_title_buttons = true,
@@ -212,7 +174,11 @@ namespace Ensembles.GtkShell {
                 keyboard: st_keyboard_panel
             );
 
-            squeezer.add (di_container.obtain (st_desktop_layout));
+            Console.log ("hellossss");
+            var _desktop_l = di_container.obtain (st_desktop_layout);
+            Console.log ("hellosadaadsss");
+            if (_desktop_l == null) {Console.log ("oiuhjniuhiuhiu");}
+            squeezer.add (_desktop_l);
             di_container.obtain (st_desktop_layout).reparent ();
 
             di_container.register_singleton<MobileLayout, ControlSurface> (

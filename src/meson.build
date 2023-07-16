@@ -3,7 +3,7 @@ classes = files (
     'Classes/Shell.vala',
     'Classes/Services.vala',
     'Classes/Settings.vala',
-
+    'Classes/ShellBuilder.vala',
 
     'Classes/MainWindow.vala',
 

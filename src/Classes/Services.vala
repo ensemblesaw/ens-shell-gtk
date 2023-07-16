@@ -7,9 +7,13 @@ namespace Ensembles.Services {
     public ServiceToken<string> st_app_id;
     public ServiceToken<string> st_version;
     public ServiceToken<string> st_display_ver;
+    public ServiceToken<string> st_app_name;
+    public ServiceToken<string> st_app_icon;
+
     public ServiceToken<Settings> st_settings;
 
     // UI tokens
+    public ServiceToken<GtkShell.Shell> st_application;
     public ServiceToken<MainWindow> st_main_window;
 
     // Layout tokens
@@ -29,12 +33,16 @@ namespace Ensembles.Services {
     public ServiceToken<Layouts.KeyboardPanel> st_keyboard_panel;
     public ServiceToken<Layouts.BeatVisualization> st_beat_visualization;
 
-    public void configure_gtkshell_service (string app_id, string version, string display_version) throws VinjectErrors {
-        Services.st_app_id = new ServiceToken<string> ();
-        Services.st_version = new ServiceToken<string> ();
-        Services.st_display_ver = new ServiceToken<string> ();
+    public void configure_gtkshell_service (ShellBuilder.ShellBuilderCallback shell_builder_callback) throws VinjectErrors {
+        st_app_id = new ServiceToken<string> ();
+        st_version = new ServiceToken<string> ();
+        st_display_ver = new ServiceToken<string> ();
+        st_app_name = new ServiceToken<string> ();
+        st_app_icon = new ServiceToken<string> ();
+
         st_settings = new ServiceToken<Settings> ();
 
+        st_application = new ServiceToken<GtkShell.Shell> ();
         st_main_window = new ServiceToken<MainWindow> ();
 
         st_desktop_layout = new ServiceToken<Layouts.DesktopLayout> ();
@@ -52,11 +60,28 @@ namespace Ensembles.Services {
         st_keyboard_panel = new ServiceToken<Layouts.KeyboardPanel> ();
         st_beat_visualization = new ServiceToken<Layouts.BeatVisualization> ();
 
-        di_container.register_constant (Services.st_app_id, app_id);
-        di_container.register_constant (Services.st_version, version);
-        di_container.register_constant (Services.st_display_ver, display_version);
-        di_container.register_transient<Ensembles.Settings, Settings> (
+        var builder = new ShellBuilder ();
+        shell_builder_callback (builder);
+
+        di_container.register_constant (st_app_id, builder.app_id);
+        di_container.register_constant (st_version, builder.version);
+        di_container.register_constant (st_display_ver, builder.display_version);
+        di_container.register_constant (st_app_name, builder.app_name);
+        di_container.register_constant (st_app_icon, builder.icon_name);
+        di_container.register_singleton<GtkShell.Shell, Gtk.Application> (
+            st_application,
+            application_id: st_app_id
+        );
+        di_container.register_transient<Ensembles.Settings, GLib.Settings> (
             st_settings, schema_id: st_app_id
+        );
+        di_container.register_singleton<MainWindow, Gtk.ApplicationWindow> (
+            st_main_window,
+            application: st_application,
+            aw_core: st_aw_core,
+            settings: st_settings,
+            title: st_app_name,
+            icon_name: st_app_icon
         );
     }
 

@@ -2,22 +2,6 @@ using Ensembles.Services;
 
 namespace Ensembles.GtkShell {
     public class Shell : Gtk.Application {
-        private static Shell _instance = null;
-
-        public static Shell instance {
-            get {
-                if (_instance == null) {
-                    try {
-                        _instance = new Shell ();
-                    } catch (Vinject.VinjectErrors e) {
-                        handle_di_error (e);
-                    }
-                }
-
-                return _instance;
-            }
-        }
-
         // Command Line Parameters
         private string[]? cl_arg_file = null;
         private bool cl_raw_midi_input = false;
@@ -29,21 +13,12 @@ namespace Ensembles.GtkShell {
             ApplicationFlags.HANDLES_COMMAND_LINE;
         }
 
-        private Shell () throws Vinject.VinjectErrors {
-            Object (
-                application_id: di_container.obtain (st_app_id)
-            );
-        }
-
         protected override void activate () {
             Console.log ("Initializing Main Window");
 
             try {
-                di_container.register_singleton<MainWindow, Gtk.ApplicationWindow> (
-                    st_main_window,
-                    aw_core: st_aw_core,
-                    settings: st_settings
-                );
+                di_container.obtain (st_main_window).build ();
+                di_container.obtain (st_main_window).show_ui ();
 
                 Console.log (
                     "GUI Initialization Complete!",
@@ -60,6 +35,8 @@ namespace Ensembles.GtkShell {
 
                     // Show welcome screen
                 }
+
+                Console.log ("Done!");
             } catch (Vinject.VinjectErrors e) {
                 handle_di_error (e);
             }

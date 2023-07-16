@@ -74,11 +74,11 @@ namespace Ensembles.GtkShell.Dialog {
             });
 
             log_out_button.clicked.connect (() => {
-                Services.di_container.obtain (Services.st_main_window).close ();
+                transient_for.close ();
             });
 
             shutdown_button.clicked.connect (() => {
-                Services.di_container.obtain (Services.st_main_window).close ();
+                transient_for.close ();
             });
 
             ((Gtk.Widget) this).realize.connect (() => {
