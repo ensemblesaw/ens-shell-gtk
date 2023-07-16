@@ -1,3 +1,4 @@
 [wrap-git]
 url = https://github.com/ensemblesaw/ens-shell-cli
-revision = main
+depth = 1
+revision = HEAD
