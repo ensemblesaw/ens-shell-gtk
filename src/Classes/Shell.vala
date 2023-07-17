@@ -15,6 +15,8 @@ namespace Ensembles.GtkShell {
 
         protected override void activate () {
             try {
+                var resource_path = Constants.RESOURCE_PATH + "/gresource.gresource";
+                resources_register (Resource.load (resource_path));
                 Theme.init_theme ();
 
                 Console.log ("Initializing Main Window");
@@ -36,10 +38,8 @@ namespace Ensembles.GtkShell {
 
                     // Show welcome screen
                 }
-
-                Console.log ("Done!");
-            } catch (Vinject.VinjectErrors e) {
-                handle_di_error (e);
+            } catch (Error e) {
+                error (e.message);
             }
         }
 
