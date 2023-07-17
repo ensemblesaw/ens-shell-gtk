@@ -59,7 +59,7 @@ subdir ('src')
 
 # Define library
 libens_shell_gtk = static_library (
-    meson.project_name (),
+    meson.project_name () + '-' + meson.project_version().split('.')[0],
     gresource,
     sources,
     config_vala,

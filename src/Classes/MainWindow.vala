@@ -78,7 +78,6 @@ namespace Ensembles.GtkShell {
                 return;
             }
 
-            Console.log ("Hello");
             // Make headerbar
             headerbar = new Gtk.HeaderBar () {
                 show_title_buttons = true,
