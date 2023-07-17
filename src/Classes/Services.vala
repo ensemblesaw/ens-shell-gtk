@@ -95,6 +95,4 @@ namespace Ensembles.Services {
 
         return "";
     }
-
-    extern static void handle_di_error (VinjectErrors e);
 }

@@ -321,7 +321,7 @@ namespace Ensembles.GtkShell.Layouts.Display {
                         power_dialog.present ();
                         power_dialog.show ();
                     } catch (Vinject.VinjectErrors e) {
-                        Services.handle_di_error (e);
+                        error (e.message);
                     }
                 });
             }

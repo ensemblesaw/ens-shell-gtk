@@ -45,7 +45,7 @@ namespace Ensembles.GtkShell {
                 build_ui ();
                 build_events ();
             } catch (Vinject.VinjectErrors e) {
-                handle_di_error (e);
+                error (e.message);
             }
         }
 
@@ -94,7 +94,7 @@ namespace Ensembles.GtkShell {
                 try {
                     flap_revealed = di_container.obtain (st_mobile_layout).show_menu (flap_revealed);
                 } catch (Vinject.VinjectErrors e) {
-                    handle_di_error (e);
+                    error (e.message);
                 }
             });
             headerbar.pack_start (flap_button);
@@ -230,7 +230,7 @@ namespace Ensembles.GtkShell {
                         }
                     }
                 } catch (Vinject.VinjectErrors e) {
-                    handle_di_error (e);
+                    error (e.message);
                 }
             });
 
@@ -253,7 +253,7 @@ namespace Ensembles.GtkShell {
                         return false;
                     });
                 } catch (Vinject.VinjectErrors e) {
-                    handle_di_error (e);
+                    error (e.message);
                 }
             });
 
@@ -273,7 +273,7 @@ namespace Ensembles.GtkShell {
                         kiosk_layout.width_request = monitor.geometry.width;
                         kiosk_layout.height_request = monitor.geometry.height;
                     } catch (Vinject.VinjectErrors e) {
-                        handle_di_error (e);
+                        error (e.message);
                     }
                 }
             });
