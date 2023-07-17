@@ -11,9 +11,12 @@ namespace Ensembles.GtkShell {
         public static string theme_color = "blueberry";
 
         public static void init_theme () {
-            var resource_path = Constants.RESOURCE_PATH + "gresource.gresource";
-            Resource.load (resource_path)._register ();
-            resources_register (Resource.load (resource_path));
+            var resource_path = Constants.RESOURCE_PATH + "/gresource.gresource";
+            try {
+                resources_register (Resource.load (resource_path));
+            } catch (Error e) {
+                Console.log (e.message, Console.LogLevel.ERROR);
+            }
             weak Gtk.IconTheme default_theme = Gtk.IconTheme.get_for_display (Gdk.Display.get_default ());
             default_theme.add_resource_path ("/com/github/ensemblesaw/ens-shell-gtk/icons");
 
