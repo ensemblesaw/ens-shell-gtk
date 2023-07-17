@@ -23,8 +23,6 @@ else
 endif
 gettext_package = application_id
 
-message ('Unit Version: ' + application_id)
-
 # Project arguments
 add_project_arguments (
     '-DGETTEXT_PACKAGE="@0@"'.format (meson.project_name ()),
@@ -64,7 +62,7 @@ libens_shell_gtk = static_library (
     meson.project_name (),
     gresource,
     sources,
-    config_header,
+    config_vala,
     dependencies: dependencies,
     install: true
 )
