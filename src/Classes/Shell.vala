@@ -17,6 +17,7 @@ namespace Ensembles.GtkShell {
             Console.log ("Initializing Main Window");
 
             try {
+                Theme.init_theme ();
                 di_container.obtain (st_main_window).build ();
                 di_container.obtain (st_main_window).show_ui ();
 

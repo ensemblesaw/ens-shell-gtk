@@ -68,12 +68,13 @@ namespace Ensembles.Services {
         di_container.register_constant (st_display_ver, builder.display_version);
         di_container.register_constant (st_app_name, builder.app_name);
         di_container.register_constant (st_app_icon, builder.icon_name);
-        di_container.register_singleton<GtkShell.Shell, Gtk.Application> (
-            st_application,
-            application_id: st_app_id
-        );
         di_container.register_transient<Ensembles.Settings, GLib.Settings> (
             st_settings, schema_id: st_app_id
+        );
+        di_container.register_singleton<GtkShell.Shell, Gtk.Application> (
+            st_application,
+            application_id: st_app_id,
+            settings: st_settings
         );
         di_container.register_singleton<MainWindow, Gtk.ApplicationWindow> (
             st_main_window,

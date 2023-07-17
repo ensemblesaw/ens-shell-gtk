@@ -13,3 +13,26 @@ install_data (
     join_paths ('Fonts', 'Michroma', 'Michroma-Regular.ttf'),
     install_dir: join_paths (get_option ('datadir'), 'fonts', 'truetype', 'Michroma')
 )
+
+# Install Settings schema
+schemas_conf = configuration_data()
+schemas_conf.set('SCHEMA_ID', application_id)
+schemas_conf.set('SCHEMA_PATH', schema_path)
+schemas_conf.set('GETTEXT_PACKAGE', gettext_package)
+
+configure_file(
+    input: 'ens-shell-gtk.gschema.xml.in',
+    output: application_id + '.gschema.xml',
+    configuration: schemas_conf,
+    install_dir: join_paths(datadir, 'glib-2.0', 'schemas')
+)
+
+# Compiling resources
+gresources = gnome.compile_resources (
+    'gresources',
+    'ens-shell-gtk.gresource.xml',
+    source_dir: [
+        meson.current_build_dir(),
+        meson.current_source_dir(),
+    ],
+)

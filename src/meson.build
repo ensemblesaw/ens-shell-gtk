@@ -1,9 +1,10 @@
 classes = files (
     # Shell
     'Classes/Shell.vala',
+    'Classes/ShellBuilder.vala',
     'Classes/Services.vala',
     'Classes/Settings.vala',
-    'Classes/ShellBuilder.vala',
+    'Classes/Theme.vala',
 
     'Classes/MainWindow.vala',
 

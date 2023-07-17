@@ -12,6 +12,19 @@ gnome = import ('gnome')
 # Translation module
 i18n = import ('i18n')
 
+# Set up the profile
+profile = get_option('profile')
+if profile == 'development'
+    application_id = 'com.github.ensemblesaw.ensemblesDevel'
+    schema_path = '/com/github/ensemblesaw/ensemblesDevel/'
+else
+    application_id = 'com.github.ensemblesaw.ensembles'
+    schema_path = '/com/github/ensemblesaw/ensembles/'
+endif
+gettext_package = application_id
+
+message ('Unit Version: ' + application_id)
+
 # Project arguments
 add_project_arguments (
     '-DGETTEXT_PACKAGE="@0@"'.format (meson.project_name ()),
@@ -24,14 +37,6 @@ add_project_arguments (
     ['--vapidir', join_paths (meson.current_source_dir (), 'subprojects', 'ens-shell-cli',  'vapi')],
     ['--vapidir', join_paths (meson.current_source_dir (), 'subprojects', 'ens-aw-core',  'vapi')],
     language: 'vala'
-)
-
-# Compiling resources
-asresources = gnome.compile_resources (
-    'as-resources',
-    'data/' + meson.project_name () + '.gresource.xml',
-    source_dir: 'data',
-    c_name: 'as'
 )
 
 # Listing dependencies
@@ -50,24 +55,23 @@ dependencies = [
 ]
 
 datadir = get_option ('datadir')
+subdir ('data')
+subdir ('po')
 subdir ('src')
 
 # Define library
 libens_shell_gtk = static_library (
     meson.project_name (),
-    asresources,
+    gresources,
     sources,
     dependencies: dependencies,
     install: true
 )
-
-subdir ('po')
 
 ens_shell_gtk_dep = declare_dependency (
     dependencies: dependencies,
     include_directories: include_directories('.'),
     link_with: libens_shell_gtk
 )
-
 
 meson.add_install_script ('meson/post_install.py')
