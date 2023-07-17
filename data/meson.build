@@ -28,11 +28,14 @@ configure_file(
 )
 
 # Compiling resources
-gresources = gnome.compile_resources (
-    'gresources',
+gresource = gnome.compile_resources (
+    'gresource',
     'ens-shell-gtk.gresource.xml',
+    gresource_bundle: true,
     source_dir: [
         meson.current_build_dir(),
         meson.current_source_dir(),
     ],
+    install: true,
+    install_dir: get_option ('datadir') / meson.project_name () / 'resources'
 )

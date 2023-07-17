@@ -62,8 +62,9 @@ subdir ('src')
 # Define library
 libens_shell_gtk = static_library (
     meson.project_name (),
-    gresources,
+    gresource,
     sources,
+    config_header,
     dependencies: dependencies,
     install: true
 )
@@ -71,7 +72,7 @@ libens_shell_gtk = static_library (
 ens_shell_gtk_dep = declare_dependency (
     dependencies: dependencies,
     include_directories: include_directories('.'),
-    link_with: libens_shell_gtk
+    link_with: libens_shell_gtk,
 )
 
 meson.add_install_script ('meson/post_install.py')

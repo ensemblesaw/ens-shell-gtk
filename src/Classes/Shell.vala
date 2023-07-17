@@ -14,10 +14,10 @@ namespace Ensembles.GtkShell {
         }
 
         protected override void activate () {
-            Console.log ("Initializing Main Window");
-
             try {
                 Theme.init_theme ();
+
+                Console.log ("Initializing Main Window");
                 di_container.obtain (st_main_window).build ();
                 di_container.obtain (st_main_window).show_ui ();
 

@@ -146,26 +146,26 @@ button.pulse-fill {
 
 
 .beat-counter-0 {
-    background-image: url("resource://com/github/ensemblesaw/gui-shell/images/beat_counter_map");
+    background-image: url("resource://com/github/ensemblesaw/ens-shell-gtk/images/beat_counter_map");
 }
 
 .beat-counter-1 {
-    background-image: url("resource://com/github/ensemblesaw/gui-shell/images/beat_counter_map");
+    background-image: url("resource://com/github/ensemblesaw/ens-shell-gtk/images/beat_counter_map");
     background-position: 0px -32px;
 }
 
 .beat-counter-2 {
-    background-image: url("resource://com/github/ensemblesaw/gui-shell/images/beat_counter_map");
+    background-image: url("resource://com/github/ensemblesaw/ens-shell-gtk/images/beat_counter_map");
     background-position: 0px -64px;
 }
 
 .beat-counter-3 {
-    background-image: url("resource://com/github/ensemblesaw/gui-shell/images/beat_counter_map");
+    background-image: url("resource://com/github/ensemblesaw/ens-shell-gtk/images/beat_counter_map");
     background-position: 0px -96px;
 }
 
 .beat-counter-4 {
-    background-image: url("resource://com/github/ensemblesaw/gui-shell/images/beat_counter_map");
+    background-image: url("resource://com/github/ensemblesaw/ens-shell-gtk/images/beat_counter_map");
     background-position: 0px -128px;
 }
 
@@ -288,7 +288,7 @@ stack.dimmed {
 }
 
 .ensembles-logo-splash {
-    background-image: url("resource://com/github/ensemblesaw/gui-shell/images/display/splash_screen");
+    background-image: url("resource://com/github/ensemblesaw/ens-shell-gtk/images/display/splash_screen");
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
@@ -332,11 +332,11 @@ stack.dimmed {
 }
 
 .pseudowindow-actual {
-    background: linear-gradient(#0004, #0004), url("resource://com/github/ensemblesaw/gui-shell/images/display/home_background_default_blurred");
+    background: linear-gradient(#0004, #0004), url("resource://com/github/ensemblesaw/ens-shell-gtk/images/display/home_background_default_blurred");
     background-size: cover;
     background-position: center;
     border: none;
     box-shadow: none;
 }
 
-@import url("resource://com/github/ensemblesaw/gui-shell/theme/Display.css");
+@import url("resource://com/github/ensemblesaw/ens-shell-gtk/theme/Display.css");

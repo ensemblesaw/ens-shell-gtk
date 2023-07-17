@@ -176,7 +176,7 @@ HomeScreen
 }
 
 .display .homescreen .homescreen-links-section {
-    background-image: linear-gradient(88deg, alpha(shade(@accent_color, 0.6), 0.75), alpha(shade(@accent_color_complimentary, 0.5), 0.75)), url("resource://com/github/ensemblesaw/gui-shell/images/display/home_background_default");
+    background-image: linear-gradient(88deg, alpha(shade(@accent_color, 0.6), 0.75), alpha(shade(@accent_color_complimentary, 0.5), 0.75)), url("resource://com/github/ensemblesaw/ens-shell-gtk/images/display/home_background_default");
     background-position: center;
     background-size: auto 100%;
 }
