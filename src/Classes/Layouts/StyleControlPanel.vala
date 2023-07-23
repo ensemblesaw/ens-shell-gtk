@@ -26,20 +26,15 @@ namespace Ensembles.GtkShell.Layouts {
         private StylePartType current_part = StylePartType.VARIATION_A;
         private StylePartType next_part = StylePartType.VARIATION_A;
 
-        public StyleControlPanel () {
-            Object (
-                orientation: Gtk.Orientation.HORIZONTAL,
-                spacing: 4,
-                hexpand: true
-            );
-        }
-
         construct {
             build_ui ();
             build_events ();
         }
 
         private void build_ui () {
+            orientation = Gtk.Orientation.HORIZONTAL;
+            spacing = 4;
+            hexpand = true;
             add_css_class ("panel");
 
             var intro_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 2);

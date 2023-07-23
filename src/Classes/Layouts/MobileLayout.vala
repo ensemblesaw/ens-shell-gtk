@@ -33,17 +33,15 @@ namespace Ensembles.GtkShell.Layouts {
 
         public signal void on_menu_show_change (bool shown);
 
-        public MobileLayout () {
-            Object (
-                width_request: 812,
-                height_request: 375
-            );
-
+        construct {
             build_ui ();
             build_events ();
         }
 
         private void build_ui () {
+            width_request = 812;
+            height_request = 375;
+
             flap = new Adw.Flap ();
             attach (flap, 0, 0);
 

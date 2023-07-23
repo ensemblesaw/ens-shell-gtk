@@ -29,18 +29,12 @@ namespace Ensembles.GtkShell.Layouts {
             build_ui ();
         }
 
-        public DesktopLayout () {
-            Object (
-                width_request: 812,
-                height_request: 600,
-                hexpand: true,
-                vexpand: true
-            );
-
-            build_ui ();
-        }
-
         private void build_ui () {
+            width_request = 812;
+            height_request = 600;
+            hexpand = true;
+            vexpand = true;
+
             top_row = new Gtk.CenterBox () {
                 hexpand = true,
                 vexpand = true

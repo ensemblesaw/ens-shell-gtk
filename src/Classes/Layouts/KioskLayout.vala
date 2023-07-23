@@ -13,18 +13,13 @@
 
         construct {
             add_css_class ("panel");
-        }
-
-        public KioskLayout () {
-            Object (
-                hexpand: true,
-                vexpand: true
-            );
-
             build_ui ();
         }
 
         private void build_ui () {
+            hexpand = true;
+            vexpand = true;
+
             attach (info_display, 0, 0);
             attach (mixer_board, 0, 1);
         }

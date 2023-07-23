@@ -32,7 +32,7 @@ namespace Ensembles.GtkShell.Layouts {
             }
         }
 
-        public bool kiosk_mode { get; protected set; }
+        public bool kiosk_mode { get; construct; }
 
         // Screens
         private HomeScreen home_screen;
@@ -48,17 +48,12 @@ namespace Ensembles.GtkShell.Layouts {
             build_events ();
         }
 
-        public InfoDisplay (bool kiosk_mode) {
-            Object (
-                hexpand: true,
-                vexpand: true,
-                width_request: 480,
-                height_request: 360,
-                kiosk_mode: kiosk_mode
-            );
-        }
-
         private void build_ui () {
+            hexpand = true;
+            vexpand = true;
+            width_request = 480;
+            height_request = 360;
+
             add_css_class ("panel");
 
             main_overlay = new Gtk.Overlay () {

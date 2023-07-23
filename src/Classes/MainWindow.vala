@@ -168,7 +168,7 @@ namespace Ensembles.GtkShell {
                 voice_nav_panel: st_voice_nav_panel,
                 mixer_board: st_mixer_board,
                 sampler_pads_panel: st_sampler_pads_panel,
-                style_control_panel: st_sampler_pads_panel,
+                style_control_panel: st_style_control_panel,
                 registry_panel: st_registry_panel,
                 keyboard: st_keyboard_panel
             );
@@ -189,7 +189,7 @@ namespace Ensembles.GtkShell {
                 voice_nav_panel: st_voice_nav_panel,
                 mixer_board: st_mixer_board,
                 sampler_pads_panel: st_sampler_pads_panel,
-                style_control_panel: st_sampler_pads_panel,
+                style_control_panel: st_style_control_panel,
                 registry_panel: st_registry_panel,
                 keyboard: st_keyboard_panel
             );

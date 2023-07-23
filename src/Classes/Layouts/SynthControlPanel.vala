@@ -10,13 +10,8 @@ namespace Ensembles.GtkShell.Layouts {
 
         construct {
             add_css_class ("panel");
-        }
-
-        public SynthControlPanel () {
-            Object (
-                hexpand: true,
-                vexpand: true
-            );
+            hexpand = true;
+            vexpand = true;
         }
     }
 }

@@ -10,13 +10,8 @@ namespace Ensembles.GtkShell.Layouts {
 
         construct {
             add_css_class ("panel");
-        }
-
-        public AssignablesBoard () {
-            Object (
-                hexpand: true,
-                vexpand: true
-            );
+            hexpand = true;
+            vexpand = true;
         }
     }
 }

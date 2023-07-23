@@ -14,14 +14,6 @@ namespace Ensembles.GtkShell.Layouts {
         private Gtk.Overlay keyboard_info_bar;
         private Keyboard keyboard;
 
-        public KeyboardPanel () {
-            Object (
-                hexpand: true,
-                vexpand: true,
-                height_request: 128
-            );
-        }
-
         construct {
             add_css_class ("keyboard");
             build_ui ();
@@ -29,6 +21,10 @@ namespace Ensembles.GtkShell.Layouts {
         }
 
         private void build_ui () {
+            hexpand = true;
+            vexpand = true;
+            height_request = 128;
+
             keyboard_info_bar = new Gtk.Overlay () {
                 hexpand = true,
                 height_request = 32
