@@ -45,7 +45,6 @@ namespace Ensembles.GtkShell.Layouts.Display {
         public void build_events () {
             main_list_box.row_activated.connect ((item) => {
                 var style_item = (StyleMenuItem) item;
-
                 style_changed (style_item.style);
             });
 

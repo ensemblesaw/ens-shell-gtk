@@ -31,8 +31,8 @@ namespace Ensembles.GtkShell.Layouts {
         }
 
         private void build_events () {
-            aw_core.get_style_engine ().beat.connect (beat);
-            aw_core.get_style_engine ().beat_reset.connect (reset);
+            aw_core.beat.connect (beat);
+            aw_core.beat_reset.connect (reset);
         }
 
         public void beat (bool measure, uint8 beats_per_bar, uint8 beat_duration) {

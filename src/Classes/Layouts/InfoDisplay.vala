@@ -125,6 +125,7 @@ namespace Ensembles.GtkShell.Layouts {
                     });
 
                     Timeout.add (400, () => {
+                        Console.log("Populating all dsp effects");
                         dsp_screen = new DSPScreen (aw_core.get_main_dsp_rack (), aw_core);
                         dsp_screen.close.connect (navigate_to_home);
                         main_stack.add_named (dsp_screen, "dsp");
@@ -133,6 +134,12 @@ namespace Ensembles.GtkShell.Layouts {
                     return false;
                 });
 
+                Timeout.add(100, () => {
+                    voice_l_screen.populate (aw_core.get_voices ());
+                    voice_r1_screen.populate (aw_core.get_voices ());
+                    voice_r2_screen.populate (aw_core.get_voices ());
+                    return false;
+                });
             });
 
             home_screen.change_screen.connect ((screen_name) => {
@@ -143,6 +150,7 @@ namespace Ensembles.GtkShell.Layouts {
 
             style_screen.style_changed.connect ((style) => {
                 home_screen.set_style_label (style.name);
+                aw_core.queue_change_style (style);
             });
 
             voice_l_screen.on_voice_chosen.connect ((is_plugin, name, bank, preset, index) => {

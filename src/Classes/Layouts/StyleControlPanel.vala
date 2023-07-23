@@ -182,12 +182,12 @@ namespace Ensembles.GtkShell.Layouts {
                 aw_core.get_style_engine ().queue_next_part (StylePartType.ENDING_3);
             });
 
-            aw_core.get_style_engine ().on_current_part_change.connect ((part) => {
+            aw_core.on_current_part_change.connect ((part) => {
                 current_part = part;
                 highlight_part ();
             });
 
-            aw_core.get_style_engine ().on_next_part_change.connect ((part) => {
+            aw_core.on_next_part_change.connect ((part) => {
                 next_part = part;
                 highlight_part ();
             });
@@ -196,7 +196,7 @@ namespace Ensembles.GtkShell.Layouts {
                 aw_core.get_style_engine ().sync ();
             });
 
-            aw_core.get_style_engine ().on_sync_change.connect ((active) => {
+            aw_core.on_sync_change.connect ((active) => {
                 if (active) {
                     sync_start_button.add_css_class ("pulse");
                 } else {
@@ -208,7 +208,7 @@ namespace Ensembles.GtkShell.Layouts {
                 aw_core.get_style_engine ().break_play ();
             });
 
-            aw_core.get_style_engine ().on_break_change.connect ((active) => {
+            aw_core.on_break_change.connect ((active) => {
                 if (active) {
                     break_button.add_css_class ("pulse");
                 } else {

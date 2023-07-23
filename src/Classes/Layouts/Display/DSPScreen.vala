@@ -26,9 +26,7 @@ namespace Ensembles.GtkShell.Layouts.Display {
 
             this.rack = rack;
             this.aw_core = aw_core;
-        }
 
-        construct {
             build_ui ();
             build_events ();
         }

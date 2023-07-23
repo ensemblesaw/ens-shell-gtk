@@ -44,9 +44,7 @@ namespace Ensembles.GtkShell.Layouts.Display {
                 subtitle_by_position
             );
             this.hand_position = hand_position;
-        }
 
-        construct {
             build_ui ();
             build_events ();
         }
