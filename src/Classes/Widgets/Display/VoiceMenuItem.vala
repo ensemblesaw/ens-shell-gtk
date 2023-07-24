@@ -92,17 +92,17 @@ namespace Ensembles.GtkShell.Widgets.Display {
             };
             voice_name_label.add_css_class ("menu-item-name");
             menu_item_grid.attach (voice_name_label, 1, 1);
-            // @TODO: Please Fix
-            //  if (is_plugin && plugin.ui != null) {
-            //      show_ui_button = new Gtk.Button.from_icon_name ("preferences-other-symbolic") {
-            //          margin_top = 6,
-            //          margin_start = 4,
-            //          margin_end = 4,
-            //          width_request = 80,
-            //          tooltip_text = _("Show Plugin UI")
-            //      };
-            //      menu_item_grid.attach (show_ui_button, 2, 1, 1, 1);
-            //  }
+
+            if (is_plugin && plugin.has_ui) {
+                show_ui_button = new Gtk.Button.from_icon_name ("preferences-other-symbolic") {
+                    margin_top = 6,
+                    margin_start = 4,
+                    margin_end = 4,
+                    width_request = 80,
+                    tooltip_text = _("Show Plugin UI")
+                };
+                menu_item_grid.attach (show_ui_button, 2, 1, 1, 1);
+            }
         }
     }
 }

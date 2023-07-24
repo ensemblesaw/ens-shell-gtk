@@ -73,28 +73,28 @@ namespace Ensembles.GtkShell.Widgets.Display {
                 );
             }
 
-            var plugin_protocol_icon = "";
+            var plugin_protocol_name = "";
             switch (plugin.protocol) {
                 case AudioPlugin.Protocol.LV2:
-                plugin_protocol_icon = "lv2";
+                plugin_protocol_name = "lv2";
                 break;
                 case AudioPlugin.Protocol.CARLA:
-                plugin_protocol_icon = "carla";
+                plugin_protocol_name = "carla";
                 break;
                 case AudioPlugin.Protocol.LADSPA:
-                plugin_protocol_icon = "ladspa";
+                plugin_protocol_name = "ladspa";
                 break;
                 case AudioPlugin.Protocol.NATIVE:
-                plugin_protocol_icon = "native";
+                plugin_protocol_name = "native";
                 break;
             }
 
-            if (plugin_protocol_icon.length > 0) {
-                plugin_protocol_icon =
-                "/com/github/ensemblesaw/gui-shell/icons/scalable/emblems/plugin-audio-" +
-                plugin_protocol_icon + "-symbolic.svg";
-
-                var icon = new Gtk.Image.from_resource (plugin_protocol_icon);
+            if (plugin_protocol_name.length > 0) {
+                var icon = new Gtk.Image.from_icon_name (
+                    "plugin-audio-" +
+                    plugin_protocol_name +
+                    "-symbolic"
+                );
                 icon.add_css_class ("plugin-item-protocol");
                 extra_info_box.append (icon);
             }

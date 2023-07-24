@@ -69,11 +69,10 @@ namespace Ensembles.GtkShell.Layouts.Display {
                 hexpand = true
             };
             append (scrollable);
-            // @TODO: Please fix
-            //  var plugin_ui = plugin.ui;
-            //  if (plugin_ui != null) {
-            //      scrollable.set_child (plugin_ui);
-            //  }
+
+            if (plugin.has_ui) {
+                scrollable.set_child (get_plugin_ui ());
+            }
         }
 
         private void build_events () {
@@ -84,6 +83,10 @@ namespace Ensembles.GtkShell.Layouts.Display {
             gain_knob.value_changed.connect ((db) => {
                 plugin.mix_gain = (float) ArrangerWorkstation.Utils.Math.convert_db_to_gain (db);
             });
+        }
+
+        private Gtk.Widget get_plugin_ui () {
+            return new Gtk.Grid ();
         }
     }
 }

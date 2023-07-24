@@ -150,16 +150,17 @@ namespace Ensembles.GtkShell.Layouts {
 
             style_screen.style_changed.connect ((style) => {
                 home_screen.set_style_label (style.name);
-                aw_core.queue_change_style (style);
+                aw_core.add_style_to_queue (style);
             });
 
-            voice_l_screen.on_voice_chosen.connect ((is_plugin, name, bank, preset, index) => {
+            voice_r1_screen.on_voice_chosen.connect ((is_plugin, name, bank, preset, index) => {
+                debug ("Voice r1 changed");
                 if (is_plugin) {
-                    aw_core.get_voice_rack (VoiceHandPosition.LEFT).active = true;
-                    aw_core.get_voice_rack (VoiceHandPosition.LEFT)
+                    aw_core.get_voice_rack (VoiceHandPosition.RIGHT).active = true;
+                    aw_core.get_voice_rack (VoiceHandPosition.RIGHT)
                     .set_plugin_active (index, true);
                 } else {
-                    aw_core.get_voice_rack (VoiceHandPosition.LEFT).active = false;
+                    aw_core.get_voice_rack (VoiceHandPosition.RIGHT).active = false;
                 }
             });
 

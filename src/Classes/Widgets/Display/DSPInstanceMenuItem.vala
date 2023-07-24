@@ -60,30 +60,36 @@ namespace Ensembles.GtkShell.Widgets.Display {
             gain_knob.add_mark (0);
             menu_item_box.append (gain_knob);
 
-            var button_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0) {
-                homogeneous = true,
-                height_request = 36,
-                width_request = 80
-            };
-            button_box.add_css_class (Granite.STYLE_CLASS_LINKED);
-            menu_item_box.append (button_box);
+            if (plugin.has_ui) {
+                var button_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0) {
+                    homogeneous = true,
+                    height_request = 36,
+                    width_request = 80
+                };
+                button_box.add_css_class (Granite.STYLE_CLASS_LINKED);
+                menu_item_box.append (button_box);
 
-            // @TODO: Please Fix
-            //  if (plugin.ui != null) {
-            //      show_ui_button = new Gtk.Button.from_icon_name (
-            //          "preferences-other-symbolic"
-            //      ) {
-            //          tooltip_text = _("Show Plugin UI")
-            //      };
-            //      button_box.append (show_ui_button);
-            //  }
+                show_ui_button = new Gtk.Button.from_icon_name (
+                    "preferences-other-symbolic"
+                ) {
+                    tooltip_text = _("Show Plugin UI")
+                };
+                button_box.append (show_ui_button);
 
-            delete_instance_button = new Gtk.Button.from_icon_name (
-                "edit-delete-symbolic"
-            ) {
-                tooltip_text = _("Remove Plugin from Rack")
-            };
-            button_box.append (delete_instance_button);
+                delete_instance_button = new Gtk.Button.from_icon_name (
+                    "edit-delete-symbolic"
+                ) {
+                    tooltip_text = _("Remove Plugin from Rack")
+                };
+                button_box.append (delete_instance_button);
+            } else {
+                delete_instance_button = new Gtk.Button.from_icon_name (
+                    "edit-delete-symbolic"
+                ) {
+                    tooltip_text = _("Remove Plugin from Rack")
+                };
+                menu_item_box.append (delete_instance_button);
+            }
         }
 
         private void build_events () {
