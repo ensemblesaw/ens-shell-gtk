@@ -28,7 +28,7 @@ namespace Ensembles.GtkShell {
                     Console.LogLevel.SUCCESS
                 );
 
-                di_container.obtain (st_aw_core).load_data_async ();
+                di_container.obtain (st_aw_core).load_data_async.begin ();
 
                 var _settings = di_container.obtain (st_settings);
                 var _version = di_container.obtain (st_version);

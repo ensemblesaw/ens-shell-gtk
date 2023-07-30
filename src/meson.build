@@ -34,6 +34,7 @@ classes = files (
     'Classes/Layouts/VoiceNavPanel.vala',
     'Classes/Layouts/PluginView.vala',
 
+    'Classes/Layouts/Display/DisplayWindow.vala',
     'Classes/Layouts/Display/HomeScreen.vala',
     'Classes/Layouts/Display/StyleScreen.vala',
     'Classes/Layouts/Display/VoiceScreen.vala',
@@ -47,7 +48,6 @@ classes = files (
     'Classes/Widgets/Keyboard.vala',
 
     'Classes/Widgets/Display/WheelScrollableWidget.vala',
-    'Classes/Widgets/Display/DisplayWindow.vala',
     'Classes/Widgets/Display/VoiceMenuItem.vala',
     'Classes/Widgets/Display/StyleMenuItem.vala',
     'Classes/Widgets/Display/DSPMenuItem.vala',

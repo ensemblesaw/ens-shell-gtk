@@ -74,16 +74,16 @@ namespace Ensembles.GtkShell.Layouts {
 
         private void build_events () {
             keyboard.key_event.connect ((event) => {
-                aw_core.get_synth_engine ().send_midi_event (event);
+                aw_core.send_midi (event);
             });
-            aw_core.get_synth_engine ().on_midi_event.connect ((event) => {
+            aw_core.on_midi_receive.connect ((event) => {
                 if (event.event_type == Models.MIDIEvent.EventType.NOTE_ON) {
                     keyboard.set_key_illumination (event.key, true);
                 } else if (event.event_type == Models.MIDIEvent.EventType.NOTE_OFF) {
                     keyboard.set_key_illumination (event.key, false);
                 }
 
-                return Fluid.OK;
+                return true;
             });
         }
     }

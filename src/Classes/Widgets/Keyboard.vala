@@ -19,7 +19,7 @@ namespace Ensembles.GtkShell.Widgets {
         private int height;
 
         public uint8 motion_x_control = MIDIEvent.Control.EXPLICIT_PITCH;
-        public uint8 motion_y_control = MIDIEvent.Control.CUT_OFF;
+        public uint8 motion_y_control = MIDIEvent.Control.BRIGHTNESS;
         public bool motion_control_enabled = false;
 
         private int control_x = 64;

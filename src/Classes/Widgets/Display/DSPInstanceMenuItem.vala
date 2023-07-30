@@ -16,6 +16,8 @@ namespace Ensembles.GtkShell.Widgets.Display {
         public Gtk.Button show_ui_button;
         public Gtk.Button delete_instance_button;
 
+        public signal void ui_activate (AudioPlugin plugin);
+
         public DSPInstanceMenuItem (AudioPlugin plugin, Layouts.Display.DSPScreen rack_shell) {
             Object (
                 plugin: plugin,
@@ -101,12 +103,11 @@ namespace Ensembles.GtkShell.Widgets.Display {
                 plugin.active = active_switch.active;
             });
 
-            // @TODO: Please Fix
-            //  if (plugin.ui != null) {
-            //      show_ui_button.clicked.connect (() => {
-            //          Application.event_bus.show_plugin_ui (plugin);
-            //      });
-            //  }
+            if (plugin.has_ui) {
+                show_ui_button.clicked.connect (() => {
+                    ui_activate (plugin);
+                });
+            }
 
             delete_instance_button.clicked.connect (() => {
                 rack_shell.delete_plugin_item (this);

@@ -143,43 +143,43 @@ namespace Ensembles.GtkShell.Layouts {
 
         private void build_events () {
             intro_1_button.clicked.connect (() => {
-                aw_core.get_style_engine ().queue_next_part (StylePartType.INTRO_1);
+                aw_core.style_engine_queue_part (StylePartType.INTRO_1);
             });
 
             intro_2_button.clicked.connect (() => {
-                aw_core.get_style_engine ().queue_next_part (StylePartType.INTRO_2);
+                aw_core.style_engine_queue_part (StylePartType.INTRO_2);
             });
 
             intro_3_button.clicked.connect (() => {
-                aw_core.get_style_engine ().queue_next_part (StylePartType.INTRO_3);
+                aw_core.style_engine_queue_part (StylePartType.INTRO_3);
             });
 
             variation_a_button.clicked.connect (() => {
-                aw_core.get_style_engine ().queue_next_part (StylePartType.VARIATION_A);
+                aw_core.style_engine_queue_part (StylePartType.VARIATION_A);
             });
 
             variation_b_button.clicked.connect (() => {
-                aw_core.get_style_engine ().queue_next_part (StylePartType.VARIATION_B);
+                aw_core.style_engine_queue_part (StylePartType.VARIATION_B);
             });
 
             variation_c_button.clicked.connect (() => {
-                aw_core.get_style_engine ().queue_next_part (StylePartType.VARIATION_C);
+                aw_core.style_engine_queue_part (StylePartType.VARIATION_C);
             });
 
             variation_d_button.clicked.connect (() => {
-                aw_core.get_style_engine ().queue_next_part (StylePartType.VARIATION_D);
+                aw_core.style_engine_queue_part (StylePartType.VARIATION_D);
             });
 
             ending_1_button.clicked.connect (() => {
-                aw_core.get_style_engine ().queue_next_part (StylePartType.ENDING_1);
+                aw_core.style_engine_queue_part (StylePartType.ENDING_1);
             });
 
             ending_2_button.clicked.connect (() => {
-                aw_core.get_style_engine ().queue_next_part (StylePartType.ENDING_2);
+                aw_core.style_engine_queue_part (StylePartType.ENDING_2);
             });
 
             ending_3_button.clicked.connect (() => {
-                aw_core.get_style_engine ().queue_next_part (StylePartType.ENDING_3);
+                aw_core.style_engine_queue_part (StylePartType.ENDING_3);
             });
 
             aw_core.on_current_part_change.connect ((part) => {
@@ -193,7 +193,7 @@ namespace Ensembles.GtkShell.Layouts {
             });
 
             sync_start_button.clicked.connect (() => {
-                aw_core.get_style_engine ().sync ();
+                aw_core.style_engine_sync ();
             });
 
             aw_core.on_sync_change.connect ((active) => {
@@ -205,7 +205,7 @@ namespace Ensembles.GtkShell.Layouts {
             });
 
             break_button.clicked.connect (() => {
-                aw_core.get_style_engine ().break_play ();
+                aw_core.style_engine_break ();
             });
 
             aw_core.on_break_change.connect ((active) => {

@@ -102,7 +102,7 @@ namespace Ensembles.GtkShell.Layouts {
             start_button.add_css_class (Granite.STYLE_CLASS_DESTRUCTIVE_ACTION);
             start_button.remove_css_class ("image-button");
             start_button.clicked.connect (() => {
-                aw_core.get_style_engine ().toggle_play ();
+                aw_core.style_engine_toggle_playback ();
             });
 
             start_button_box.append (start_button);
