@@ -129,6 +129,9 @@ namespace Ensembles.GtkShell.Layouts {
                         dsp_screen = new DSPScreen (aw_core.get_main_dsp_rack (), aw_core);
                         dsp_screen.close.connect (navigate_to_home);
                         dsp_screen.ui_activate.connect (show_plugin_screen);
+                        dsp_screen.on_plugin_active_change.connect((count) => {
+                            home_screen.set_dsp_count (count);
+                        });
                         main_stack.add_named (dsp_screen, "dsp");
                         return false;
                     });

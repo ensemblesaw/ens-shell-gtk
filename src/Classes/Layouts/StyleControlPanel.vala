@@ -476,8 +476,8 @@ namespace Ensembles.GtkShell.Layouts {
                         break;
                         case StylePartType.INTRO_3:
                         intro_1_button.remove_css_class ("pulse");
-                        intro_2_button.add_css_class ("pulse");
-                        intro_3_button.remove_css_class ("pulse");
+                        intro_2_button.remove_css_class ("pulse");
+                        intro_3_button.add_css_class ("pulse");
                         ending_1_button.remove_css_class ("pulse");
                         ending_2_button.remove_css_class ("pulse");
                         ending_3_button.remove_css_class ("pulse");

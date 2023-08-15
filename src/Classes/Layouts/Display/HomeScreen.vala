@@ -185,9 +185,9 @@ namespace Ensembles.GtkShell.Layouts.Display {
             dsp_button.set_child (dsp_box);
 
             dsp_box.append (new Gtk.Separator (Gtk.Orientation.VERTICAL));
-            dsp_box.append (new Gtk.Label (_("Main Effect Rack - ")));
+            dsp_box.append (new Gtk.Label (_("Main DSP Rack - ")));
 
-            dsp_status = new Gtk.Label (_("0 Effects in Use"));
+            dsp_status = new Gtk.Label (_("%u Effects in Use".printf (0)));
             dsp_status.add_css_class ("homescreen-link-panel-bottom-button-status");
             dsp_box.append (dsp_status);
 
@@ -343,6 +343,10 @@ namespace Ensembles.GtkShell.Layouts.Display {
                 selected_voice_r2_label.set_text (name);
                 break;
             }
+        }
+
+        public void set_dsp_count (uint16 count) {
+            dsp_status.set_text (_("%u Effects in Use".printf (count)));
         }
     }
 }

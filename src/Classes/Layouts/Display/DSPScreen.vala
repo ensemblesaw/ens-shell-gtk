@@ -22,6 +22,7 @@ namespace Ensembles.GtkShell.Layouts.Display {
         private unowned IAWCore aw_core;
 
         public signal void ui_activate (AudioPlugin plugin);
+        public signal void on_plugin_active_change (uint16 n);
 
         public DSPScreen (DSPRack rack, IAWCore aw_core) {
             base (_("Main DSP Rack"), _("Add Effects to the Rack to apply them globally"));
@@ -135,6 +136,9 @@ namespace Ensembles.GtkShell.Layouts.Display {
                 }
 
                 menu_item.ui_activate.connect (show_plugin_ui);
+                plugins.nth_data (i).notify["active"].connect(() => {
+                    handle_plugin_activate ();
+                });
             }
 
             min_value = 0;
@@ -149,6 +153,18 @@ namespace Ensembles.GtkShell.Layouts.Display {
 
         private void show_plugin_ui (AudioPlugin plugin) {
             ui_activate (plugin);
+        }
+
+        private void handle_plugin_activate () {
+            unowned List<AudioPlugin> plugins = rack.get_plugins ();
+            uint16 count = 0;
+            plugins.foreach ((plugin) => {
+                if (plugin.active) {
+                    count++;
+                }
+            });
+
+            on_plugin_active_change (count);
         }
     }
 }
