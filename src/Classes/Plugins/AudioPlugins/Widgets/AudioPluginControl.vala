@@ -12,8 +12,9 @@ namespace Ensembles.GtkShell.Plugins.AudioPlugins.Widgets {
         private unowned Port port;
 
         private Gtk.Label control_label;
+        private Gtk.Label control_unit;
 
-        public AudioPluginControl (Port port, float* variable, Gtk.IconSize widget_size = Gtk.IconSize.NORMAL) {
+        public AudioPluginControl (Port port, Gtk.IconSize widget_size = Gtk.IconSize.NORMAL) {
             Object (
                 margin_start: 8,
                 margin_bottom: 8,
@@ -24,8 +25,17 @@ namespace Ensembles.GtkShell.Plugins.AudioPlugins.Widgets {
             );
 
             this.widget_size = widget_size;
-            this.variable = variable;
             this.port = port;
+
+            var lv2_control_port = port as Lv2.LV2ControlPort;
+
+            if (lv2_control_port != null) {
+                this.variable = &lv2_control_port.value;
+
+                if (lv2_control_port.unit != "") {
+                    control_unit = new Gtk.Label (lv2_control_port.unit);
+                }
+            }
 
             build_ui ();
         }
@@ -40,6 +50,10 @@ namespace Ensembles.GtkShell.Plugins.AudioPlugins.Widgets {
             };
             control_label.add_css_class (Granite.STYLE_CLASS_H3_LABEL);
             append (control_label);
+
+            if (control_unit != null) {
+                append (control_unit);
+            }
 
             if (widget_size == Gtk.IconSize.LARGE) {
                 var knob = new GtkShell.Widgets.Knob () {

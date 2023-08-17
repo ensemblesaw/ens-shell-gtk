@@ -127,7 +127,6 @@ namespace Ensembles.GtkShell.Layouts.Display {
                 for (uint i = 0; i < _lv2_plugin.control_in_ports.length; i++) {
                     var plugin_control = new Plugins.AudioPlugins.Widgets.AudioPluginControl (
                         _lv2_plugin.control_in_ports[i],
-                        & (_lv2_plugin.control_in_variables[i]),
                         _lv2_plugin.control_in_ports.length > 3 ? Gtk.IconSize.NORMAL : Gtk.IconSize.LARGE
                     );
                     box.append (plugin_control);
