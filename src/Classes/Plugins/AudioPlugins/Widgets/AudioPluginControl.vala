@@ -12,15 +12,17 @@ namespace Ensembles.GtkShell.Plugins.AudioPlugins.Widgets {
         private unowned Port port;
 
         private Gtk.Label control_label;
+        private Gtk.Label value_label;
         private Gtk.Label control_unit;
 
         public AudioPluginControl (Port port, Gtk.IconSize widget_size = Gtk.IconSize.NORMAL) {
             Object (
-                margin_start: 8,
+                margin_start: 26,
                 margin_bottom: 8,
                 margin_top: 8,
-                margin_end: 8,
-                halign: Gtk.Align.CENTER,
+                margin_end: 26,
+                hexpand: widget_size == Gtk.IconSize.NORMAL,
+                halign: widget_size == Gtk.IconSize.NORMAL ? Gtk.Align.FILL : Gtk.Align.CENTER,
                 orientation: Gtk.Orientation.VERTICAL
             );
 
@@ -49,13 +51,14 @@ namespace Ensembles.GtkShell.Plugins.AudioPlugins.Widgets {
                 margin_end = 16
             };
             control_label.add_css_class (Granite.STYLE_CLASS_H3_LABEL);
-            append (control_label);
-
-            if (control_unit != null) {
-                append (control_unit);
-            }
 
             if (widget_size == Gtk.IconSize.LARGE) {
+                append (control_label);
+
+                if (control_unit != null) {
+                    append (control_unit);
+                }
+
                 var knob = new GtkShell.Widgets.Knob () {
                     width_request = 150,
                     height_request = 150,
@@ -84,19 +87,37 @@ namespace Ensembles.GtkShell.Plugins.AudioPlugins.Widgets {
                     *variable = (float) value;
                 });
             } else {
-                var scale = new Gtk.Scale (Gtk.Orientation.VERTICAL, null) {
-                    height_request = 150,
+                var label_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 2) {
+                    margin_end = 16
+                };
+                append (label_box);
+
+                label_box.append (control_label);
+
+                value_label = new Gtk.Label ("") {
+                    hexpand = true,
+                    valign = Gtk.Align.END,
+                    halign = Gtk.Align.END
+                };
+                label_box.append (value_label);
+
+                control_unit.valign = Gtk.Align.END;
+                label_box.append (control_unit);
+
+                var scale = new Gtk.Scale (Gtk.Orientation.HORIZONTAL, null) {
                     margin_start = 16,
                     margin_end = 16,
-                    margin_top = 16,
-                    margin_bottom = 16,
-                    inverted = true
+                    margin_top = 8,
+                    margin_bottom = 8
                 };
 
                 append (scale);
 
                 if (port is Lv2.LV2ControlPort) {
                     var lv2_control_port = (Lv2.LV2ControlPort) port;
+
+                    value_label.set_text (lv2_control_port.default_value.to_string ());
+
                     scale.adjustment.lower = lv2_control_port.min_value;
                     scale.adjustment.upper = lv2_control_port.max_value;
                     scale.adjustment.step_increment = lv2_control_port.step;
@@ -120,6 +141,7 @@ namespace Ensembles.GtkShell.Plugins.AudioPlugins.Widgets {
 
                 scale.value_changed.connect ((range) => {
                     *variable = (float) range.get_value ();
+                    value_label.set_text ((*variable).to_string ());
                 });
             }
         }

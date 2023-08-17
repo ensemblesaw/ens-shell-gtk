@@ -115,7 +115,7 @@ namespace Ensembles.GtkShell.Layouts.Display {
         private Gtk.Widget get_lv2_plugin_ui () {
             var _lv2_plugin = (Lv2.LV2Plugin) plugin;
             var box = new Gtk.Box (
-                Gtk.Orientation.HORIZONTAL,
+                _lv2_plugin.control_in_ports.length > 3 ? Gtk.Orientation.VERTICAL : Gtk.Orientation.HORIZONTAL,
                 8
             ) {
                 spacing = 4,
