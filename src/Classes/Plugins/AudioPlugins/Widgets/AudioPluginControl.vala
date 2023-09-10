@@ -78,6 +78,12 @@ namespace Ensembles.GtkShell.Plugins.AudioPlugins.Widgets {
                     knob.adjustment.step_increment = lv2_control_port.step;
                     knob.value = *variable;
 
+                    if (lv2_control_port.stops.length > 0) {
+                        for (uint8 k = 0; k < lv2_control_port.stops.length; k++) {
+                            knob.add_mark (lv2_control_port.stops[k]);
+                        }
+                    }
+
                     knob.add_mark (lv2_control_port.min_value);
                     knob.add_mark (lv2_control_port.default_value);
                     knob.add_mark (lv2_control_port.max_value);
@@ -122,6 +128,15 @@ namespace Ensembles.GtkShell.Plugins.AudioPlugins.Widgets {
                     scale.adjustment.upper = lv2_control_port.max_value;
                     scale.adjustment.step_increment = lv2_control_port.step;
                     scale.adjustment.value = *variable;
+
+                    if (lv2_control_port.stops.length > 0) {
+                        for (uint8 k = 0; k < lv2_control_port.stops.length; k++) {
+                            scale.add_mark (
+                                lv2_control_port.stops[k], Gtk.PositionType.RIGHT,
+                                null
+                            );
+                        }
+                    }
 
                     scale.add_mark (
                         lv2_control_port.min_value, Gtk.PositionType.RIGHT,

@@ -354,7 +354,9 @@ namespace Ensembles.GtkShell.Widgets {
          * the lower and upper limits of the scales’ adjustment
          */
         public void add_mark (double value) {
-            marks.append (value);
+            if (marks.index (value) == -1) {
+                marks.append (value);
+            }
         }
 
         /**

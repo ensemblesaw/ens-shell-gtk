@@ -34,7 +34,7 @@ namespace Ensembles {
         private static string complimentary_accent_colors_slate
         = COMPLIMENTARY_ACCENT_COLORS_TEMPLATE.printf ("@MINT_500", "@BANANA_500");
 
-        public static string get_complementary (string theme_color) {
+        public static uint8[]? get_complementary (string theme_color) {
             complimentary_accent_colors_strawberry
             = COMPLIMENTARY_ACCENT_COLORS_TEMPLATE.printf ("@BANANA_500", "@ORANGE_500");
             complimentary_accent_colors_orange
@@ -60,31 +60,31 @@ namespace Ensembles {
 
             switch (theme_color) {
                 case "strawberry":
-                    return complimentary_accent_colors_strawberry;
+                    return complimentary_accent_colors_strawberry.data;
                 case "orange":
-                    return complimentary_accent_colors_orange;
+                    return complimentary_accent_colors_orange.data;
                 case "banana":
-                    return complimentary_accent_colors_banana;
+                    return complimentary_accent_colors_banana.data;
                 case "lime":
-                    return complimentary_accent_colors_lime;
+                    return complimentary_accent_colors_lime.data;
                 case "mint":
-                    return complimentary_accent_colors_mint;
+                    return complimentary_accent_colors_mint.data;
                 case "blueberry":
-                    return complimentary_accent_colors_blueberry;
+                    return complimentary_accent_colors_blueberry.data;
                 case "grape":
-                    return complimentary_accent_colors_grape;
+                    return complimentary_accent_colors_grape.data;
                 case "bubblegum":
-                    return complimentary_accent_colors_bubblegum;
+                    return complimentary_accent_colors_bubblegum.data;
                 case "cocoa":
-                    return complimentary_accent_colors_cocoa;
+                    return complimentary_accent_colors_cocoa.data;
                 case "silver":
-                    return complimentary_accent_colors_silver;
+                    return complimentary_accent_colors_silver.data;
                 case "slate":
                 case "black":
-                    return complimentary_accent_colors_slate;
+                    return complimentary_accent_colors_slate.data;
             }
 
-            return complimentary_accent_colors_blueberry;
+            return complimentary_accent_colors_blueberry.data;
         }
     }
 }

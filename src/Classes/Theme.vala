@@ -42,7 +42,7 @@ namespace Ensembles.GtkShell {
             // Set colors that are complimentary to the accent color for special cases
             if (complimentary_css_provider == null) {
                 complimentary_css_provider = new Gtk.CssProvider ();
-                complimentary_css_provider.load_from_data (AccentColors.get_complementary (theme_color), -1);
+                complimentary_css_provider.load_from_data (AccentColors.get_complementary (theme_color));
 
                 Gtk.StyleContext.add_provider_for_display (
                     Gdk.Display.get_default (),
