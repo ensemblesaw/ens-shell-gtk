@@ -161,21 +161,34 @@ namespace Ensembles.GtkShell.Layouts {
             });
 
             voice_r1_screen.on_voice_chosen.connect ((is_plugin, name, bank, preset, index) => {
-                debug ("Voice r1 changed");
-                if (is_plugin) {
-                    aw_core.get_voice_rack (VoiceHandPosition.RIGHT).active = true;
-                    aw_core.get_voice_rack (VoiceHandPosition.RIGHT)
-                    .set_plugin_active (index, true);
-                } else {
-                    aw_core.get_voice_rack (VoiceHandPosition.RIGHT).active = false;
-                    aw_core.set_voice (VoiceHandPosition.RIGHT, bank, preset);
-                }
+                choose_voice (VoiceHandPosition.RIGHT, is_plugin, name, bank, preset, index);
+            });
+
+            voice_r2_screen.on_voice_chosen.connect ((is_plugin, name, bank, preset, index) => {
+                choose_voice (VoiceHandPosition.RIGHT_LAYERED, is_plugin, name, bank, preset, index);
+            });
+
+            voice_l_screen.on_voice_chosen.connect ((is_plugin, name, bank, preset, index) => {
+                choose_voice (VoiceHandPosition.LEFT, is_plugin, name, bank, preset, index);
             });
 
             style_screen.close.connect (navigate_to_home);
             voice_l_screen.close.connect (navigate_to_home);
             voice_r1_screen.close.connect (navigate_to_home);
             voice_r2_screen.close.connect (navigate_to_home);
+        }
+
+        private void choose_voice (VoiceHandPosition position, bool is_plugin, string name, uint8 bank, uint8 preset, int index) {
+            if (is_plugin) {
+                aw_core.get_voice_rack (position).active = true;
+                aw_core.get_voice_rack (position)
+                .set_plugin_active (index, true);
+            } else {
+                aw_core.get_voice_rack (position).active = false;
+                aw_core.set_voice (position, bank, preset);
+            }
+
+            home_screen.set_voice_label (position, name);
         }
 
         public void navigate_to_home () {

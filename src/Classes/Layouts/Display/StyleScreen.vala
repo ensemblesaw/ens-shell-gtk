@@ -73,7 +73,7 @@ namespace Ensembles.GtkShell.Layouts.Display {
                     show_category = true;
                 }
 
-                var menu_item = new StyleMenuItem (styles[i], show_category);
+                var menu_item = new StyleMenuItem (i, styles[i], show_category);
                 main_list_box.insert (menu_item, -1);
             }
 

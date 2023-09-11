@@ -44,15 +44,12 @@ namespace Ensembles.GtkShell.Widgets.Display {
             add_css_class ("menu-item");
 
             var menu_item_grid = new Gtk.Grid () {
-                 column_spacing = 16,
-                 row_spacing = 0
+                column_spacing = 16,
+                row_spacing = 0
             };
             set_child (menu_item_grid);
 
             if (show_category) {
-                var category_label = new Gtk.Label ("") {
-                    xalign = 0
-                };
                 var protocol_name = "";
                 if (is_plugin) {
                     switch (plugin.protocol) {
@@ -71,9 +68,11 @@ namespace Ensembles.GtkShell.Widgets.Display {
                     }
                 }
 
-                category_label.set_text (
+                var category_label = new Gtk.Label (
                     is_plugin ? protocol_name.up () + " PLUGINS" : voice.category.up ()
-                );
+                ) {
+                    xalign = 0
+                };
                 category_label.add_css_class ("menu-item-category");
                 menu_item_grid.attach (category_label, 0, 0, 3, 1);
             }
@@ -96,12 +95,13 @@ namespace Ensembles.GtkShell.Widgets.Display {
             if (is_plugin && plugin.has_ui) {
                 show_ui_button = new Gtk.Button.from_icon_name ("preferences-other-symbolic") {
                     margin_top = 6,
+                    margin_bottom = 6,
                     margin_start = 4,
                     margin_end = 4,
-                    width_request = 80,
+                    width_request = 32,
                     tooltip_text = _("Show Plugin UI")
                 };
-                menu_item_grid.attach (show_ui_button, 2, 1, 1, 1);
+                menu_item_grid.attach (show_ui_button, 2, 1);
             }
         }
     }
