@@ -405,6 +405,10 @@ namespace Ensembles.GtkShell.Layouts.Display {
 
             mod_screen.close.connect (() => {
                 main_box.remove_css_class ("fade-widget");
+                for (uint i = 0; i < modulator_buttons.length; i++) {
+                    modulator_buttons[i].remove_css_class ("accented");
+                    modulator_buttons[i].opacity = 1;
+                }
             });
 
             modulator_buttons[0].clicked.connect (() => { open_mod_screen (0);});
@@ -423,9 +427,9 @@ namespace Ensembles.GtkShell.Layouts.Display {
             modulator_buttons[13].clicked.connect (() => { open_mod_screen (13);});
             modulator_buttons[14].clicked.connect (() => { open_mod_screen (14);});
             modulator_buttons[15].clicked.connect (() => { open_mod_screen (15);});
-            modulator_buttons[16].clicked.connect (() => { open_mod_screen (18);});
+            modulator_buttons[16].clicked.connect (() => { open_mod_screen (16);});
             modulator_buttons[17].clicked.connect (() => { open_mod_screen (17);});
-            modulator_buttons[18].clicked.connect (() => { open_mod_screen (19);});
+            modulator_buttons[18].clicked.connect (() => { open_mod_screen (18);});
 
             if (kiosk_mode) {
                 power_button.clicked.connect (() => {
@@ -442,10 +446,26 @@ namespace Ensembles.GtkShell.Layouts.Display {
             }
         }
 
-        private void open_mod_screen (uint8 i) {
-            print("%d\n", i);
-            mod_screen.pop_up (i);
+        private void open_mod_screen (uint8 channel) {
+            if (channel == 16)
+                mod_screen.pop_up (18);
+            else if (channel == 17)
+                mod_screen.pop_up (17);
+            else if (channel == 18)
+                mod_screen.pop_up (19);
+            else
+                mod_screen.pop_up (channel);
+
+            for (uint i = 0; i < modulator_buttons.length; i++) {
+                modulator_buttons[i].remove_css_class ("accented");
+                modulator_buttons[i].opacity = 0.3;
+            }
+
+            modulator_buttons[channel].add_css_class ("accented");
+            modulator_buttons[channel].opacity = 1;
+
             main_box.add_css_class ("fade-widget");
+
         }
 
         private float[] get_eq_color () {
