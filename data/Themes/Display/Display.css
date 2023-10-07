@@ -183,6 +183,8 @@ HomeScreen
     background-image: linear-gradient(88deg, alpha(shade(@accent_color, 0.6), 0.75), alpha(shade(@accent_color_complimentary, 0.5), 0.75)), url("resource://com/github/ensemblesaw/ens-shell-gtk/images/display/home_background_default");
     background-position: center;
     background-size: auto 100%;
+    filter: blur(0);
+    transition: filter 0.3s cubic-bezier(0, 0, 0, 1);
 }
 
 .homescreen-link-panel-top {
@@ -196,6 +198,8 @@ HomeScreen
     border: 1px solid #fff2;
     padding: 2px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+    transform: translateY(0);
+    transition: transform 0.4s cubic-bezier(0, 0, 0, 1);
 }
 
 .display .homescreen-link-panel-top-button {
@@ -315,6 +319,31 @@ HomeScreen
     overflow: hidden;
 }
 
+/* /////////////////////////////////////////////////////////////////////////////
+Modulator Screen
+*/
+
+.display .modulator-screen {
+    border-radius: 6px;
+    border: 1px solid alpha(@accent_color, 0.75);
+    background: linear-gradient(180deg, alpha(shade(@accent_color, 0.7), 0.50) 0%, shade(@accent_color, 0.5) 45%, shade(@accent_color, 0.4) 100%);
+    opacity: 0;
+    transform: translateY(200px);
+    transition: all 0.3s cubic-bezier(0, 0, 0, 1);
+}
+
+.display .modulator-screen.popup {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.display .fade-widget>.homescreen-links-section {
+    filter: blur(8px);
+}
+
+.display .fade-widget>*>.homescreen-link-panel-top {
+    transform: translateY(-28px);
+}
 /* /////////////////////////////////////////////////////////////////////////////
 Display Window
 */

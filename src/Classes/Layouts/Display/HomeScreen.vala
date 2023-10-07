@@ -7,6 +7,12 @@ using Ensembles.Models;
 namespace Ensembles.GtkShell.Layouts.Display {
     public class HomeScreen : Gtk.Box {
         public bool kiosk_mode { get; protected set; }
+
+        private Gtk.Overlay main_overlay;
+        private Gtk.Box main_box;
+
+        private Gtk.Box links_section;
+
         private Gtk.Button power_button;
         private Gtk.Button style_button;
         private Gtk.Button voice_l_button;
@@ -35,6 +41,8 @@ namespace Ensembles.GtkShell.Layouts.Display {
         private Widgets.Display.EqualizerBar[] equalizer_bars;
         private Gtk.Button[] modulator_buttons;
 
+        private ModulatorScreen mod_screen;
+
         public signal void change_screen (string screen_name);
 
         public HomeScreen (bool kiosk_mode) {
@@ -51,12 +59,18 @@ namespace Ensembles.GtkShell.Layouts.Display {
         }
 
         private void build_ui () {
-            add_css_class ("homescreen");
-            var links_section = new Gtk.Box (Gtk.Orientation.VERTICAL, 0) {
+            main_overlay = new Gtk.Overlay ();
+            append (main_overlay);
+
+            main_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+            main_overlay.set_child (main_box);
+
+            main_box.add_css_class ("homescreen");
+            links_section = new Gtk.Box (Gtk.Orientation.VERTICAL, 0) {
                 height_request = 200
             };
             links_section.add_css_class ("homescreen-links-section");
-            append(links_section);
+            main_box.append(links_section);
 
             // Top Links ///////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -218,7 +232,7 @@ namespace Ensembles.GtkShell.Layouts.Display {
                 column_homogeneous = true,
                 height_request = 175
             };
-            append (status_panel);
+            main_box.append (status_panel);
             status_panel.add_css_class ("homescreen-panel-status");
 
             var tempo_header = new Gtk.Label(_("Tempo"));
@@ -301,7 +315,7 @@ namespace Ensembles.GtkShell.Layouts.Display {
                 column_homogeneous = true,
                 margin_start = 8,
                 margin_end = 8,
-                margin_bottom = 6,
+                margin_bottom = 8,
                 column_spacing = 8,
                 row_spacing = 8,
                 vexpand = true
@@ -320,7 +334,7 @@ namespace Ensembles.GtkShell.Layouts.Display {
                 equalizer_bars[i].b = eq_color[2];
                 equalizer_grid.attach (equalizer_bars[i], i, 0, 1, 1);
 
-                modulator_buttons[i] = new Gtk.Button.with_label (i.to_string ());
+                modulator_buttons[i] = new Gtk.Button.with_label ((i + 1).to_string ());
                 modulator_buttons[i].height_request = 30;
                 modulator_buttons[i].add_css_class ("bolder");
 
@@ -333,7 +347,7 @@ namespace Ensembles.GtkShell.Layouts.Display {
             equalizer_bars[16].b = eq_color[2];
             equalizer_grid.attach (equalizer_bars[16], 16, 0, 1, 1);
             modulator_buttons[16] = new Gtk.Button.with_label ("L") {
-                height_request = 28
+                height_request = 24
             };
             modulator_buttons[16].add_css_class ("bolder");
             equalizer_grid.attach (modulator_buttons[16], 16, 1, 1, 1);
@@ -344,7 +358,7 @@ namespace Ensembles.GtkShell.Layouts.Display {
             equalizer_bars[17].b = eq_color[2];
             equalizer_grid.attach (equalizer_bars[17], 17, 0, 1, 1);
             modulator_buttons[17] = new Gtk.Button.with_label ("R1") {
-                height_request = 28
+                height_request = 24
             };
             modulator_buttons[17].add_css_class ("bolder");
             equalizer_grid.attach (modulator_buttons[17], 17, 1, 1, 1);
@@ -355,32 +369,63 @@ namespace Ensembles.GtkShell.Layouts.Display {
             equalizer_bars[18].b = eq_color[2];
             equalizer_grid.attach (equalizer_bars[18], 18, 0, 1, 1);
             modulator_buttons[18] = new Gtk.Button.with_label ("R2") {
-                height_request = 28
+                height_request = 24
             };
             modulator_buttons[18].add_css_class ("bolder");
             equalizer_grid.attach (modulator_buttons[18], 18, 1, 1, 1);
+
+            mod_screen = new ModulatorScreen ();
+            main_overlay.add_overlay (mod_screen);
         }
 
         private void build_events () {
             style_button.clicked.connect (() => {
                 change_screen ("style");
+                mod_screen.close ();
             });
 
             voice_l_button.clicked.connect (() => {
                 change_screen ("voice-l");
+                mod_screen.close ();
             });
 
             voice_r1_button.clicked.connect (() => {
                 change_screen ("voice-r1");
+                mod_screen.close ();
             });
 
             voice_r2_button.clicked.connect (() => {
                 change_screen ("voice-r2");
+                mod_screen.close ();
             });
 
             dsp_button.clicked.connect (() => {
                 change_screen ("dsp");
             });
+
+            mod_screen.close.connect (() => {
+                main_box.remove_css_class ("fade-widget");
+            });
+
+            modulator_buttons[0].clicked.connect (() => { open_mod_screen (0);});
+            modulator_buttons[1].clicked.connect (() => { open_mod_screen (1);});
+            modulator_buttons[2].clicked.connect (() => { open_mod_screen (2);});
+            modulator_buttons[3].clicked.connect (() => { open_mod_screen (3);});
+            modulator_buttons[4].clicked.connect (() => { open_mod_screen (4);});
+            modulator_buttons[5].clicked.connect (() => { open_mod_screen (5);});
+            modulator_buttons[6].clicked.connect (() => { open_mod_screen (6);});
+            modulator_buttons[7].clicked.connect (() => { open_mod_screen (7);});
+            modulator_buttons[8].clicked.connect (() => { open_mod_screen (8);});
+            modulator_buttons[9].clicked.connect (() => { open_mod_screen (9);});
+            modulator_buttons[10].clicked.connect (() => { open_mod_screen (10);});
+            modulator_buttons[11].clicked.connect (() => { open_mod_screen (11);});
+            modulator_buttons[12].clicked.connect (() => { open_mod_screen (12);});
+            modulator_buttons[13].clicked.connect (() => { open_mod_screen (13);});
+            modulator_buttons[14].clicked.connect (() => { open_mod_screen (14);});
+            modulator_buttons[15].clicked.connect (() => { open_mod_screen (15);});
+            modulator_buttons[16].clicked.connect (() => { open_mod_screen (18);});
+            modulator_buttons[17].clicked.connect (() => { open_mod_screen (17);});
+            modulator_buttons[18].clicked.connect (() => { open_mod_screen (19);});
 
             if (kiosk_mode) {
                 power_button.clicked.connect (() => {
@@ -395,6 +440,12 @@ namespace Ensembles.GtkShell.Layouts.Display {
                     }
                 });
             }
+        }
+
+        private void open_mod_screen (uint8 i) {
+            print("%d\n", i);
+            mod_screen.pop_up (i);
+            main_box.add_css_class ("fade-widget");
         }
 
         private float[] get_eq_color () {

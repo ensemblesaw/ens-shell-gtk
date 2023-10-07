@@ -41,6 +41,7 @@ classes = files (
     'Classes/Layouts/Display/DSPScreen.vala',
     'Classes/Layouts/Display/AudioPluginPicker.vala',
     'Classes/Layouts/Display/PluginScreen.vala',
+    'Classes/Layouts/Display/ModulatorScreen.vala',
 
     'Classes/Widgets/Knob.vala',
     'Classes/Widgets/Key.vala',
