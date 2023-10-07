@@ -26,7 +26,7 @@ namespace Ensembles {
         private static string complimentary_accent_colors_bubblegum
         = COMPLIMENTARY_ACCENT_COLORS_TEMPLATE.printf ("@MINT_500", "@GRAPE_500");
         private static string complimentary_accent_colors_cocoa
-        = COMPLIMENTARY_ACCENT_COLORS_TEMPLATE.printf ("@MINT_500", "@BANANA_500");
+        = COMPLIMENTARY_ACCENT_COLORS_TEMPLATE.printf ("@LIME_500", "@BANANA_500");
         private static string complimentary_accent_colors_grape
         = COMPLIMENTARY_ACCENT_COLORS_TEMPLATE.printf ("@STRAWBERRY_300", "@BUBBLEGUM_500");
         private static string complimentary_accent_colors_silver
@@ -50,7 +50,7 @@ namespace Ensembles {
             complimentary_accent_colors_bubblegum
             = COMPLIMENTARY_ACCENT_COLORS_TEMPLATE.printf ("@MINT_500", "@GRAPE_500");
             complimentary_accent_colors_cocoa
-            = COMPLIMENTARY_ACCENT_COLORS_TEMPLATE.printf ("@MINT_500", "@BANANA_500");
+            = COMPLIMENTARY_ACCENT_COLORS_TEMPLATE.printf ("@LIME_500", "@BANANA_500");
             complimentary_accent_colors_grape
             = COMPLIMENTARY_ACCENT_COLORS_TEMPLATE.printf ("@STRAWBERRY_300", "@BUBBLEGUM_500");
             complimentary_accent_colors_silver

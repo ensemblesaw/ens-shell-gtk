@@ -49,6 +49,10 @@ Buttons
     color: shade(@accent_color, 1.3);
 }
 
+.display button.bolder {
+    font-weight: 900;
+}
+
 .display button:hover {
     opacity: 1;
 }
@@ -304,6 +308,11 @@ HomeScreen
     font-size: 14px;
     font-style: italic;
     color: shade(@accent_color, 2);
+}
+
+.display .equalizer-bar {
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 /* /////////////////////////////////////////////////////////////////////////////

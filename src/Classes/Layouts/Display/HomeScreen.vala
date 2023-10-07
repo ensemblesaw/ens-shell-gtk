@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+using Ensembles.Models;
 namespace Ensembles.GtkShell.Layouts.Display {
     public class HomeScreen : Gtk.Box {
         public bool kiosk_mode { get; protected set; }
@@ -31,6 +32,9 @@ namespace Ensembles.GtkShell.Layouts.Display {
         private Gtk.Label chord_flat_label;
         private Gtk.Label chord_type_label;
 
+        private Widgets.Display.EqualizerBar[] equalizer_bars;
+        private Gtk.Button[] modulator_buttons;
+
         public signal void change_screen (string screen_name);
 
         public HomeScreen (bool kiosk_mode) {
@@ -48,7 +52,6 @@ namespace Ensembles.GtkShell.Layouts.Display {
 
         private void build_ui () {
             add_css_class ("homescreen");
-
             var links_section = new Gtk.Box (Gtk.Orientation.VERTICAL, 0) {
                 height_request = 200
             };
@@ -274,7 +277,11 @@ namespace Ensembles.GtkShell.Layouts.Display {
             status_panel.attach (octave_label, 4, 1);
 
             var chord_grid = new Gtk.Grid () {
-                halign = Gtk.Align.CENTER
+                halign = Gtk.Align.CENTER,
+                height_request = 48,
+                vexpand = true,
+                valign = Gtk.Align.CENTER,
+                margin_top = 5
             };
             status_panel.attach (chord_grid, 5, 1);
 
@@ -282,13 +289,76 @@ namespace Ensembles.GtkShell.Layouts.Display {
             chord_label.add_css_class ("homescreen-panel-status-label");
             chord_grid.attach (chord_label, 0, 0, 1, 2);
 
-            chord_flat_label = new Gtk.Label ("#");
+            chord_flat_label = new Gtk.Label ("");
             chord_flat_label.add_css_class ("homescreen-panel-status-label-small");
             chord_grid.attach (chord_flat_label, 1, 0);
 
-            chord_type_label = new Gtk.Label ("m");
+            chord_type_label = new Gtk.Label ("");
             chord_type_label.add_css_class ("homescreen-panel-status-label-small");
             chord_grid.attach (chord_type_label, 1, 1);
+
+            var equalizer_grid = new Gtk.Grid () {
+                column_homogeneous = true,
+                margin_start = 8,
+                margin_end = 8,
+                margin_bottom = 6,
+                column_spacing = 8,
+                row_spacing = 8,
+                vexpand = true
+            };
+            status_panel.attach (equalizer_grid, 0, 2, 6);
+
+
+            equalizer_bars = new Widgets.Display.EqualizerBar [19];
+            var eq_color = get_eq_color ();
+
+            modulator_buttons = new Gtk.Button [19];
+            for (int i = 0; i < 16; i++) {
+                equalizer_bars[i] = new Widgets.Display.EqualizerBar ();
+                equalizer_bars[i].r = eq_color[0];
+                equalizer_bars[i].g = eq_color[1];
+                equalizer_bars[i].b = eq_color[2];
+                equalizer_grid.attach (equalizer_bars[i], i, 0, 1, 1);
+
+                modulator_buttons[i] = new Gtk.Button.with_label (i.to_string ());
+                modulator_buttons[i].height_request = 30;
+                modulator_buttons[i].add_css_class ("bolder");
+
+                equalizer_grid.attach (modulator_buttons[i], i, 1, 1, 1);
+            }
+
+            equalizer_bars[16] = new Widgets.Display.EqualizerBar ();
+            equalizer_bars[16].r = eq_color[0];
+            equalizer_bars[16].g = eq_color[1];
+            equalizer_bars[16].b = eq_color[2];
+            equalizer_grid.attach (equalizer_bars[16], 16, 0, 1, 1);
+            modulator_buttons[16] = new Gtk.Button.with_label ("L") {
+                height_request = 28
+            };
+            modulator_buttons[16].add_css_class ("bolder");
+            equalizer_grid.attach (modulator_buttons[16], 16, 1, 1, 1);
+
+            equalizer_bars[17] = new Widgets.Display.EqualizerBar ();
+            equalizer_bars[17].r = eq_color[0];
+            equalizer_bars[17].g = eq_color[1];
+            equalizer_bars[17].b = eq_color[2];
+            equalizer_grid.attach (equalizer_bars[17], 17, 0, 1, 1);
+            modulator_buttons[17] = new Gtk.Button.with_label ("R1") {
+                height_request = 28
+            };
+            modulator_buttons[17].add_css_class ("bolder");
+            equalizer_grid.attach (modulator_buttons[17], 17, 1, 1, 1);
+
+            equalizer_bars[18] = new Widgets.Display.EqualizerBar ();
+            equalizer_bars[18].r = eq_color[0];
+            equalizer_bars[18].g = eq_color[1];
+            equalizer_bars[18].b = eq_color[2];
+            equalizer_grid.attach (equalizer_bars[18], 18, 0, 1, 1);
+            modulator_buttons[18] = new Gtk.Button.with_label ("R2") {
+                height_request = 28
+            };
+            modulator_buttons[18].add_css_class ("bolder");
+            equalizer_grid.attach (modulator_buttons[18], 18, 1, 1, 1);
         }
 
         private void build_events () {
@@ -327,6 +397,31 @@ namespace Ensembles.GtkShell.Layouts.Display {
             }
         }
 
+        private float[] get_eq_color () {
+            switch (Theme.theme_color) {
+                case "strawberry":
+                    return { 0.92f, 0.32f, 0.32f };
+                case "orange":
+                    return { 1, 0.63f, 0.32f };
+                case "banana":
+                    return { 1, 0.88f, 0.42f };
+                case "lime":
+                    return { 0.6f, 0.85f, 0.3f };
+                case "mint":
+                    return { 0.26f, 0.84f, 0.71f };
+                case "blueberry":
+                    return { 0.39f, 0.73f, 1 };
+                case "grape":
+                    return { 0.8f, 0.62f, 0.96f };
+                case "bubblegum":
+                    return { 0.95f, 0.4f, 0.61f };
+                case "cocoa":
+                    return { 0.54f, 0.44f, 0.36f };
+                default:
+                    return { 0.9f, 0.9f, 0.9f };
+            }
+        }
+
         public void set_style_label (string name) {
             selected_style_label.set_text (name);
         }
@@ -347,6 +442,103 @@ namespace Ensembles.GtkShell.Layouts.Display {
 
         public void set_dsp_count (uint16 count) {
             dsp_status.set_text (_("%u Effects in Use".printf (count)));
+        }
+
+        public void set_chord (Chord chord) {
+            switch (chord.root) {
+                case C:
+                chord_label.set_text ("C");
+                chord_flat_label.set_text ("");
+                break;
+                case CS:
+                chord_label.set_text ("C");
+                chord_flat_label.set_text ("♯");
+                break;
+                case D:
+                chord_label.set_text ("D");
+                chord_flat_label.set_text ("");
+                break;
+                case EF:
+                chord_label.set_text ("E");
+                chord_flat_label.set_text ("♭");
+                break;
+                case E:
+                chord_label.set_text ("E");
+                chord_flat_label.set_text ("");
+                break;
+                case F:
+                chord_label.set_text ("F");
+                chord_flat_label.set_text ("");
+                break;
+                case FS:
+                chord_label.set_text ("F");
+                chord_flat_label.set_text ("♯");
+                break;
+                case G:
+                chord_label.set_text ("G");
+                chord_flat_label.set_text ("");
+                break;
+                case AF:
+                chord_label.set_text ("A");
+                chord_flat_label.set_text ("♭");
+                break;
+                case A:
+                chord_label.set_text ("A");
+                chord_flat_label.set_text ("");
+                break;
+                case BF:
+                chord_label.set_text ("B");
+                chord_flat_label.set_text ("♭");
+                break;
+                case B:
+                chord_label.set_text ("B");
+                chord_flat_label.set_text ("");
+                break;
+                default:
+                break;
+            }
+            switch (chord.type) {
+                case MAJOR:
+                chord_type_label.set_text ("");
+                break;
+                case MINOR:
+                chord_type_label.set_text ("min");
+                break;
+                case DIMINISHED:
+                chord_type_label.set_text ("dim");
+                break;
+                case SUSPENDED_2:
+                chord_type_label.set_text ("sus2");
+                break;
+                case SUSPENDED_4:
+                chord_type_label.set_text ("sus4");
+                break;
+                case AUGMENTED:
+                chord_type_label.set_text ("aug");
+                break;
+                case SIXTH:
+                chord_type_label.set_text ("6");
+                break;
+                case SEVENTH:
+                chord_type_label.set_text ("7");
+                break;
+                case MAJOR_7TH:
+                chord_type_label.set_text ("M7");
+                break;
+                case MINOR_7TH:
+                chord_type_label.set_text ("m7");
+                break;
+                case ADD_9TH:
+                chord_type_label.set_text ("add9");
+                break;
+                case NINTH:
+                chord_type_label.set_text ("9");
+                break;
+            }
+        }
+
+        public void set_level (uint8 channel, uint8 level) {
+            equalizer_bars[channel].level = level;
         }
     }
 }

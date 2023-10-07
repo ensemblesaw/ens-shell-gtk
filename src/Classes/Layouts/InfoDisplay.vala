@@ -46,6 +46,7 @@ namespace Ensembles.GtkShell.Layouts {
         construct {
             build_ui ();
             build_events ();
+            update_equalizer.begin ();
         }
 
         private void build_ui () {
@@ -155,6 +156,10 @@ namespace Ensembles.GtkShell.Layouts {
 
             aw_core.send_loading_status.connect (update_status);
 
+            aw_core.chord_changed.connect ((chord) => {
+                home_screen.set_chord (chord);
+            });
+
             style_screen.style_changed.connect ((style) => {
                 home_screen.set_style_label (style.name);
                 aw_core.style_engine_queue_style (style);
@@ -215,6 +220,22 @@ namespace Ensembles.GtkShell.Layouts {
             Idle.add (() => {
                 splash_screen_label.set_text (status);
                 return false;
+            });
+        }
+
+        private async void update_equalizer () {
+            Timeout.add (60000 / (120 * 16), () => {
+                if (aw_core.style_engine_is_playing ()) {
+                    // Style channels
+                    for (uint8 i = 0; i < 16; i++) {
+                        home_screen.set_level (i, aw_core.get_velocity (i));
+                    }
+                }
+
+                //  equalizer_bar[17].velocity = aw_core.get_velocity (17); // R1
+                //  equalizer_bar[18].velocity = aw_core.get_velocity (18); // R2
+                //  equalizer_bar[16].velocity = aw_core.get_velocity (19); // L
+                return true;
             });
         }
     }
