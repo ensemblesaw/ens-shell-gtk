@@ -20,5 +20,8 @@
     <file alias="splash_screen" compressed="true">Images/Display/splash_screen.png</file>
     <file alias="home_background_default" compressed="false">Images/Display/catalin-sandru-7SxSkCvVM1U-unsplash.jpg</file>
     <file alias="home_background_default_blurred" compressed="true">Images/Display/catalin-sandru-7SxSkCvVM1U-unsplash-blurred.jpg</file>
+    <file compressed="true" preprocess="xml-stripblanks" alias="mod_speaker_l">Images/Display/mod_speaker_l.svg</file>
+    <file compressed="true" preprocess="xml-stripblanks" alias="mod_speaker_r">Images/Display/mod_speaker_r.svg</file>
+    <file compressed="true" preprocess="xml-stripblanks" alias="mod_listener">Images/Display/mod_listener.svg</file>
   </gresource>
 </gresources>

@@ -54,6 +54,8 @@ classes = files (
     'Classes/Widgets/Display/DSPMenuItem.vala',
     'Classes/Widgets/Display/DSPInstanceMenuItem.vala',
     'Classes/Widgets/Display/EqualizerBar.vala',
+    'Classes/Widgets/Display/GraphicalModulator.vala',
+    'Classes/Widgets/Display/ModulatorScale.vala',
 
     'Classes/Plugins/AudioPlugins/Widgets/AudioPluginControl.vala',
 

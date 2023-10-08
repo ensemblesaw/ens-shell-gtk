@@ -85,13 +85,13 @@ namespace Ensembles.GtkShell.Widgets {
 
             Timeout.add (80, () => {
                 Idle.add (() => {
-                    if (width != get_allocated_width () || height != get_allocated_height ()) {
+                    if (width != get_width () || height != get_height ()) {
                         for (uint8 i = 0; i < n_octaves; i++) {
                             octaves[i].draw_keys ();
                         }
 
-                        width = get_allocated_width ();
-                        height = get_allocated_height ();
+                        width = get_width ();
+                        height = get_height ();
                     }
 
                     return false;

@@ -573,7 +573,7 @@ namespace Ensembles.GtkShell.Layouts.Display {
                 chord_type_label.set_text ("");
                 break;
                 case MINOR:
-                chord_type_label.set_text ("min");
+                chord_type_label.set_text ("m");
                 break;
                 case DIMINISHED:
                 chord_type_label.set_text ("dim");

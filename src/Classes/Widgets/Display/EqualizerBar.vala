@@ -50,8 +50,8 @@ namespace Ensembles.GtkShell.Widgets.Display {
                 double radius = 6.0;
                 cr.new_sub_path ();
                 cr.arc (width - radius, radius, radius, -90 * degrees, 0);
-                cr.arc (width - radius, height - radius - 2, radius, 0, 90 * degrees);
-                cr.arc (radius, height - radius - 2, radius, 90 * degrees, 180 * degrees);
+                cr.arc (width - radius, height - radius, radius, 0, 90 * degrees);
+                cr.arc (radius, height - radius, radius, 90 * degrees, 180 * degrees);
                 cr.arc (radius, radius, radius, 180 * degrees, 270 * degrees);
                 cr.close_path ();
 

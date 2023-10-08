@@ -235,7 +235,7 @@ namespace Ensembles.GtkShell {
             });
 
             notify["maximized"].connect (() => {
-                fullscreen ();
+                //  fullscreen ();
                 try {
                     var mobile_layout = di_container.obtain (st_mobile_layout);
                     var desktop_layout = di_container.obtain (st_desktop_layout);

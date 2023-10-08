@@ -320,31 +320,6 @@ HomeScreen
 }
 
 /* /////////////////////////////////////////////////////////////////////////////
-Modulator Screen
-*/
-
-.display .modulator-screen {
-    border-radius: 6px;
-    border: 1px solid alpha(@accent_color, 0.75);
-    background: linear-gradient(180deg, alpha(shade(@accent_color, 0.7), 0.50) 0%, shade(@accent_color, 0.5) 45%, shade(@accent_color, 0.4) 100%);
-    opacity: 0;
-    transform: translateY(200px);
-    transition: all 0.3s cubic-bezier(0, 0, 0, 1);
-}
-
-.display .modulator-screen.popup {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.display .fade-widget>.homescreen-links-section {
-    filter: blur(8px);
-}
-
-.display .fade-widget>*>.homescreen-link-panel-top {
-    transform: translateY(-28px);
-}
-/* /////////////////////////////////////////////////////////////////////////////
 Display Window
 */
 
@@ -376,8 +351,122 @@ Display Window
 .display .display-window-header-bar .subtitle {
     font-size: 12px;
     font-weight: 400;
+    margin-top: -2px;
     opacity: 0.75;
     color: shade(@accent_color, 1.5);
+}
+
+/* /////////////////////////////////////////////////////////////////////////////
+Modulator Screen
+*/
+
+.display .modulator-screen {
+    border-radius: 6px;
+    border: 1px solid alpha(shade(@accent_color, 1.1), 0.5);
+    background: linear-gradient(180deg, alpha(shade(@accent_color, 0.75), 0.50) 0%, shade(@accent_color, 0.5) 45%, shade(@accent_color, 0.4) 100%);
+    opacity: 0;
+    transform: translateY(200px);
+    transition: all 0.3s cubic-bezier(0, 0, 0, 1);
+}
+
+.display .modulator-screen .title {
+    color: shade(@accent_color, 1.2);
+}
+
+.display .modulator-screen .subtitle {
+    color: shade(@accent_color, 1.2);
+    opacity: 0.75;
+}
+
+.display .modulator-screen.popup {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.display .fade-widget>.homescreen-links-section {
+    filter: blur(8px);
+}
+
+.display .fade-widget>*>.homescreen-link-panel-top {
+    transform: translateY(-28px);
+}
+
+.display .modulator-screen .graphical-modulator {
+    background: linear-gradient(180deg, alpha(shade(@accent_color, 1.1), 0.75) 0%, shade(@accent_color, 0.7) 100%);
+    box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.15), inset 0px 0px 140px 0px rgba(255, 255, 255, 0.0.25);
+    border-radius: 4px
+}
+
+.display .modulator-screen .graphical-modulator.b-0 {
+    box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.15), inset 0px 0px 140px 0px rgba(255, 255, 255, 0.25);
+}
+
+.display .modulator-screen .graphical-modulator.b-1 {
+    box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.15), inset 0px 0px 140px 0px rgba(255, 255, 255, 0.275);
+}
+
+.display .modulator-screen .graphical-modulator.b-2 {
+    box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.15), inset 0px 0px 140px 0px rgba(255, 255, 255, 0.3);
+}
+
+.display .modulator-screen .graphical-modulator.b-3 {
+    box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.15), inset 0px 0px 140px 0px rgba(255, 255, 255, 0.325);
+}
+
+.display .modulator-screen .graphical-modulator.b-4 {
+    box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.15), inset 0px 0px 140px 0px rgba(255, 255, 255, 0.35);
+}
+
+.display .modulator-screen .graphical-modulator.b-5 {
+    box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.15), inset 0px 0px 140px 0px rgba(255, 255, 255, 0.375);
+}
+
+.display .modulator-screen .graphical-modulator.b-6 {
+    box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.15), inset 0px 0px 140px 0px rgba(255, 255, 255, 0.4);
+}
+
+.display .modulator-screen .graphical-modulator.b-7 {
+    box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.15), inset 0px 0px 140px 0px rgba(255, 255, 255, 0.425);
+}
+
+.display .modulator-screen .graphical-modulator.b-8 {
+    box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.15), inset 0px 0px 140px 0px rgba(255, 255, 255, 0.45);
+}
+
+.display .modulator-screen .graphical-modulator.b-9 {
+    box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.15), inset 0px 0px 140px 0px rgba(255, 255, 255, 0.475);
+}
+
+.display .modulator-screen .graphical-modulator.b-10 {
+    box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.15), inset 0px 0px 140px 0px rgba(255, 255, 255, 0.5);
+}
+
+.display .graphical-modulator-speaker-l {
+    background: url("resource://com/github/ensemblesaw/ens-shell-gtk/images/display/mod_speaker_l");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: top left;
+}
+
+.display .graphical-modulator-speaker-r {
+    background: url("resource://com/github/ensemblesaw/ens-shell-gtk/images/display/mod_speaker_r");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: top right;
+}
+
+.display .modulator-screen .modulator-scale {
+    border-radius: 4px;
+    border: 1px solid #3F7EAA;
+    background: linear-gradient(180deg, alpha(@accent_color, 0.3) 0%, alpha(@accent_color, 0.2) 100%);
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.07);
+}
+
+.display .graphical-modulator-listener {
+    background: url("resource://com/github/ensemblesaw/ens-shell-gtk/images/display/mod_listener");
+    background-size: 32px;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 
