@@ -74,9 +74,9 @@ namespace Ensembles.GtkShell.Widgets {
         }
 
         public void draw_keys () {
-            int w_max = get_allocated_width ();
+            int w_max = get_width ();
             double offset = w_max * 0.09;
-            int h_max = get_allocated_height ();
+            int h_max = get_height ();
             int black_key_width = w_max / 10;
             int black_key_height = (int) (h_max / 1.5);
 

@@ -89,7 +89,7 @@ namespace Ensembles.GtkShell.Layouts.Display {
                 //  var adj = main_list_box.get_adjustment ();
                 //  if (adj != null) {
                 //      int height, _htemp;
-                //      height = selected_item.get_allocated_height ();
+                //      height = selected_item.get_height ();
 
                 //      Timeout.add (200, () => {
                 //          adj.set_value (_selected_index * height);
