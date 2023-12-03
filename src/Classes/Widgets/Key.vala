@@ -63,7 +63,7 @@ namespace Ensembles.GtkShell.Widgets {
 
             motion_controller.drag_update.connect ((x, y) => {
                 if (active) {
-                    this.motion (index, x / get_width (), y / get_height ());
+                    this.motion (index, x / get_allocated_width (), y / get_allocated_height ());
                 }
             });
             add_controller (click_gesture);

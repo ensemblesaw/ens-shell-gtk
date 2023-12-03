@@ -146,8 +146,8 @@ namespace Ensembles.GtkShell.Widgets {
         private void build_ui () {
             add_css_class ("knob");
 
-            var width = get_width () | width_request;
-            var height = get_height () | height_request;
+            var width = get_allocated_width () | width_request;
+            var height = get_allocated_height () | height_request;
 
             var diameter = width < height ? width : height;
 

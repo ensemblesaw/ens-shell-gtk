@@ -31,6 +31,7 @@ namespace Ensembles.GtkShell {
 
         // Headerbar
         private Gtk.HeaderBar headerbar;
+        Gtk.Button app_menu_button;
 
         // Responsive UI
         private Adw.Squeezer squeezer;
@@ -105,6 +106,15 @@ namespace Ensembles.GtkShell {
                 settings: st_settings
             );
             headerbar.pack_start (di_container.obtain (st_beat_visualization));
+
+            app_menu_button = new Gtk.Button.from_icon_name ("emblem-system");
+            headerbar.pack_end (app_menu_button);
+
+            di_container.register_singleton<AppMenu, ControlSurface> (
+                st_app_menu,
+                aw_core: st_aw_core,
+                settings: st_settings
+            );
 
             squeezer = new Adw.Squeezer () {
                 orientation = Gtk.Orientation.VERTICAL,
@@ -202,6 +212,18 @@ namespace Ensembles.GtkShell {
         }
 
         private void build_events () throws Vinject.VinjectErrors {
+            app_menu_button.clicked.connect (() => {
+                // For some reason the pop-over needs thes two functions to be
+                // executed in this exact order to work
+                var app_menu = di_container.obtain<AppMenu> (st_app_menu);
+                if (app_menu.parent == null) {
+                    app_menu.set_parent (app_menu_button);
+                }
+
+                app_menu.show ();
+                app_menu.present ();
+            });
+
             event_controller_key = new Gtk.EventControllerKey ();
             ((Gtk.Widget)this).add_controller (event_controller_key);
 

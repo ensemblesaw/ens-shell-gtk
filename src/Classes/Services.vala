@@ -15,6 +15,7 @@ namespace Ensembles.Services {
     // UI tokens
     public ServiceToken<GtkShell.Shell> st_application;
     public ServiceToken<MainWindow> st_main_window;
+    public ServiceToken<AppMenu> st_app_menu;
 
     // Layout tokens
     public ServiceToken<Layouts.DesktopLayout> st_desktop_layout;
@@ -44,6 +45,7 @@ namespace Ensembles.Services {
 
         st_application = new ServiceToken<GtkShell.Shell> ();
         st_main_window = new ServiceToken<MainWindow> ();
+        st_app_menu = new ServiceToken<AppMenu> ();
 
         st_desktop_layout = new ServiceToken<Layouts.DesktopLayout> ();
         st_mobile_layout = new ServiceToken<Layouts.MobileLayout> ();

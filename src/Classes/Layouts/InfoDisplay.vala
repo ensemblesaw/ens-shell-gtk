@@ -162,7 +162,7 @@ namespace Ensembles.GtkShell.Layouts {
 
             style_screen.style_changed.connect ((style) => {
                 home_screen.set_style_label (style.name);
-                aw_core.style_engine_queue_style (style);
+                aw_core.style_engine_queue_style (style, settings.autofill);
             });
 
             voice_r1_screen.on_voice_chosen.connect ((is_plugin, name, bank, preset, index) => {

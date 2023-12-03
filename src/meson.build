@@ -19,6 +19,7 @@ classes = files (
 
     'Classes/MainWindow.vala',
 
+    'Classes/Layouts/AppMenu.vala',
     'Classes/Layouts/DesktopLayout.vala',
     'Classes/Layouts/MobileLayout.vala',
     'Classes/Layouts/KioskLayout.vala',
@@ -43,6 +44,7 @@ classes = files (
     'Classes/Layouts/Display/PluginScreen.vala',
     'Classes/Layouts/Display/ModulatorScreen.vala',
 
+    'Classes/Widgets/DeviceItem.vala',
     'Classes/Widgets/Knob.vala',
     'Classes/Widgets/Key.vala',
     'Classes/Widgets/Octave.vala',
