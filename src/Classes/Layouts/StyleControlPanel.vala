@@ -26,6 +26,15 @@ namespace Ensembles.GtkShell.Layouts {
         private StylePartType current_part = StylePartType.VARIATION_A;
         private StylePartType next_part = StylePartType.VARIATION_A;
 
+        private Gtk.GestureClick click_gesture;
+
+        public signal void context_menu (Gtk.Widget widget, ControlRoute route);
+
+        public enum ControlRoute {
+            INTRO_1 = 0,
+            INTRO_2 = 1
+        }
+
         construct {
             build_ui ();
             build_events ();
@@ -142,9 +151,23 @@ namespace Ensembles.GtkShell.Layouts {
         }
 
         private void build_events () {
+            click_gesture = new Gtk.GestureClick () {
+                button = 3
+            };
+
+            click_gesture.pressed.connect ((n, x, y) => {
+                if (intro_1_button.contains (x, y)) {
+                    context_menu (intro_1_button, INTRO_1);
+                }
+            });
+
+            add_controller (click_gesture);
+
             intro_1_button.clicked.connect (() => {
                 aw_core.style_engine_queue_part (StylePartType.INTRO_1);
             });
+
+            //  intro_1_button.b
 
             intro_2_button.clicked.connect (() => {
                 aw_core.style_engine_queue_part (StylePartType.INTRO_2);

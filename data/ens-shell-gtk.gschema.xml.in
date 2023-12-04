@@ -58,5 +58,11 @@
             <default>"split-long"</default>
             <summary>Style chord detection mode</summary>
         </key>
+
+        <!-- MIDI Input -->
+        <key name="midi-input-channel-map" type="as">
+            <default>['0,17', '1,18', '2,19']</default>
+            <summary>Device channel to internal channel mapping, separated by ","</summary>
+        </key>
     </schema>
 </schemalist>

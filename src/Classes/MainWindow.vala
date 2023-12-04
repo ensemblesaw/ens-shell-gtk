@@ -33,6 +33,9 @@ namespace Ensembles.GtkShell {
         private Gtk.HeaderBar headerbar;
         Gtk.Button app_menu_button;
 
+        // Common
+        private ContextMenu context_menu;
+
         // Responsive UI
         private Adw.Squeezer squeezer;
         private Gtk.ToggleButton flap_button;
@@ -115,6 +118,8 @@ namespace Ensembles.GtkShell {
                 aw_core: st_aw_core,
                 settings: st_settings
             );
+
+            di_container.register_transient<ContextMenu, Gtk.Popover> (st_context_menu);
 
             squeezer = new Adw.Squeezer () {
                 orientation = Gtk.Orientation.VERTICAL,
@@ -235,6 +240,7 @@ namespace Ensembles.GtkShell {
 
             aw_core.ready.connect (() => {
                 Console.log ("Arranger Workstation Initialized!", Console.LogLevel.SUCCESS);
+                load_settings ();
             });
 
             notify["default-height"].connect (() => {
@@ -299,6 +305,37 @@ namespace Ensembles.GtkShell {
                     }
                 }
             });
+
+            di_container.obtain (st_style_control_panel).context_menu.connect ((widget, route) => {
+                print("Hello\n");
+                show_context_menu (widget, route);
+            });
+        }
+
+        private void load_settings () {
+            var device_channel_map = settings.midi_input_channel_map;
+            for (uint8 i = 0; i < device_channel_map.length && i < 16; i++) {
+                var map = device_channel_map[i].split(",", 2);
+                var dev_channel = (uint8) int.parse (map[0]);
+                var dest_channel = (uint8) int.parse (map[1]);
+                aw_core.map_device_channel (dev_channel, dest_channel);
+            }
+        }
+
+        public void show_context_menu (Gtk.Widget? relative_to, uint16 ui_control_index) {
+            var common_context_menu = di_container.obtain (st_context_menu);
+            common_context_menu.set_parent (relative_to);
+            common_context_menu.control_route = ui_control_index;
+            common_context_menu.assign.connect ((_route) => {
+
+            });
+            common_context_menu.assignment_label = "";
+            common_context_menu.show ();
+            common_context_menu.present ();
+        }
+
+        public void hide_context_menu () {
+            //  common_context_menu.hide ();
         }
     }
  }

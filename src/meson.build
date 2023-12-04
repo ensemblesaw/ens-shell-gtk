@@ -49,6 +49,7 @@ classes = files (
     'Classes/Widgets/Key.vala',
     'Classes/Widgets/Octave.vala',
     'Classes/Widgets/Keyboard.vala',
+    'Classes/Widgets/ContextMenu.vala',
 
     'Classes/Widgets/Display/WheelScrollableWidget.vala',
     'Classes/Widgets/Display/VoiceMenuItem.vala',

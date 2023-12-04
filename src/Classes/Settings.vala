@@ -78,5 +78,14 @@ namespace Ensembles {
         //      get { return get_enum ("chord-detection-mode"); }
         //      set { set_enum ("chord-detection-mode", value); }
         //  }
+
+        // MIDI Input //////////////////////////////////////////////////////////
+        /**
+         * Device channel to internal channel mapping, separated by ",".
+         */
+        public string[] midi_input_channel_map {
+            owned get { return get_strv ("midi-input-channel-map"); }
+            set { set_strv ("midi-input-channel-map", value); }
+        }
     }
 }

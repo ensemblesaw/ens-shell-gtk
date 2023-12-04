@@ -16,6 +16,7 @@ namespace Ensembles.Services {
     public ServiceToken<GtkShell.Shell> st_application;
     public ServiceToken<MainWindow> st_main_window;
     public ServiceToken<AppMenu> st_app_menu;
+    public ServiceToken<ContextMenu> st_context_menu;
 
     // Layout tokens
     public ServiceToken<Layouts.DesktopLayout> st_desktop_layout;
@@ -46,6 +47,7 @@ namespace Ensembles.Services {
         st_application = new ServiceToken<GtkShell.Shell> ();
         st_main_window = new ServiceToken<MainWindow> ();
         st_app_menu = new ServiceToken<AppMenu> ();
+        st_context_menu = new ServiceToken<ContextMenu> ();
 
         st_desktop_layout = new ServiceToken<Layouts.DesktopLayout> ();
         st_mobile_layout = new ServiceToken<Layouts.MobileLayout> ();
@@ -70,7 +72,7 @@ namespace Ensembles.Services {
         di_container.register_constant (st_display_ver, builder.display_version);
         di_container.register_constant (st_app_name, builder.app_name);
         di_container.register_constant (st_app_icon, builder.icon_name);
-        di_container.register_transient<Ensembles.Settings, GLib.Settings> (
+        di_container.register_singleton<Ensembles.Settings, GLib.Settings> (
             st_settings, schema_id: st_app_id
         );
         di_container.register_singleton<GtkShell.Shell, Gtk.Application> (
