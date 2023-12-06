@@ -5,6 +5,8 @@
 
 namespace Ensembles.GtkShell.Layouts {
     public class DesktopLayout : Gtk.Grid, ControlSurface {
+        public bool active { get; set; }
+
         public unowned ArrangerWorkstation.IAWCore aw_core { private get; construct; }
         public unowned Settings settings { private get; construct; }
 
@@ -81,28 +83,31 @@ namespace Ensembles.GtkShell.Layouts {
         }
 
         public void reparent () {
-            assignables_board.unparent ();
-            info_display.unparent ();
-            synth_control_panel.unparent ();
-            voice_nav_panel.unparent ();
-            mixer_board.unparent ();
-            sampler_pads_panel.unparent ();
-            style_control_panel.unparent ();
-            registry_panel.unparent ();
-            keyboard.unparent ();
+            if (!active) {
+                active = true;
+                assignables_board.unparent ();
+                info_display.unparent ();
+                synth_control_panel.unparent ();
+                voice_nav_panel.unparent ();
+                mixer_board.unparent ();
+                sampler_pads_panel.unparent ();
+                style_control_panel.unparent ();
+                registry_panel.unparent ();
+                keyboard.unparent ();
 
-            top_row.set_start_widget (assignables_board);
-            top_row.set_center_widget (info_display);
-            info_display.fill_screen = false;
-            top_row.set_end_widget (synth_control_panel);
+                top_row.set_start_widget (assignables_board);
+                top_row.set_center_widget (info_display);
+                info_display.fill_screen = false;
+                top_row.set_end_widget (synth_control_panel);
 
-            middle_row.set_start_widget (voice_nav_panel);
-            middle_row.set_center_widget (mixer_board);
-            middle_row.set_end_widget (sampler_pads_panel);
+                middle_row.set_start_widget (voice_nav_panel);
+                middle_row.set_center_widget (mixer_board);
+                middle_row.set_end_widget (sampler_pads_panel);
 
-            bottom_row_box.set_start_widget (style_control_panel);
-            bottom_row_box.set_end_widget (registry_panel);
-            bottom_row.attach (keyboard, 0, 1);
+                bottom_row_box.set_start_widget (style_control_panel);
+                bottom_row_box.set_end_widget (registry_panel);
+                bottom_row.attach (keyboard, 0, 1);
+            }
         }
     }
 }

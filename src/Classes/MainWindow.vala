@@ -255,6 +255,7 @@ namespace Ensembles.GtkShell {
                             desktop_layout.reparent ();
                         } else {
                             mobile_layout.reparent ();
+                            desktop_layout.active = false;
                         }
                     }
                 } catch (Vinject.VinjectErrors e) {
