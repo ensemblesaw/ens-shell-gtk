@@ -9,6 +9,9 @@ project (
 # GNOME module
 gnome = import ('gnome')
 
+# Package Config
+pkg = import('pkgconfig')
+
 # Translation module
 i18n = import ('i18n')
 
@@ -74,3 +77,5 @@ ens_shell_gtk_dep = declare_dependency (
 )
 
 meson.add_install_script ('meson/post_install.py')
+
+libens_shell_gtk_pc = pkg.generate(libens_shell_gtk)
