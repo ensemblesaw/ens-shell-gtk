@@ -35,8 +35,6 @@ add_project_arguments (
 
 add_project_arguments (
     ['--vapidir', join_paths (meson.current_source_dir (), 'vapi')],
-    ['--vapidir', join_paths (meson.current_source_dir (), 'subprojects', 'ens-shell-cli',  'vapi')],
-    ['--vapidir', join_paths (meson.current_source_dir (), 'subprojects', 'ens-aw-core',  'vapi')],
     language: 'vala'
 )
 
@@ -50,6 +48,18 @@ dependencies = [
     dependency ('gee-0.8'),
     dependency ('gobject-2.0'),
     dependency ('Vinject-0.0.0', fallback: ['libvinject', 'vinject_dep']),
+    dependency ('libsoup-3.0'),
+    dependency ('json-glib-1.0'),
+    dependency ('fluidsynth', required: false),
+    dependency ('lv2', required: false),
+    dependency ('lilv-0', required: false),
+    dependency ('suil-0', required: false),
+    dependency ('zix-0', fallback: ['zix', 'zix_dep'], default_options: [
+    'tests=disabled', 'default_library=static',
+    'docs=disabled', 'tests_cpp=disabled',
+    ], required: false),
+    dependency ('portmidi', required: false),
+    dependency ('libpipewire-0.3', required: false),
     dependency ('ens-aw-core-0', fallback: ['ens-aw-core', 'ens_aw_core_dep']),
     dependency ('ens-shell-cli-0', fallback: ['ens-shell-cli', 'ens_shell_cli_dep']),
     meson.get_compiler ('c').find_library ('m', required : true)
