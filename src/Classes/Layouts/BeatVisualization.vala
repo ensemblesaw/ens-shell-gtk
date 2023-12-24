@@ -14,6 +14,10 @@ namespace Ensembles.GtkShell.Layouts {
         private uint8 beats_per_bar = 4;
         private uint8 beat_duration = 4;
 
+        private Gtk.Button tempo_button;
+
+        public signal void start_tempo_change ();
+
         construct {
             build_ui ();
             build_events ();
@@ -28,11 +32,18 @@ namespace Ensembles.GtkShell.Layouts {
 
             beat_counter_visual.add_css_class ("beat-counter-0");
             append (beat_counter_visual);
+
+            tempo_button = new Gtk.Button.with_label (_("Tempo"));
+            append (tempo_button);
         }
 
         private void build_events () {
             aw_core.beat.connect (beat);
             aw_core.beat_reset.connect (reset);
+
+            tempo_button.clicked.connect (() => {
+                start_tempo_change ();
+            });
         }
 
         public void beat (bool measure, uint8 beats_per_bar, uint8 beat_duration) {

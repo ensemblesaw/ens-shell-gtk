@@ -43,6 +43,7 @@ classes = files (
     'Classes/Layouts/Display/AudioPluginPicker.vala',
     'Classes/Layouts/Display/PluginScreen.vala',
     'Classes/Layouts/Display/ModulatorScreen.vala',
+    'Classes/Layouts/Display/TempoScreen.vala',
 
     'Classes/Widgets/DeviceItem.vala',
     'Classes/Widgets/Knob.vala',

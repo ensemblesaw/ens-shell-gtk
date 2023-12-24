@@ -223,6 +223,10 @@ namespace Ensembles.GtkShell.Layouts {
             });
         }
 
+        public void start_tempo_change () {
+            home_screen.start_tempo_change ();
+        }
+
         private async void update_equalizer () {
             Timeout.add (60000 / (120 * 16), () => {
                 if (aw_core.style_engine_is_playing ()) {

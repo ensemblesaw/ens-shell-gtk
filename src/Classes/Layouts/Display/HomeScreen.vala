@@ -29,6 +29,8 @@ namespace Ensembles.GtkShell.Layouts.Display {
         private Gtk.Label selected_voice_r1_label;
         private Gtk.Label selected_voice_r2_label;
 
+        private Gtk.Grid status_panel;
+
         private Gtk.Label tempo_label;
         private Gtk.Label measure_label;
         private Gtk.Label beat_label;
@@ -41,7 +43,9 @@ namespace Ensembles.GtkShell.Layouts.Display {
         private Widgets.Display.EqualizerBar[] equalizer_bars;
         private Gtk.Button[] modulator_buttons;
 
+        private Gtk.Stack overlay_stack;
         private ModulatorScreen mod_screen;
+        private TempoScreen tempo_screen;
 
         public signal void change_screen (string screen_name);
 
@@ -226,7 +230,7 @@ namespace Ensembles.GtkShell.Layouts.Display {
             recorder_box.append (recorder_status);
 
             // Bottom Panel ////////////////////////////////////////////////////////////////////////////////////////////
-            var status_panel = new Gtk.Grid () {
+            status_panel = new Gtk.Grid () {
                 vexpand = true,
                 hexpand = true,
                 column_homogeneous = true,
@@ -245,18 +249,22 @@ namespace Ensembles.GtkShell.Layouts.Display {
 
             var beat_header = new Gtk.Label(_("Time Signature"));
             beat_header.add_css_class ("homescreen-panel-status-header");
+            beat_header.add_css_class ("can-be-faded");
             status_panel.attach (beat_header, 2, 0);
 
             var transpose_header = new Gtk.Label(_("Transpose"));
             transpose_header.add_css_class ("homescreen-panel-status-header");
+            transpose_header.add_css_class ("can-be-faded");
             status_panel.attach (transpose_header, 3, 0);
 
             var octave_header = new Gtk.Label(_("Octave"));
             octave_header.add_css_class ("homescreen-panel-status-header");
+            octave_header.add_css_class ("can-be-faded");
             status_panel.attach (octave_header, 4, 0);
 
             var chord_header = new Gtk.Label(_("Chord"));
             chord_header.add_css_class ("homescreen-panel-status-header");
+            chord_header.add_css_class ("can-be-faded");
             status_panel.attach (chord_header, 5, 0);
 
             var tempo_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 1) {
@@ -280,14 +288,17 @@ namespace Ensembles.GtkShell.Layouts.Display {
 
             beat_label = new Gtk.Label("4 / 4");
             beat_label.add_css_class ("homescreen-panel-status-label");
+            beat_label.add_css_class ("can-be-faded");
             status_panel.attach (beat_label, 2, 1);
 
             transpose_label = new Gtk.Label("0");
             transpose_label.add_css_class ("homescreen-panel-status-label");
+            transpose_label.add_css_class ("can-be-faded");
             status_panel.attach (transpose_label, 3, 1);
 
             octave_label = new Gtk.Label("0");
             octave_label.add_css_class ("homescreen-panel-status-label");
+            octave_label.add_css_class ("can-be-faded");
             status_panel.attach (octave_label, 4, 1);
 
             var chord_grid = new Gtk.Grid () {
@@ -297,6 +308,7 @@ namespace Ensembles.GtkShell.Layouts.Display {
                 valign = Gtk.Align.CENTER,
                 margin_top = 5
             };
+            chord_grid.add_css_class ("can-be-faded");
             status_panel.attach (chord_grid, 5, 1);
 
             chord_label = new Gtk.Label(_("C"));
@@ -320,6 +332,7 @@ namespace Ensembles.GtkShell.Layouts.Display {
                 row_spacing = 8,
                 vexpand = true
             };
+            equalizer_grid.add_css_class ("homescreen-panel-status-equalizer");
             status_panel.attach (equalizer_grid, 0, 2, 6);
 
 
@@ -374,29 +387,41 @@ namespace Ensembles.GtkShell.Layouts.Display {
             modulator_buttons[18].add_css_class ("bolder");
             equalizer_grid.attach (modulator_buttons[18], 18, 1, 1, 1);
 
+            overlay_stack = new Gtk.Stack () {
+                can_target = false
+            };
+            main_overlay.add_overlay (overlay_stack);
+
             mod_screen = new ModulatorScreen ();
-            main_overlay.add_overlay (mod_screen);
+            overlay_stack.add_child (mod_screen);
+
+            tempo_screen = new TempoScreen ();
+            overlay_stack.add_child (tempo_screen);
         }
 
         private void build_events () {
             style_button.clicked.connect (() => {
                 change_screen ("style");
                 mod_screen.close ();
+                overlay_stack.can_target = false;
             });
 
             voice_l_button.clicked.connect (() => {
                 change_screen ("voice-l");
                 mod_screen.close ();
+                overlay_stack.can_target = false;
             });
 
             voice_r1_button.clicked.connect (() => {
                 change_screen ("voice-r1");
                 mod_screen.close ();
+                overlay_stack.can_target = false;
             });
 
             voice_r2_button.clicked.connect (() => {
                 change_screen ("voice-r2");
                 mod_screen.close ();
+                overlay_stack.can_target = false;
             });
 
             dsp_button.clicked.connect (() => {
@@ -404,6 +429,7 @@ namespace Ensembles.GtkShell.Layouts.Display {
             });
 
             mod_screen.close.connect (() => {
+                overlay_stack.can_target = false;
                 main_box.remove_css_class ("fade-widget");
                 for (uint i = 0; i < modulator_buttons.length; i++) {
                     modulator_buttons[i].remove_css_class ("accented");
@@ -447,6 +473,8 @@ namespace Ensembles.GtkShell.Layouts.Display {
         }
 
         private void open_mod_screen (uint8 channel) {
+            overlay_stack.set_visible_child (mod_screen);
+            overlay_stack.can_target = true;
             if (channel == 16)
                 mod_screen.pop_up (18);
             else if (channel == 17)
@@ -465,7 +493,6 @@ namespace Ensembles.GtkShell.Layouts.Display {
             modulator_buttons[channel].opacity = 1;
 
             main_box.add_css_class ("fade-widget");
-
         }
 
         private float[] get_eq_color () {
@@ -610,6 +637,15 @@ namespace Ensembles.GtkShell.Layouts.Display {
 
         public void set_level (uint8 channel, uint8 level) {
             equalizer_bars[channel].level = level;
+        }
+
+        public void start_tempo_change () {
+            overlay_stack.set_visible_child (tempo_screen);
+            overlay_stack.can_target = true;
+            tempo_screen.pop_up ();
+            main_box.add_css_class ("move-aside-widget");
+
+            status_panel.add_css_class ("fade-widget");
         }
     }
 }

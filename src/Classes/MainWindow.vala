@@ -311,6 +311,14 @@ namespace Ensembles.GtkShell {
                 print("Hello\n");
                 show_context_menu (widget, route);
             });
+
+            di_container.obtain (st_beat_visualization).start_tempo_change.connect (() => {
+                try {
+                    di_container.obtain (st_info_display).start_tempo_change ();
+                } catch (Error e) {
+
+                }
+            });
         }
 
         private void load_settings () {

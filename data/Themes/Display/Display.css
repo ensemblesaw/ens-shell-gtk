@@ -89,6 +89,15 @@ Buttons
     border-radius: 0 6px 6px 0;
 }
 
+.display button.outlined-button-alt:hover {
+	background: #B74C9C;
+    color: #333;
+}
+
+.display button.outlined-button-alt:active {
+	background: #C95EAE;
+}
+
 /*
 Switches
 */
