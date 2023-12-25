@@ -160,6 +160,18 @@ namespace Ensembles.GtkShell.Layouts {
                 home_screen.set_chord (chord);
             });
 
+            aw_core.on_tempo_change.connect ((tempo) => {
+                home_screen.set_tempo (tempo);
+            });
+
+            home_screen.tempo_increase.connect (() => {
+                aw_core.style_engine_set_tempo (aw_core.style_engine_get_tempo () + 1);
+            });
+
+            home_screen.tempo_decrease.connect (() => {
+                aw_core.style_engine_set_tempo (aw_core.style_engine_get_tempo () - 1);
+            });
+
             style_screen.style_changed.connect ((style) => {
                 home_screen.set_style_label (style.name);
                 aw_core.style_engine_queue_style (style, settings.autofill);

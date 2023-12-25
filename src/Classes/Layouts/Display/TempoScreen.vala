@@ -8,15 +8,15 @@ namespace Ensembles.GtkShell.Layouts.Display {
         private Gtk.Button reset_button;
 
         public signal void close ();
+        public signal void increase_tempo ();
+        public signal void decrease_tempo ();
+        public signal void reset ();
 
         public TempoScreen () {
             Object (
                 width_request: 200,
                 height_request: 200,
-                margin_top: 140,
-                margin_bottom: 8,
-                margin_start: 8,
-                margin_end: 8,
+                margin_top: 64,
                 can_target: false,
                 halign: Gtk.Align.CENTER,
                 valign: Gtk.Align.CENTER
@@ -34,7 +34,7 @@ namespace Ensembles.GtkShell.Layouts.Display {
             var upper_region = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 8);
             attach (upper_region, 0, 0);
 
-            decrease_tempo_button = new Gtk.Button.with_label ("-");
+            decrease_tempo_button = new Gtk.Button.with_label ("−"); // UTF-8 subtract symbol
             decrease_tempo_button.add_css_class ("tempo-screen-text-button-big");
             upper_region.append (decrease_tempo_button);
 
@@ -77,6 +77,14 @@ namespace Ensembles.GtkShell.Layouts.Display {
             close_button.clicked.connect (() => {
                 close ();
             });
+
+            decrease_tempo_button.clicked.connect (() => {
+                decrease_tempo ();
+            });
+
+            increase_tempo_button.clicked.connect (() => {
+                increase_tempo ();
+            });
         }
 
         public void pop_up () {
@@ -87,6 +95,10 @@ namespace Ensembles.GtkShell.Layouts.Display {
         public void pop_down () {
             remove_css_class ("popup");
             can_target = false;
+        }
+
+        public void set_tempo (uint8 tempo) {
+            tempo_label.set_text ("%u".printf (tempo));
         }
     }
 }

@@ -96,8 +96,9 @@ namespace Ensembles.GtkShell {
             menu_box.append (header_separator_b);
 
             // AutoFill Switch /////////////////////////////////////////////////////////
-            auto_fill_item = new Granite.SwitchModelButton (_("Stye Auto Fill-In")) {
-                active = settings.autofill
+            auto_fill_item = new Granite.SwitchModelButton (_("Style Auto Fill-In")) {
+                active = settings.autofill,
+                tooltip_text = "Whether changing variation should automatically trigger a fill-in."
             };
             menu_box.append (auto_fill_item);
             auto_fill_item.get_style_context ().add_class ("h4");

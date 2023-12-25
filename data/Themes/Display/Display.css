@@ -507,13 +507,13 @@ Tempo Screen
     background: none;
     opacity: 0;
     transform: translateY(80px) scale(0.9);
-    transition: all 0.2s ease-out;
+    transition: all 0.1s ease-out;
 }
 
 .display .tempo-screen.popup {
     opacity: 1;
     transform: translateY(0) scale(1);
-    transition: all 1s cubic-bezier(0.75, 0, 0, 1);
+    transition: all 1s 0.2s cubic-bezier(0.75, 0, 0, 1);
 }
 
 .display .tempo-screen .tempo-label {
@@ -567,7 +567,7 @@ Tempo Screen
 }
 
 .display .move-aside-widget>*>.homescreen-panel-status-equalizer {
-	opacity: 0.5;
+	opacity: 0.2;
 	filter: blur(8px);
 	transition: all 1s ease-out;
 }

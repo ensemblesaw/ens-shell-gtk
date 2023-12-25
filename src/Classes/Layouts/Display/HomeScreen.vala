@@ -49,6 +49,9 @@ namespace Ensembles.GtkShell.Layouts.Display {
 
         public signal void change_screen (string screen_name);
 
+        public signal void tempo_increase ();
+        public signal void tempo_decrease ();
+
         public HomeScreen (bool kiosk_mode) {
             Object (
                 orientation: Gtk.Orientation.VERTICAL,
@@ -388,7 +391,11 @@ namespace Ensembles.GtkShell.Layouts.Display {
             equalizer_grid.attach (modulator_buttons[18], 18, 1, 1, 1);
 
             overlay_stack = new Gtk.Stack () {
-                can_target = false
+                can_target = false,
+                margin_top = 56,
+                margin_bottom = 47,
+                margin_start = 8,
+                margin_end = 8,
             };
             main_overlay.add_overlay (overlay_stack);
 
@@ -403,29 +410,34 @@ namespace Ensembles.GtkShell.Layouts.Display {
             style_button.clicked.connect (() => {
                 change_screen ("style");
                 mod_screen.close ();
+                tempo_screen.close ();
                 overlay_stack.can_target = false;
             });
 
             voice_l_button.clicked.connect (() => {
                 change_screen ("voice-l");
                 mod_screen.close ();
+                tempo_screen.close ();
                 overlay_stack.can_target = false;
             });
 
             voice_r1_button.clicked.connect (() => {
                 change_screen ("voice-r1");
                 mod_screen.close ();
+                tempo_screen.close ();
                 overlay_stack.can_target = false;
             });
 
             voice_r2_button.clicked.connect (() => {
                 change_screen ("voice-r2");
                 mod_screen.close ();
+                tempo_screen.close ();
                 overlay_stack.can_target = false;
             });
 
             dsp_button.clicked.connect (() => {
                 change_screen ("dsp");
+                tempo_screen.close ();
             });
 
             mod_screen.close.connect (() => {
@@ -442,6 +454,14 @@ namespace Ensembles.GtkShell.Layouts.Display {
                 tempo_screen.pop_down ();
                 main_box.remove_css_class ("move-aside-widget");
                 status_panel.remove_css_class ("fade-widget");
+            });
+
+            tempo_screen.increase_tempo.connect (() => {
+                tempo_increase ();
+            });
+
+            tempo_screen.decrease_tempo.connect (() => {
+                tempo_decrease ();
             });
 
             modulator_buttons[0].clicked.connect (() => { open_mod_screen (0);});
@@ -647,12 +667,31 @@ namespace Ensembles.GtkShell.Layouts.Display {
         }
 
         public void start_tempo_change () {
-            overlay_stack.set_visible_child (tempo_screen);
-            overlay_stack.can_target = true;
-            tempo_screen.pop_up ();
-            main_box.add_css_class ("move-aside-widget");
+            if (!overlay_stack.can_target || overlay_stack.visible_child == mod_screen) {
+                if (overlay_stack.visible_child == mod_screen) {
+                    for (uint i = 0; i < modulator_buttons.length; i++) {
+                        modulator_buttons[i].remove_css_class ("accented");
+                        modulator_buttons[i].opacity = 1;
+                    }
 
-            status_panel.add_css_class ("fade-widget");
+                    main_box.remove_css_class ("fade-widget");
+                    mod_screen.pop_down ();
+                }
+
+                overlay_stack.set_visible_child (tempo_screen);
+                overlay_stack.can_target = true;
+                tempo_screen.pop_up ();
+                main_box.add_css_class ("move-aside-widget");
+
+                status_panel.add_css_class ("fade-widget");
+            } else {
+                tempo_screen.close ();
+            }
+        }
+
+        public void set_tempo (uint8 tempo) {
+            tempo_screen.set_tempo (tempo);
+            tempo_label.set_text ("%u".printf (tempo));
         }
     }
 }

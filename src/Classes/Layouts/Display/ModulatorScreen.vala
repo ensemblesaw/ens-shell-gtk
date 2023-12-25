@@ -23,10 +23,6 @@ namespace Ensembles.GtkShell.Layouts.Display {
                 subtitle: "Modulators",
                 width_request: 200,
                 height_request: 200,
-                margin_top: 56,
-                margin_bottom: 48,
-                margin_start: 8,
-                margin_end: 8,
                 can_target: false
             );
         }
