@@ -25,6 +25,7 @@ namespace Ensembles.GtkShell.Layouts.Display {
 
         construct {
             build_ui ();
+            build_events ();
         }
 
         private void build_ui () {

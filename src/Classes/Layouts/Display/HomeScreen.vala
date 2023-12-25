@@ -437,6 +437,13 @@ namespace Ensembles.GtkShell.Layouts.Display {
                 }
             });
 
+            tempo_screen.close.connect (() => {
+                overlay_stack.can_target = false;
+                tempo_screen.pop_down ();
+                main_box.remove_css_class ("move-aside-widget");
+                status_panel.remove_css_class ("fade-widget");
+            });
+
             modulator_buttons[0].clicked.connect (() => { open_mod_screen (0);});
             modulator_buttons[1].clicked.connect (() => { open_mod_screen (1);});
             modulator_buttons[2].clicked.connect (() => { open_mod_screen (2);});
