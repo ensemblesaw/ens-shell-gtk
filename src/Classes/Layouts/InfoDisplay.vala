@@ -126,11 +126,11 @@ namespace Ensembles.GtkShell.Layouts {
                     });
 
                     Timeout.add (400, () => {
-                        Console.log("Populating all dsp effects");
+                        Console.log ("Populating all dsp effects");
                         dsp_screen = new DSPScreen (aw_core.get_main_dsp_rack (), aw_core);
                         dsp_screen.close.connect (navigate_to_home);
                         dsp_screen.ui_activate.connect (show_plugin_screen);
-                        dsp_screen.on_plugin_active_change.connect((count) => {
+                        dsp_screen.on_plugin_active_change.connect ((count) => {
                             home_screen.set_dsp_count (count);
                         });
                         main_stack.add_named (dsp_screen, "dsp");
@@ -139,7 +139,7 @@ namespace Ensembles.GtkShell.Layouts {
                     return false;
                 });
 
-                Timeout.add(100, () => {
+                Timeout.add (100, () => {
                     voice_l_screen.populate (aw_core.get_voices ());
                     voice_r1_screen.populate (aw_core.get_voices ());
                     voice_r1_screen.populate_plugins (
@@ -162,6 +162,14 @@ namespace Ensembles.GtkShell.Layouts {
 
             aw_core.on_tempo_change.connect ((tempo) => {
                 home_screen.set_tempo (tempo);
+            });
+
+            aw_core.beat.connect ((is_measure, measure) => {
+                home_screen.set_measure (measure);
+            });
+
+            aw_core.beat_reset.connect (() => {
+                home_screen.set_measure (0);
             });
 
             home_screen.tempo_increase.connect (() => {
@@ -195,7 +203,14 @@ namespace Ensembles.GtkShell.Layouts {
             voice_r2_screen.close.connect (navigate_to_home);
         }
 
-        private void choose_voice (VoiceHandPosition position, bool is_plugin, string name, uint8 bank, uint8 preset, int index) {
+        private void choose_voice (
+            VoiceHandPosition position,
+            bool is_plugin,
+            string name,
+            uint8 bank,
+            uint8 preset,
+            int index
+        ) {
             if (is_plugin) {
                 aw_core.get_voice_rack (position).active = true;
                 aw_core.get_voice_rack (position)

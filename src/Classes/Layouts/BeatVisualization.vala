@@ -46,11 +46,11 @@ namespace Ensembles.GtkShell.Layouts {
             });
         }
 
-        public void beat (bool measure, uint8 beats_per_bar, uint8 beat_duration) {
+        public void beat (bool is_measure, uint measure, uint8 beats_per_bar, uint8 beat_duration) {
             this.beats_per_bar = beats_per_bar;
             this.beat_duration = beat_duration;
 
-            if (measure) {
+            if (is_measure) {
                 beat_count = 1;
             }
 

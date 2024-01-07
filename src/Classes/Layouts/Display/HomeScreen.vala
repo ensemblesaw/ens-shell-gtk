@@ -693,5 +693,9 @@ namespace Ensembles.GtkShell.Layouts.Display {
             tempo_screen.set_tempo (tempo);
             tempo_label.set_text ("%u".printf (tempo));
         }
+
+        public void set_measure (uint measure) {
+            measure_label.set_text (measure.to_string ());
+        }
     }
 }
