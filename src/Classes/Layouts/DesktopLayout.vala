@@ -19,6 +19,7 @@ namespace Ensembles.GtkShell.Layouts {
         public unowned StyleControlPanel style_control_panel { private get; construct; }
         public unowned RegistryPanel registry_panel { private get; construct; }
         public unowned KeyboardPanel keyboard { private get; construct; }
+        public unowned JoyStick joystick { private get; construct; }
         public Gtk.Button start_button;
 
         private Gtk.CenterBox top_row;
@@ -62,7 +63,7 @@ namespace Ensembles.GtkShell.Layouts {
             bottom_row_revealer.set_child (bottom_row);
 
             bottom_row_box = new Gtk.CenterBox ();
-            bottom_row.attach (bottom_row_box, 0, 0);
+            bottom_row.attach (bottom_row_box, 0, 0, 2);
 
             var start_button_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 2);
             start_button_box.add_css_class ("panel");
@@ -106,7 +107,9 @@ namespace Ensembles.GtkShell.Layouts {
 
                 bottom_row_box.set_start_widget (style_control_panel);
                 bottom_row_box.set_end_widget (registry_panel);
-                bottom_row.attach (keyboard, 0, 1);
+                bottom_row.attach (joystick, 0, 1);
+                bottom_row.attach (keyboard, 1, 1);
+
             }
         }
     }

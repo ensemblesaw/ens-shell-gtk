@@ -33,6 +33,7 @@ namespace Ensembles.Services {
     public ServiceToken<Layouts.StyleControlPanel> st_style_control_panel;
     public ServiceToken<Layouts.RegistryPanel> st_registry_panel;
     public ServiceToken<Layouts.KeyboardPanel> st_keyboard_panel;
+    public ServiceToken<Layouts.JoyStick> st_joystick;
     public ServiceToken<Layouts.BeatVisualization> st_beat_visualization;
 
     public void configure_gtkshell_service (ShellBuilder.ShellBuilderCallback shell_builder_callback) throws VinjectErrors {
@@ -62,6 +63,7 @@ namespace Ensembles.Services {
         st_style_control_panel = new ServiceToken<Layouts.StyleControlPanel> ();
         st_registry_panel = new ServiceToken<Layouts.RegistryPanel> ();
         st_keyboard_panel = new ServiceToken<Layouts.KeyboardPanel> ();
+        st_joystick = new ServiceToken<Layouts.JoyStick> ();
         st_beat_visualization = new ServiceToken<Layouts.BeatVisualization> ();
 
         var builder = new ShellBuilder ();

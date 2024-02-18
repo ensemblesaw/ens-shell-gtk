@@ -17,6 +17,7 @@ namespace Ensembles.GtkShell.Layouts {
         public unowned StyleControlPanel style_control_panel { private get; construct; }
         public unowned RegistryPanel registry_panel { private get; construct; }
         public unowned KeyboardPanel keyboard { private get; construct; }
+        public unowned JoyStick joystick { private get; construct; }
 
         private Gtk.Grid infoview;
         private Gtk.Grid keyboardview;

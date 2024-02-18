@@ -173,6 +173,11 @@ namespace Ensembles.GtkShell {
                 aw_core: st_aw_core,
                 settings: st_settings
             );
+            di_container.register_singleton<JoyStick, ControlSurface> (
+                st_joystick,
+                aw_core: st_aw_core,
+                settings: st_settings
+            );
 
             di_container.register_singleton<DesktopLayout, ControlSurface> (
                 st_desktop_layout,
@@ -185,7 +190,8 @@ namespace Ensembles.GtkShell {
                 sampler_pads_panel: st_sampler_pads_panel,
                 style_control_panel: st_style_control_panel,
                 registry_panel: st_registry_panel,
-                keyboard: st_keyboard_panel
+                keyboard: st_keyboard_panel,
+                joystick: st_joystick
             );
 
             Console.log ("hellossss");
@@ -206,7 +212,8 @@ namespace Ensembles.GtkShell {
                 sampler_pads_panel: st_sampler_pads_panel,
                 style_control_panel: st_style_control_panel,
                 registry_panel: st_registry_panel,
-                keyboard: st_keyboard_panel
+                keyboard: st_keyboard_panel,
+                joystick: st_joystick
             );
             squeezer.add (di_container.obtain (st_mobile_layout));
         }

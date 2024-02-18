@@ -34,6 +34,7 @@ classes = files (
     'Classes/Layouts/SynthControlPanel.vala',
     'Classes/Layouts/VoiceNavPanel.vala',
     'Classes/Layouts/PluginView.vala',
+    'Classes/Layouts/JoyStick.vala',
 
     'Classes/Layouts/Display/DisplayWindow.vala',
     'Classes/Layouts/Display/HomeScreen.vala',
