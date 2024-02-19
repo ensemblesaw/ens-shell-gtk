@@ -68,6 +68,7 @@ classes = files (
     'Classes/Utils/DisplayTheme.vala',
 
     'Classes/Dialogs/PowerDialog.vala',
+    'Classes/Dialogs/MIDIAssignDialog.vala'
 )
 
 interfaces = files (

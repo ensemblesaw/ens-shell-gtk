@@ -14,6 +14,7 @@
 
   <gresource prefix="/com/github/ensemblesaw/ens-shell-gtk/images">
     <file alias="beat_counter_map" compressed="true" preprocess="xml-stripblanks">Images/beat_counter.svg</file>
+    <file alias="controller_assign" compressed="true" preprocess="xml-stripblanks">Images/controller_assign.svg</file>
   </gresource>
 
   <gresource prefix="/com/github/ensemblesaw/ens-shell-gtk/images/display">

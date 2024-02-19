@@ -34,6 +34,7 @@ namespace Ensembles.GtkShell {
 
         construct {
             build_ui ();
+            build_events ();
         }
 
         private void build_ui () {
@@ -81,6 +82,12 @@ namespace Ensembles.GtkShell {
             button_box.append (controller_reset_button);
 
             set_child (button_box);
+        }
+
+        private void build_events () {
+            controller_assign_button.clicked.connect (() => {
+                assign (control_route);
+            });
         }
     }
 }

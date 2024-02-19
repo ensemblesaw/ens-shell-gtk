@@ -35,6 +35,7 @@ namespace Ensembles.GtkShell {
 
         // Common
         private ContextMenu context_menu;
+        private Dialog.MIDIAssignDialog midi_assign_dialog;
 
         // Responsive UI
         private Adw.Squeezer squeezer;
@@ -315,7 +316,6 @@ namespace Ensembles.GtkShell {
             });
 
             di_container.obtain (st_style_control_panel).context_menu.connect ((widget, route) => {
-                print("Hello\n");
                 show_context_menu (widget, route);
             });
 
@@ -343,11 +343,25 @@ namespace Ensembles.GtkShell {
             common_context_menu.set_parent (relative_to);
             common_context_menu.control_route = ui_control_index;
             common_context_menu.assign.connect ((_route) => {
-
+                midi_assign_dialog = new Dialog.MIDIAssignDialog (this, _route);
+                midi_assign_dialog.present ();
+                common_context_menu.hide ();
+                aw_core.configure_midi_device.connect (configure_controller_handler);
+                midi_assign_dialog.cancelled.connect (() => {
+                    aw_core.configure_midi_device.disconnect (configure_controller_handler);
+                });
+                midi_assign_dialog.close.connect (() => {
+                    midi_assign_dialog.destroy ();
+                });
             });
             common_context_menu.assignment_label = "";
             common_context_menu.show ();
             common_context_menu.present ();
+        }
+
+        private bool configure_controller_handler (uint16 route_sig, uint8 type, uint8 channel, uint8 data) {
+            midi_assign_dialog.set_configuration_details (type, channel, data);
+            return true;
         }
 
         public void hide_context_menu () {

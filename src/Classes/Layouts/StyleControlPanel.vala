@@ -158,6 +158,8 @@ namespace Ensembles.GtkShell.Layouts {
             click_gesture.pressed.connect ((n, x, y) => {
                 if (intro_1_button.contains (x, y)) {
                     context_menu (intro_1_button, INTRO_1);
+                } else if (intro_2_button.contains (x, y)) {
+                    context_menu (intro_1_button, INTRO_2);
                 }
             });
 
