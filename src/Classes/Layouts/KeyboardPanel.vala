@@ -77,10 +77,12 @@ namespace Ensembles.GtkShell.Layouts {
                 aw_core.send_midi (event);
             });
             aw_core.on_midi_receive.connect ((event) => {
-                if (event.event_type == Models.MIDIEvent.EventType.NOTE_ON) {
-                    keyboard.set_key_illumination (event.key, true);
-                } else if (event.event_type == Models.MIDIEvent.EventType.NOTE_OFF) {
-                    keyboard.set_key_illumination (event.key, false);
+                if (event.key >= 36 && event.key < 108) {
+                    if (event.event_type == Models.MIDIEvent.EventType.NOTE_ON) {
+                        keyboard.set_key_illumination (event.key, true);
+                    } else if (event.event_type == Models.MIDIEvent.EventType.NOTE_OFF) {
+                        keyboard.set_key_illumination (event.key, false);
+                    }
                 }
 
                 return true;

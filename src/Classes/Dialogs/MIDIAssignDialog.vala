@@ -54,7 +54,7 @@ namespace Ensembles.GtkShell.Dialog {
             header_label.add_css_class (Granite.STYLE_CLASS_H2_LABEL);
             main_grid.append (header_label);
 
-            subheading = new Gtk.Label (_("Waiting for you to move a knob, fader or button on your MIDI Controller…")) {
+            subheading = new Gtk.Label (_("Waiting for you to move a knob, fader or key on your MIDI Controller…")) {
                 margin_top = 8,
                 margin_start = 12,
                 margin_end = 12,
@@ -101,7 +101,46 @@ namespace Ensembles.GtkShell.Dialog {
         }
 
         public void set_configuration_details (uint8 type, uint8 channel, uint8 data) {
-            subheading.set_text (_("#%u, Channel %u").printf (data, channel + 1));
+            var _type = "";
+            if (type == Models.MIDIEvent.EventType.NOTE_ON) {
+                _type = "Note: %u".printf (data);
+            } else if (type == Models.MIDIEvent.EventType.CONTROL_CHANGE) {
+                switch (data) {
+                    case Models.MIDIEvent.Control.GAIN:
+                        _type = "Gain";
+                        break;
+                    case Models.MIDIEvent.Control.BRIGHTNESS:
+                        _type = "Brightness";
+                        break;
+                    case Models.MIDIEvent.Control.RESONANCE:
+                        _type = "Resonance";
+                        break;
+                    case Models.MIDIEvent.Control.REVERB:
+                        _type = "Reverb";
+                        break;
+                    case Models.MIDIEvent.Control.CHORUS:
+                        _type = "Chorus";
+                        break;
+                    case Models.MIDIEvent.Control.MODULATION:
+                        _type = "Modulation";
+                        break;
+                    case Models.MIDIEvent.Control.PAN:
+                        _type = "Stereo Pan";
+                        break;
+                    case Models.MIDIEvent.Control.PITCH:
+                        _type = "Pitch Bend";
+                        break;
+                    case Models.MIDIEvent.Control.EXPRESSION:
+                        _type = "Expression";
+                        break;
+                    default:
+                        _type = "CC: %u".printf (data);
+                        break;
+                }
+            }
+
+            subheading.set_text (_("%s, Channel %u").printf (_type, channel + 1));
+            revealer.reveal_child = true;
         }
     }
 }

@@ -42,6 +42,9 @@ namespace Ensembles.GtkShell {
         private Gtk.ToggleButton flap_button;
         private bool flap_revealed = true;
 
+        // Assignable controls
+        uint32 selected_route_sig;
+
         private MainWindow () {
         }
 
@@ -347,11 +350,12 @@ namespace Ensembles.GtkShell {
                 midi_assign_dialog.present ();
                 common_context_menu.hide ();
                 aw_core.configure_midi_device.connect (configure_controller_handler);
-                midi_assign_dialog.cancelled.connect (() => {
-                    aw_core.configure_midi_device.disconnect (configure_controller_handler);
-                });
                 midi_assign_dialog.close.connect (() => {
                     midi_assign_dialog.destroy ();
+                    aw_core.configure_midi_device.disconnect (configure_controller_handler);
+                });
+                midi_assign_dialog.assigned.connect ((control_route) => {
+                    aw_core.map_cc_from_midi_device (selected_route_sig, control_route);
                 });
             });
             common_context_menu.assignment_label = "";
@@ -359,7 +363,8 @@ namespace Ensembles.GtkShell {
             common_context_menu.present ();
         }
 
-        private bool configure_controller_handler (uint16 route_sig, uint8 type, uint8 channel, uint8 data) {
+        private bool configure_controller_handler (uint32 route_sig, uint8 type, uint8 channel, uint8 data) {
+            selected_route_sig = route_sig;
             midi_assign_dialog.set_configuration_details (type, channel, data);
             return true;
         }

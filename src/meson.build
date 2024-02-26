@@ -52,6 +52,7 @@ classes = files (
     'Classes/Widgets/Octave.vala',
     'Classes/Widgets/Keyboard.vala',
     'Classes/Widgets/ContextMenu.vala',
+    'Classes/Widgets/StyledButton.vala',
 
     'Classes/Widgets/Display/WheelScrollableWidget.vala',
     'Classes/Widgets/Display/VoiceMenuItem.vala',
@@ -72,7 +73,8 @@ classes = files (
 )
 
 interfaces = files (
-    'Interfaces/ControlSurface.vala'
+    'Interfaces/ControlSurface.vala',
+    'Interfaces/ContextMenuTrigger.vala',
 )
 
 sources = [interfaces, classes]
