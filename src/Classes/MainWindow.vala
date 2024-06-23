@@ -34,7 +34,7 @@ namespace Ensembles.GtkShell {
         Gtk.Button app_menu_button;
 
         // Common
-        private ContextMenu context_menu;
+        //  private ContextMenu context_menu;
         private Dialog.MIDIAssignDialog midi_assign_dialog;
 
         // Responsive UI
@@ -165,7 +165,8 @@ namespace Ensembles.GtkShell {
             di_container.register_singleton<StyleControlPanel, ControlSurface> (
                 st_style_control_panel,
                 aw_core: st_aw_core,
-                settings: st_settings
+                settings: st_settings,
+                ui_map: st_ui_map
             );
             di_container.register_singleton<RegistryPanel, ControlSurface> (
                 st_registry_panel,
@@ -318,8 +319,8 @@ namespace Ensembles.GtkShell {
                 }
             });
 
-            di_container.obtain (st_style_control_panel).context_menu.connect ((widget, route) => {
-                show_context_menu (widget, route);
+            di_container.obtain (st_style_control_panel).context_menu.connect ((widget) => {
+                show_context_menu (widget);
             });
 
             di_container.obtain (st_beat_visualization).start_tempo_change.connect (() => {
@@ -341,10 +342,10 @@ namespace Ensembles.GtkShell {
             }
         }
 
-        public void show_context_menu (Gtk.Widget? relative_to, uint16 ui_control_index) {
+        public void show_context_menu (MIDIControllable midi_controllable_widget) {
             var common_context_menu = di_container.obtain (st_context_menu);
-            common_context_menu.set_parent (relative_to);
-            common_context_menu.control_route = ui_control_index;
+            common_context_menu.set_parent (midi_controllable_widget);
+            common_context_menu.control_uri = midi_controllable_widget.uri;
             common_context_menu.assign.connect ((_route) => {
                 midi_assign_dialog = new Dialog.MIDIAssignDialog (this, _route);
                 midi_assign_dialog.present ();
@@ -354,7 +355,8 @@ namespace Ensembles.GtkShell {
                     midi_assign_dialog.destroy ();
                     aw_core.configure_midi_device.disconnect (configure_controller_handler);
                 });
-                midi_assign_dialog.assigned.connect ((control_route) => {
+                midi_assign_dialog.assigned.connect ((control_uri) => {
+                    var control_route = di_container.obtain (Services.st_ui_map).map_uri (control_uri);
                     aw_core.map_cc_from_midi_device (selected_route_sig, control_route);
                 });
             });
@@ -363,6 +365,8 @@ namespace Ensembles.GtkShell {
             common_context_menu.present ();
         }
 
+        // Route signature is formed by combining type, channel and data
+        // rest of the parameters are for display only
         private bool configure_controller_handler (uint32 route_sig, uint8 type, uint8 channel, uint8 data) {
             selected_route_sig = route_sig;
             midi_assign_dialog.set_configuration_details (type, channel, data);

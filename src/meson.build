@@ -16,6 +16,7 @@ classes = files (
     'Classes/Services.vala',
     'Classes/Settings.vala',
     'Classes/Theme.vala',
+    'Classes/UIMap.vala',
 
     'Classes/MainWindow.vala',
 
@@ -75,6 +76,7 @@ classes = files (
 interfaces = files (
     'Interfaces/ControlSurface.vala',
     'Interfaces/ContextMenuTrigger.vala',
+    'Interfaces/MIDIControllable.vala'
 )
 
 sources = [interfaces, classes]

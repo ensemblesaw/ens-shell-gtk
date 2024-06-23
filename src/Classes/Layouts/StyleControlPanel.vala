@@ -9,6 +9,7 @@ namespace Ensembles.GtkShell.Layouts {
     public class StyleControlPanel : Gtk.Box, ControlSurface {
         public unowned ArrangerWorkstation.IAWCore aw_core { private get; construct; }
         public unowned Settings settings { private get; construct; }
+        public unowned UIMap ui_map { private get; construct; }
 
         private Widgets.StyledButton intro_1_button;
         private Widgets.StyledButton intro_2_button;
@@ -26,22 +27,21 @@ namespace Ensembles.GtkShell.Layouts {
         private StylePartType current_part = StylePartType.VARIATION_A;
         private StylePartType next_part = StylePartType.VARIATION_A;
 
-        public signal void context_menu (Gtk.Widget widget, ControlRoute route);
+        public signal void context_menu (MIDIControllable midi_controllable_widget);
 
-        public enum ControlRoute {
-            INTRO_1 = 0,
-            INTRO_2 = 1,
-            INTRO_3 = 2,
-            VAR_A = 3,
-            VAR_B = 4,
-            VAR_C = 5,
-            VAR_D = 6,
-            BREAK = 7,
-            ENDING_1 = 8,
-            ENDING_2 = 9,
-            ENDING_3 = 10,
-            SYNC = 11
-        }
+        // URIS
+        public const string UI_URI_INTRO1 = "gtk.stylecpl.int1";
+        public const string UI_URI_INTRO2 = "gtk.stylecpl.int2";
+        public const string UI_URI_INTRO3 = "gtk.stylecpl.int3";
+        public const string UI_URI_VARIATION_A = "gtk.stylecpl.var_a";
+        public const string UI_URI_VARIATION_B = "gtk.stylecpl.var_b";
+        public const string UI_URI_VARIATION_C = "gtk.stylecpl.var_c";
+        public const string UI_URI_VARIATION_D = "gtk.stylecpl.var_d";
+        public const string UI_URI_ENDING1 = "gtk.stylecpl.end1";
+        public const string UI_URI_ENDING2 = "gtk.stylecpl.end2";
+        public const string UI_URI_ENDING3 = "gtk.stylecpl.end3";
+        public const string UI_URI_BREAK = "gtk.stylecpl.brk";
+        public const string UI_URI_SYNC = "gtk.stylecpl.sync";
 
         construct {
             build_ui ();
@@ -79,7 +79,7 @@ namespace Ensembles.GtkShell.Layouts {
             var break_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 2);
             append (break_box);
 
-            break_button = new Widgets.StyledButton.from_icon_name ("style-break-symbolic") {
+            break_button = new Widgets.StyledButton.from_icon_name (UI_URI_BREAK, "style-break-symbolic") {
                 tooltip_text = "Break",
                 has_tooltip = true,
                 hexpand = true,
@@ -100,52 +100,52 @@ namespace Ensembles.GtkShell.Layouts {
             ending_box.append (ending_button_box);
             ending_box.append (new Gtk.Label (_("ENDING")) { opacity = 0.5 } );
 
-            intro_1_button = new Widgets.StyledButton.with_label (_("1")) {
+            intro_1_button = new Widgets.StyledButton.with_label (UI_URI_INTRO1, _("1")) {
                 height_request = 32
             };
             intro_button_box.append (intro_1_button);
-            intro_2_button = new Widgets.StyledButton.with_label (_("2")) {
+            intro_2_button = new Widgets.StyledButton.with_label (UI_URI_INTRO2,_("2")) {
                 height_request = 32
             };
             intro_button_box.append (intro_2_button);
-            intro_3_button = new Widgets.StyledButton.with_label (_("3")) {
+            intro_3_button = new Widgets.StyledButton.with_label (UI_URI_INTRO3,_("3")) {
                 height_request = 32
             };
             intro_button_box.append (intro_3_button);
 
-            variation_a_button = new Widgets.StyledButton.with_label (_("A")) {
+            variation_a_button = new Widgets.StyledButton.with_label (UI_URI_VARIATION_A,_("A")) {
                 height_request = 32
             };
             variation_button_box.append (variation_a_button);
-            variation_b_button = new Widgets.StyledButton.with_label (_("B")) {
+            variation_b_button = new Widgets.StyledButton.with_label (UI_URI_VARIATION_B,_("B")) {
                 height_request = 32
             };
             variation_button_box.append (variation_b_button);
-            variation_c_button = new Widgets.StyledButton.with_label (_("C")) {
+            variation_c_button = new Widgets.StyledButton.with_label (UI_URI_VARIATION_C,_("C")) {
                 height_request = 32
             };
             variation_button_box.append (variation_c_button);
-            variation_d_button = new Widgets.StyledButton.with_label (_("D")) {
+            variation_d_button = new Widgets.StyledButton.with_label (UI_URI_VARIATION_D,_("D")) {
                 height_request = 32
             };
             variation_button_box.append (variation_d_button);
 
-            ending_1_button = new Widgets.StyledButton.with_label (_("1")) {
+            ending_1_button = new Widgets.StyledButton.with_label (UI_URI_ENDING1,_("1")) {
                 height_request = 32
             };
             ending_button_box.append (ending_1_button);
-            ending_2_button = new Widgets.StyledButton.with_label (_("2")) {
+            ending_2_button = new Widgets.StyledButton.with_label (UI_URI_ENDING2,_("2")) {
                 height_request = 32
             };
             ending_button_box.append (ending_2_button);
-            ending_3_button = new Widgets.StyledButton.with_label (_("3")) {
+            ending_3_button = new Widgets.StyledButton.with_label (UI_URI_ENDING3,_("3")) {
                 height_request = 32
             };
             ending_button_box.append (ending_3_button);
 
             var sync_start_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 2);
             append (sync_start_box);
-            sync_start_button = new Widgets.StyledButton.from_icon_name ("style-sync-start-symbolic") {
+            sync_start_button = new Widgets.StyledButton.from_icon_name (UI_URI_SYNC, "style-sync-start-symbolic") {
                 tooltip_text = "Sync Start / Stop",
                 has_tooltip = true,
                 hexpand = true,
@@ -164,7 +164,7 @@ namespace Ensembles.GtkShell.Layouts {
             });
 
             intro_1_button.menu_activated.connect (() => {
-                context_menu (intro_1_button, INTRO_1);
+                context_menu (intro_1_button);
             });
 
             intro_2_button.clicked.connect (() => {
@@ -172,7 +172,7 @@ namespace Ensembles.GtkShell.Layouts {
             });
 
             intro_2_button.menu_activated.connect (() => {
-                context_menu (intro_2_button, INTRO_2);
+                context_menu (intro_2_button);
             });
 
             intro_3_button.clicked.connect (() => {
@@ -180,7 +180,7 @@ namespace Ensembles.GtkShell.Layouts {
             });
 
             intro_3_button.menu_activated.connect (() => {
-                context_menu (intro_3_button, INTRO_3);
+                context_menu (intro_3_button);
             });
 
             variation_a_button.clicked.connect (() => {
@@ -188,7 +188,7 @@ namespace Ensembles.GtkShell.Layouts {
             });
 
             variation_a_button.menu_activated.connect (() => {
-                context_menu (variation_a_button, VAR_A);
+                context_menu (variation_a_button);
             });
 
             variation_b_button.clicked.connect (() => {
@@ -196,7 +196,7 @@ namespace Ensembles.GtkShell.Layouts {
             });
 
             variation_b_button.menu_activated.connect (() => {
-                context_menu (variation_b_button, VAR_B);
+                context_menu (variation_b_button);
             });
 
             variation_c_button.clicked.connect (() => {
@@ -204,7 +204,7 @@ namespace Ensembles.GtkShell.Layouts {
             });
 
             variation_c_button.menu_activated.connect (() => {
-                context_menu (variation_a_button, VAR_C);
+                context_menu (variation_a_button);
             });
 
             variation_d_button.clicked.connect (() => {
@@ -212,7 +212,7 @@ namespace Ensembles.GtkShell.Layouts {
             });
 
             variation_d_button.menu_activated.connect (() => {
-                context_menu (variation_d_button, VAR_D);
+                context_menu (variation_d_button);
             });
 
             ending_1_button.clicked.connect (() => {
@@ -220,7 +220,7 @@ namespace Ensembles.GtkShell.Layouts {
             });
 
             ending_1_button.menu_activated.connect (() => {
-                context_menu (ending_1_button, ENDING_1);
+                context_menu (ending_1_button);
             });
 
             ending_2_button.clicked.connect (() => {
@@ -228,7 +228,7 @@ namespace Ensembles.GtkShell.Layouts {
             });
 
             ending_2_button.menu_activated.connect (() => {
-                context_menu (ending_2_button, ENDING_2);
+                context_menu (ending_2_button);
             });
 
             ending_3_button.clicked.connect (() => {
@@ -236,7 +236,7 @@ namespace Ensembles.GtkShell.Layouts {
             });
 
             ending_3_button.menu_activated.connect (() => {
-                context_menu (ending_3_button, ENDING_3);
+                context_menu (ending_3_button);
             });
 
             aw_core.on_current_part_change.connect ((part) => {
@@ -262,7 +262,7 @@ namespace Ensembles.GtkShell.Layouts {
             });
 
             sync_start_button.menu_activated.connect (() => {
-                context_menu (sync_start_button, SYNC);
+                context_menu (sync_start_button);
             });
 
             break_button.clicked.connect (() => {
@@ -270,7 +270,7 @@ namespace Ensembles.GtkShell.Layouts {
             });
 
             break_button.menu_activated.connect (() => {
-                context_menu (break_button, BREAK);
+                context_menu (break_button);
             });
 
             aw_core.on_break_change.connect ((active) => {
@@ -282,13 +282,42 @@ namespace Ensembles.GtkShell.Layouts {
             });
 
             aw_core.midi_device_on_ui_control.connect ((route) => {
-                print ("%u\n", route);
-                switch (route) {
-                    case ControlRoute.INTRO_1:
+                switch (ui_map.unmap_uri (route)) {
+                    case UI_URI_INTRO1:
                         aw_core.style_engine_queue_part (StylePartType.INTRO_1);
                         break;
-                    case ControlRoute.INTRO_2:
+                    case UI_URI_INTRO2:
                         aw_core.style_engine_queue_part (StylePartType.INTRO_2);
+                        break;
+                    case UI_URI_INTRO3:
+                        aw_core.style_engine_queue_part (StylePartType.INTRO_3);
+                        break;
+                    case UI_URI_VARIATION_A:
+                        aw_core.style_engine_queue_part (StylePartType.VARIATION_A);
+                        break;
+                    case UI_URI_VARIATION_B:
+                        aw_core.style_engine_queue_part (StylePartType.VARIATION_B);
+                        break;
+                    case UI_URI_VARIATION_C:
+                        aw_core.style_engine_queue_part (StylePartType.VARIATION_C);
+                        break;
+                    case UI_URI_VARIATION_D:
+                        aw_core.style_engine_queue_part (StylePartType.VARIATION_D);
+                        break;
+                    case UI_URI_BREAK:
+                        aw_core.style_engine_break ();
+                        break;
+                    case UI_URI_ENDING1:
+                        aw_core.style_engine_queue_part (StylePartType.ENDING_1);
+                        break;
+                    case UI_URI_ENDING2:
+                        aw_core.style_engine_queue_part (StylePartType.ENDING_2);
+                        break;
+                    case UI_URI_ENDING3:
+                        aw_core.style_engine_queue_part (StylePartType.ENDING_3);
+                        break;
+                    case UI_URI_SYNC:
+                        aw_core.style_engine_sync ();
                         break;
                 }
             });

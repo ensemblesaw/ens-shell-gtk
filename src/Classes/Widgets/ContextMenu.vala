@@ -8,7 +8,7 @@ namespace Ensembles.GtkShell {
         private Gtk.Button controller_reset_button;
         private Gtk.Separator ctx_menu_main_separator;
 
-        public uint16 control_route { get; set; }
+        public string? control_uri { get; set; }
 
         public string assignment_label {
             get {
@@ -29,8 +29,8 @@ namespace Ensembles.GtkShell {
             }
         }
 
-        public signal void assign (uint16 route);
-        public signal void clear_assignment (uint16 route);
+        public signal void assign (string? uri);
+        public signal void clear_assignment (string? uri);
 
         construct {
             build_ui ();
@@ -86,7 +86,7 @@ namespace Ensembles.GtkShell {
 
         private void build_events () {
             controller_assign_button.clicked.connect (() => {
-                assign (control_route);
+                assign (control_uri);
             });
         }
     }

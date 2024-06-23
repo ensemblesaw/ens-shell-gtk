@@ -5,22 +5,22 @@
 
 namespace Ensembles.GtkShell.Dialog {
     public class MIDIAssignDialog : Granite.Dialog {
-        public uint16 route { get; construct; }
+        public string control_uri { get; construct; }
 
         private Gtk.Revealer revealer;
         private Gtk.Label subheading;
         private Gtk.Button confirm_button;
         private Gtk.Button cancel_button;
 
-        public signal void assigned (uint16 control_route);
+        public signal void assigned (string control_uri);
         public signal void cancelled ();
 
-        public MIDIAssignDialog (Gtk.Window? main_window, uint16 route) {
+        public MIDIAssignDialog (Gtk.Window? main_window, string? control_uri) {
             Object (
                 modal: true,
                 transient_for: main_window,
                 width_request: 500,
-                route: route,
+                control_uri: control_uri,
                 title: _("Link MIDI Controller"),
                 resizable: false,
                 deletable: true
@@ -95,7 +95,7 @@ namespace Ensembles.GtkShell.Dialog {
             });
 
             confirm_button.clicked.connect (() => {
-                assigned (route);
+                assigned (control_uri);
                 close ();
             });
         }

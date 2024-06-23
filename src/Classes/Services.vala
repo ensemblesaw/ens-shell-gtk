@@ -17,8 +17,9 @@ namespace Ensembles.Services {
     public ServiceToken<MainWindow> st_main_window;
     public ServiceToken<AppMenu> st_app_menu;
     public ServiceToken<ContextMenu> st_context_menu;
+    public ServiceToken<UIMap> st_ui_map;
 
-    // Layout tokens
+    // Layout tokensT
     public ServiceToken<Layouts.DesktopLayout> st_desktop_layout;
     public ServiceToken<Layouts.MobileLayout> st_mobile_layout;
     public ServiceToken<Layouts.KioskLayout> st_kiosk_layout;
@@ -49,6 +50,7 @@ namespace Ensembles.Services {
         st_main_window = new ServiceToken<MainWindow> ();
         st_app_menu = new ServiceToken<AppMenu> ();
         st_context_menu = new ServiceToken<ContextMenu> ();
+        st_ui_map = new ServiceToken<UIMap> ();
 
         st_desktop_layout = new ServiceToken<Layouts.DesktopLayout> ();
         st_mobile_layout = new ServiceToken<Layouts.MobileLayout> ();
@@ -90,6 +92,7 @@ namespace Ensembles.Services {
             title: st_app_name,
             icon_name: st_app_icon
         );
+        di_container.register_singleton<UIMap, Object> (st_ui_map);
     }
 
     public string get_app_id () {

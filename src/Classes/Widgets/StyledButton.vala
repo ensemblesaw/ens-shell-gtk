@@ -4,22 +4,26 @@
  */
 
 namespace Ensembles.GtkShell.Widgets {
-    public class StyledButton: Gtk.Button, ContextMenuTrigger {
+    public class StyledButton: Gtk.Button, ContextMenuTrigger, MIDIControllable {
+        public string uri { get; construct; }
+        public uint16 route_id { get; set; }
         public Gtk.GestureClick click_gesture { get; private set; }
         public Gtk.GestureLongPress long_press_gesture { get; private set; }
 
-        public StyledButton () {
-            Object ();
+        public StyledButton (string? uri) {
+            Object (uri: uri);
         }
 
-        public StyledButton.with_label (string? text) {
+        public StyledButton.with_label (string? uri, string? text) {
             Object (
+                uri: uri,
                 label: text
             );
         }
 
-        public StyledButton.from_icon_name (string? icon_name) {
+        public StyledButton.from_icon_name (string? uri, string? icon_name) {
             Object (
+                uri: uri,
                 icon_name: icon_name
             );
         }

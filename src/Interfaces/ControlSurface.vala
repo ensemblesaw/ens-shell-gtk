@@ -2,7 +2,7 @@ using Ensembles.ArrangerWorkstation;
 
 namespace Ensembles.GtkShell {
     /**
-     * Interface for all UI widgets that interact with core services
+     * Interface for all UI components that interact with core services
      */
     public interface ControlSurface : Object {
         public abstract unowned IAWCore aw_core { protected get; construct; }
