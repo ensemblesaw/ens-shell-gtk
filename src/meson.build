@@ -52,6 +52,7 @@ classes = files (
     'Classes/Widgets/Key.vala',
     'Classes/Widgets/Octave.vala',
     'Classes/Widgets/Keyboard.vala',
+    'Classes/Widgets/Drumkit.vala',
     'Classes/Widgets/ContextMenu.vala',
     'Classes/Widgets/StyledButton.vala',
 

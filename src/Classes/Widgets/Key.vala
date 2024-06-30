@@ -10,17 +10,77 @@ namespace Ensembles.GtkShell.Widgets {
         private Gtk.GestureDrag motion_controller;
         private Gtk.GestureClick click_gesture;
 
-        private bool _active;
-        public bool active {
+        /** The color the keys are meant to show */
+        public enum IlluminationColor {
+            /** Default illumination color when key is pressed, matches accent color of the OS */
+            ACCENT = 0x00,
+            /** Default illumination when chords or keyboard split is used */
+            COMPLEMENTARY = 0x01,
+            /** Default illumination color when automated MIDI events are shown */
+            AUTOMATION = 0x02,
+            /** Guides user by showing scale, chords, etc */
+            GUIDE = 0x03,
+            /** Custom color from elementary OS HIG */
+            STRAWBERRY = 0x04,
+            /** Custom color from elementary OS HIG */
+            ORANGE = 0x05,
+            /** Custom color from elementary OS HIG */
+            BANANA = 0x06,
+            /** Custom color from elementary OS HIG */
+            LIME = 0x07,
+            /** Custom color from elementary OS HIG */
+            MINT = 0x08,
+            /** Custom color from elementary OS HIG */
+            BLUEBERRY = 0x09,
+            /** Custom color from elementary OS HIG */
+            GRAPE = 0x0A,
+            /** Custom color from elementary OS HIG */
+            BUBBLEGUM = 0x0B,
+            /** Custom color from elementary OS HIG */
+            COCOA = 0x0C,
+            /** Custom color from elementary OS HIG */
+            SILVER = 0x0D
+        }
+
+        private IlluminationColor _illumination_color;
+
+        /**
+         * The color to use for illumination
+         */
+        public IlluminationColor illumination_color {
             get {
-                return _active;
+                return _illumination_color;
             }
             set {
-                _active = value;
+                _illumination_color = value;
+                for (uint8 i = 0; i < 14; i++) {
+                    if (i != value) {
+                        remove_css_class ("_%u".printf (i));
+                    }
+                }
+
+                add_css_class ("_%u".printf (illumination_color));
+            }
+        }
+
+        private bool _illuminated;
+
+        /**
+         * Whether the key is illuminated
+         */
+        public bool illuminated {
+            get {
+                return _illuminated;
+            }
+            set {
+                _illuminated = value;
                 if (value) {
-                    add_css_class ("activated");
+                    add_css_class ("illuminated");
                 } else {
-                    remove_css_class ("activated");
+                    remove_css_class ("illuminated");
+                    for (uint8 i = 1; i < 14; i++) {
+                        remove_css_class ("_%u".printf(i));
+                    }
                 }
             }
         }
@@ -62,7 +122,7 @@ namespace Ensembles.GtkShell.Widgets {
             });
 
             motion_controller.drag_update.connect ((x, y) => {
-                if (active) {
+                if (illuminated) {
                     this.motion (index, x / get_allocated_width (), y / get_allocated_height ());
                 }
             });

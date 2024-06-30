@@ -134,9 +134,9 @@ namespace Ensembles.GtkShell.Widgets {
             key_motion (index, avg_x / 12, avg_y / 12);
         }
 
-        public void set_key_illumination (uint8 key_index, bool active) {
-            uint8 actual_key_index = key_index - (index * 12);
-            keys[actual_key_index].active = active;
+        public void illuminate (uint8 key_index, bool active, Key.IlluminationColor color) {
+            keys[key_index - (index * 12)].illumination_color = color;
+            keys[key_index - (index * 12)].illuminated = active;
         }
     }
 }

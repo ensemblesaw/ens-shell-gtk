@@ -210,16 +210,44 @@ stack.dimmed {
 }
 
 
-.key.black.activated {
+.key.black.illuminated {
     box-shadow: inset 0 0 0 1px shade(@accent_color, 1.2), inset 0 -4px 12px alpha(shade(@accent_color, 1.5), 0.6), 0 0 12px alpha(@accent_color, 0.5);
     background-color: mix(@accent_color, @fg_color, 0.2);
     filter: brightness(1);
     transition: all 0.1s linear;
 }
 
-.key.activated {
+.key.illuminated {
     box-shadow: inset 0 0 0 1px shade(@accent_color, 1.2), inset 0 -4px 12px alpha(shade(@accent_color, 1.5), 0.6), 0 0 12px alpha(@accent_color, 0.5);
     background-color: @accent_color;
+    filter: brightness(1);
+    transition: all 0.1s linear;
+}
+
+.key.black.illuminated._1 {
+    box-shadow: inset 0 0 0 1px shade(@accent_color_complimentary, 1.2), inset 0 -4px 12px alpha(shade(@accent_color_complimentary, 1.5), 0.6), 0 0 12px alpha(@accent_color_complimentary, 0.5);
+    background-color: mix(@accent_color_complimentary, @fg_color, 0.2);
+    filter: brightness(1);
+    transition: all 0.1s linear;
+}
+
+.key.illuminated._1 {
+    box-shadow: inset 0 0 0 1px shade(@accent_color_complimentary, 1.2), inset 0 -4px 12px alpha(shade(@accent_color_complimentary, 1.5), 0.6), 0 0 12px alpha(@accent_color_complimentary, 0.5);
+    background-color: @accent_color_complimentary;
+    filter: brightness(1);
+    transition: all 0.1s linear;
+}
+
+.key.black.illuminated._2 {
+    box-shadow: inset 0 0 0 1px shade(@accent_color_complimentary_alternate, 1.2), inset 0 -4px 12px alpha(shade(@accent_color_complimentary_alternate, 1.5), 0.6), 0 0 12px alpha(@accent_color_complimentary_alternate, 0.5);
+    background-color: mix(@accent_color_complimentary_alternate, @fg_color, 0.2);
+    filter: brightness(1);
+    transition: all 0.1s linear;
+}
+
+.key.illuminated._2 {
+    box-shadow: inset 0 0 0 1px shade(@accent_color_complimentary_alternate, 1.2), inset 0 -4px 12px alpha(shade(@accent_color_complimentary_alternate, 1.5), 0.6), 0 0 12px alpha(@accent_color_complimentary_alternate, 0.5);
+    background-color: @accent_color_complimentary_alternate;
     filter: brightness(1);
     transition: all 0.1s linear;
 }
@@ -316,5 +344,35 @@ stack.dimmed {
     border-radius: 4px;
     box-shadow: inset 0 1px 0 alpha(#fff, 0.2), inset 0 -1px 0 alpha(#fff, 0.1);
 }
+
+/** Drumkit */
+
+drumkit {
+    border-top: 1px solid #0008;
+    background: linear-gradient(shade(@bg_color, 0.95) 0%, shade(@bg_color, 0.85) 40%, shade(@bg_color, 0.9) 48%, @bg_color 100%);
+}
+
+.drumkit-highhat {
+    background: url("resource://com/github/ensemblesaw/ens-shell-gtk/images/drumkit/highhat_cymbal");
+    background-size: contain;
+    padding: 0;
+    margin: 0;
+    border: none;
+    box-shadow: none;
+    outline: 0;
+}
+
+.drumkit-highhat.active {
+    background: url("resource://com/github/ensemblesaw/ens-shell-gtk/images/drumkit/highhat_cymbal_active");
+    background-size: contain;
+}
+
+.drumkit-highhat.closed {
+    background: url("resource://com/github/ensemblesaw/ens-shell-gtk/images/drumkit/highhat_cymbal_closed");
+    background-size: contain;
+}
+
+
+
 
 @import url("resource://com/github/ensemblesaw/ens-shell-gtk/theme/Display.css");

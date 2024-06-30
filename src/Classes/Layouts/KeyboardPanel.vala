@@ -12,7 +12,9 @@ namespace Ensembles.GtkShell.Layouts {
         public unowned Settings settings { private get; construct; }
 
         private Gtk.Overlay keyboard_info_bar;
+        private Gtk.Stack keyboard_stack;
         private Keyboard keyboard;
+        private Drumkit drumkit;
 
         construct {
             add_css_class ("keyboard");
@@ -55,21 +57,49 @@ namespace Ensembles.GtkShell.Layouts {
             });
             keyboard_button_box.append (zoom_reset_button);
 
+            var keyboard_view_switch = new Gtk.Button.from_icon_name ("input-tablet-symbolic");
+            keyboard_view_switch.clicked.connect (() => {
+                if (keyboard_stack.visible_child_name == "keyboard") {
+                    keyboard_view_switch.set_icon_name ("folder-music-symbolic");
+                    keyboard_stack.set_visible_child_name ("drumkit");
+                } else {
+                    keyboard_view_switch.set_icon_name ("input-tablet-symbolic");
+                    keyboard_stack.set_visible_child_name ("keyboard");
+                }
+            });
+            keyboard_button_box.append (keyboard_view_switch);
+
+            keyboard_stack = new Gtk.Stack () {
+                transition_type = Gtk.StackTransitionType.CROSSFADE
+            };
+            attach (keyboard_stack, 0, 1);
+
             var keyboard_scrollable = new Gtk.ScrolledWindow () {
                 hexpand = true,
                 vexpand = true,
                 kinetic_scrolling = false,
                 has_frame = false,
-
             };
-
             keyboard_scrollable.set_placement (Gtk.CornerType.BOTTOM_LEFT);
-            attach (keyboard_scrollable, 0, 1);
+            keyboard_stack.add_named (keyboard_scrollable, "keyboard");
+
 
             keyboard = new Keyboard (5) {
                 octave_offset = 3
             };
             keyboard_scrollable.set_child (keyboard);
+
+            var drumkit_scrollable = new Gtk.ScrolledWindow () {
+                hexpand = true,
+                vexpand = true,
+                kinetic_scrolling = false,
+                has_frame = false,
+            };
+            drumkit_scrollable.set_placement (Gtk.CornerType.BOTTOM_LEFT);
+            keyboard_stack.add_named (drumkit_scrollable, "drumkit");
+
+            drumkit = new Drumkit ();
+            drumkit_scrollable.set_child (drumkit);
         }
 
         private void build_events () {
@@ -79,9 +109,11 @@ namespace Ensembles.GtkShell.Layouts {
             aw_core.on_midi_receive.connect ((event) => {
                 if (event.key >= 36 && event.key < 108) {
                     if (event.event_type == Models.MIDIEvent.EventType.NOTE_ON) {
-                        keyboard.set_key_illumination (event.key, true);
+                        keyboard.illuminate (event.key, true, event.value);
+                        drumkit.animate (event.key, true);
                     } else if (event.event_type == Models.MIDIEvent.EventType.NOTE_OFF) {
-                        keyboard.set_key_illumination (event.key, false);
+                        keyboard.illuminate (event.key, false, event.value);
+                        drumkit.animate (event.key, false);
                     }
                 }
 

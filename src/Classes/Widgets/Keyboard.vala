@@ -191,9 +191,8 @@ namespace Ensembles.GtkShell.Widgets {
             }
         }
 
-        public void set_key_illumination (uint8 key_index, bool active) {
-            uint8 octave_index = (key_index / 12) - octave_offset;
-            octaves[octave_index].set_key_illumination (key_index - (octave_offset * 12), active);
+        public void illuminate (uint8 key_index, bool active, Widgets.Key.IlluminationColor color) {
+            octaves[(key_index / 12) - octave_offset].illuminate (key_index - (octave_offset * 12), active, color);
         }
     }
 }

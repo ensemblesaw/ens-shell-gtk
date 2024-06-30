@@ -25,4 +25,10 @@
     <file compressed="true" preprocess="xml-stripblanks" alias="mod_speaker_r">Images/Display/mod_speaker_r.svg</file>
     <file compressed="true" preprocess="xml-stripblanks" alias="mod_listener">Images/Display/mod_listener.svg</file>
   </gresource>
+
+  <gresource prefix="/com/github/ensemblesaw/ens-shell-gtk/images/drumkit">
+    <file compressed="true" alias="highhat_cymbal" preprocess="xml-stripblanks">Images/DrumKit/highhat_cymbal.svg</file>
+    <file compressed="true" alias="highhat_cymbal_closed" preprocess="xml-stripblanks">Images/DrumKit/highhat_cymbal_closed.svg</file>
+    <file compressed="true" alias="highhat_cymbal_active" preprocess="xml-stripblanks">Images/DrumKit/highhat_cymbal_active.svg</file>
+  </gresource>
 </gresources>
